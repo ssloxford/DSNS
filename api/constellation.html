@@ -1,0 +1,854 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="../">
+<head>
+  <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Constellation &mdash; DSNS  documentation</title>
+      <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=80d5e7a1" />
+      <link rel="stylesheet" type="text/css" href="../_static/css/theme.css?v=e59714d7" />
+
+  
+      <script src="../_static/jquery.js?v=5d32c60e"></script>
+      <script src="../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="../_static/documentation_options.js?v=5929fcd5"></script>
+      <script src="../_static/doctools.js?v=9bcbadda"></script>
+      <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="Multiconstellation" href="multiconstellation.html" />
+    <link rel="prev" title="Events" href="events.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../index.html" class="icon icon-home">
+            DSNS
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../installation.html">Installation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../examples.html">Examples</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="../api.html">API</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="simulation.html">Simulation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="events.html">Events</a></li>
+<li class="toctree-l2 current"><a class="current reference internal" href="#">Constellation</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#dsns.constellation.OrbitalCenter"><code class="docutils literal notranslate"><span class="pre">OrbitalCenter</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#dsns.constellation.OrbitalCenter.__init__"><code class="docutils literal notranslate"><span class="pre">OrbitalCenter.__init__()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#dsns.constellation.OrbitalCenter.update"><code class="docutils literal notranslate"><span class="pre">OrbitalCenter.update()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#dsns.constellation.PlanetOrbitalCenter"><code class="docutils literal notranslate"><span class="pre">PlanetOrbitalCenter</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#dsns.constellation.PlanetOrbitalCenter.__init__"><code class="docutils literal notranslate"><span class="pre">PlanetOrbitalCenter.__init__()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#dsns.constellation.PlanetOrbitalCenter.update"><code class="docutils literal notranslate"><span class="pre">PlanetOrbitalCenter.update()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#dsns.constellation.Satellite"><code class="docutils literal notranslate"><span class="pre">Satellite</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#dsns.constellation.Satellite.__init__"><code class="docutils literal notranslate"><span class="pre">Satellite.__init__()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#dsns.constellation.Satellites"><code class="docutils literal notranslate"><span class="pre">Satellites</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#dsns.constellation.Satellites.__init__"><code class="docutils literal notranslate"><span class="pre">Satellites.__init__()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#dsns.constellation.Satellites.ids"><code class="docutils literal notranslate"><span class="pre">Satellites.ids</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#dsns.constellation.Satellites.names"><code class="docutils literal notranslate"><span class="pre">Satellites.names</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#dsns.constellation.Satellites.append"><code class="docutils literal notranslate"><span class="pre">Satellites.append()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#dsns.constellation.Satellites.extend"><code class="docutils literal notranslate"><span class="pre">Satellites.extend()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#dsns.constellation.Satellites.index"><code class="docutils literal notranslate"><span class="pre">Satellites.index()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#dsns.constellation.Satellites.by_id"><code class="docutils literal notranslate"><span class="pre">Satellites.by_id()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#dsns.constellation.Satellites.by_name"><code class="docutils literal notranslate"><span class="pre">Satellites.by_name()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#dsns.constellation.ISLHelper"><code class="docutils literal notranslate"><span class="pre">ISLHelper</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#dsns.constellation.ISLHelper.get_isls"><code class="docutils literal notranslate"><span class="pre">ISLHelper.get_isls()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#dsns.constellation.MultiISLHelper"><code class="docutils literal notranslate"><span class="pre">MultiISLHelper</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#dsns.constellation.MultiISLHelper.__init__"><code class="docutils literal notranslate"><span class="pre">MultiISLHelper.__init__()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#dsns.constellation.MultiISLHelper.get_isls"><code class="docutils literal notranslate"><span class="pre">MultiISLHelper.get_isls()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#dsns.constellation.Constellation"><code class="docutils literal notranslate"><span class="pre">Constellation</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#dsns.constellation.Constellation.name"><code class="docutils literal notranslate"><span class="pre">Constellation.name</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#dsns.constellation.Constellation.satellites"><code class="docutils literal notranslate"><span class="pre">Constellation.satellites</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#dsns.constellation.Constellation.isl_helper"><code class="docutils literal notranslate"><span class="pre">Constellation.isl_helper</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#dsns.constellation.Constellation.satellite_positions"><code class="docutils literal notranslate"><span class="pre">Constellation.satellite_positions</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#dsns.constellation.Constellation.isls"><code class="docutils literal notranslate"><span class="pre">Constellation.isls</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#dsns.constellation.Constellation.orbital_center"><code class="docutils literal notranslate"><span class="pre">Constellation.orbital_center</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#dsns.constellation.Constellation.is_relay"><code class="docutils literal notranslate"><span class="pre">Constellation.is_relay</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#dsns.constellation.Constellation.num_sats"><code class="docutils literal notranslate"><span class="pre">Constellation.num_sats</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#dsns.constellation.Constellation.update_positions"><code class="docutils literal notranslate"><span class="pre">Constellation.update_positions()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#dsns.constellation.Constellation.update_isls"><code class="docutils literal notranslate"><span class="pre">Constellation.update_isls()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#dsns.constellation.Constellation.update"><code class="docutils literal notranslate"><span class="pre">Constellation.update()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#dsns.constellation.WalkerConstellation"><code class="docutils literal notranslate"><span class="pre">WalkerConstellation</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#dsns.constellation.WalkerConstellation.__init__"><code class="docutils literal notranslate"><span class="pre">WalkerConstellation.__init__()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#dsns.constellation.WalkerConstellation.update_positions"><code class="docutils literal notranslate"><span class="pre">WalkerConstellation.update_positions()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#dsns.constellation.FixedConstellation"><code class="docutils literal notranslate"><span class="pre">FixedConstellation</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#dsns.constellation.FixedConstellation.__init__"><code class="docutils literal notranslate"><span class="pre">FixedConstellation.__init__()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#dsns.constellation.FixedConstellation.update_positions"><code class="docutils literal notranslate"><span class="pre">FixedConstellation.update_positions()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#dsns.constellation.TLEConstellation"><code class="docutils literal notranslate"><span class="pre">TLEConstellation</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#dsns.constellation.TLEConstellation.__init__"><code class="docutils literal notranslate"><span class="pre">TLEConstellation.__init__()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#dsns.constellation.TLEConstellation.from_url"><code class="docutils literal notranslate"><span class="pre">TLEConstellation.from_url()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#dsns.constellation.TLEConstellation.from_file"><code class="docutils literal notranslate"><span class="pre">TLEConstellation.from_file()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#dsns.constellation.TLEConstellation.update_positions"><code class="docutils literal notranslate"><span class="pre">TLEConstellation.update_positions()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#dsns.constellation.GroundConstellation"><code class="docutils literal notranslate"><span class="pre">GroundConstellation</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#dsns.constellation.GroundConstellation.__init__"><code class="docutils literal notranslate"><span class="pre">GroundConstellation.__init__()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#dsns.constellation.GroundConstellation.update_positions"><code class="docutils literal notranslate"><span class="pre">GroundConstellation.update_positions()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#dsns.constellation.WalkerISLHelper"><code class="docutils literal notranslate"><span class="pre">WalkerISLHelper</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#dsns.constellation.WalkerISLHelper.__init__"><code class="docutils literal notranslate"><span class="pre">WalkerISLHelper.__init__()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#dsns.constellation.WalkerISLHelper.get_isls"><code class="docutils literal notranslate"><span class="pre">WalkerISLHelper.get_isls()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#dsns.constellation.FixedISLHelper"><code class="docutils literal notranslate"><span class="pre">FixedISLHelper</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#dsns.constellation.FixedISLHelper.__init__"><code class="docutils literal notranslate"><span class="pre">FixedISLHelper.__init__()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#dsns.constellation.FixedISLHelper.from_names"><code class="docutils literal notranslate"><span class="pre">FixedISLHelper.from_names()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#dsns.constellation.FixedISLHelper.get_isls"><code class="docutils literal notranslate"><span class="pre">FixedISLHelper.get_isls()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#dsns.constellation.NullISLHelper"><code class="docutils literal notranslate"><span class="pre">NullISLHelper</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#dsns.constellation.NullISLHelper.__init__"><code class="docutils literal notranslate"><span class="pre">NullISLHelper.__init__()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#dsns.constellation.NullISLHelper.get_isls"><code class="docutils literal notranslate"><span class="pre">NullISLHelper.get_isls()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#dsns.constellation.AdHocISLHelper"><code class="docutils literal notranslate"><span class="pre">AdHocISLHelper</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#dsns.constellation.AdHocISLHelper.__init__"><code class="docutils literal notranslate"><span class="pre">AdHocISLHelper.__init__()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#dsns.constellation.AdHocISLHelper.get_isls"><code class="docutils literal notranslate"><span class="pre">AdHocISLHelper.get_isls()</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="multiconstellation.html">Multiconstellation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="message.html">Message</a></li>
+<li class="toctree-l2"><a class="reference internal" href="message_actors.html">Message Actors</a></li>
+<li class="toctree-l2"><a class="reference internal" href="transmission.html">Transmission</a></li>
+<li class="toctree-l2"><a class="reference internal" href="traffic_sim.html">Traffic Simulation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="helpers.html">Helpers</a></li>
+<li class="toctree-l2"><a class="reference internal" href="presets.html">Presets</a></li>
+<li class="toctree-l2"><a class="reference internal" href="reference_scenarios.html">Reference Scenarios</a></li>
+<li class="toctree-l2"><a class="reference internal" href="logging.html">Logging</a></li>
+<li class="toctree-l2"><a class="reference internal" href="visualizer.html">Visualizer</a></li>
+</ul>
+</li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../index.html">DSNS</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="../api.html">API</a></li>
+      <li class="breadcrumb-item active">Constellation</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="../_sources/api/constellation.rst.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="module-dsns.constellation">
+<span id="constellation"></span><h1>Constellation<a class="headerlink" href="#module-dsns.constellation" title="Link to this heading"></a></h1>
+<dl class="py class">
+<dt class="sig sig-object py" id="dsns.constellation.OrbitalCenter">
+<em class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">dsns.constellation.</span></span><span class="sig-name descname"><span class="pre">OrbitalCenter</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">name</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">position</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">ndarray</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">array([0.,</span> <span class="pre">0.,</span> <span class="pre">0.])</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#dsns.constellation.OrbitalCenter" title="Link to this definition"></a></dt>
+<dd><p>Orbital center class.
+Used to represent a body around which satellites orbit.</p>
+<dl class="py method">
+<dt class="sig sig-object py" id="dsns.constellation.OrbitalCenter.__init__">
+<span class="sig-name descname"><span class="pre">__init__</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">name</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">position</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">ndarray</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">array([0.,</span> <span class="pre">0.,</span> <span class="pre">0.])</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#dsns.constellation.OrbitalCenter.__init__" title="Link to this definition"></a></dt>
+<dd><p>Initialize the orbital center with a fixed position.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>name</strong> – Name of the orbital center.</p></li>
+<li><p><strong>position</strong> – Position of the orbital center (m).</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="dsns.constellation.OrbitalCenter.update">
+<span class="sig-name descname"><span class="pre">update</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">time</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#dsns.constellation.OrbitalCenter.update" title="Link to this definition"></a></dt>
+<dd><p>Update the orbital center.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>time</strong> – Time in seconds since the epoch.</p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="dsns.constellation.PlanetOrbitalCenter">
+<em class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">dsns.constellation.</span></span><span class="sig-name descname"><span class="pre">PlanetOrbitalCenter</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">name</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">center</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">ndarray</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">tuple</span><span class="p"><span class="pre">[</span></span><span class="pre">float</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">float</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">float</span><span class="p"><span class="pre">]</span></span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><a class="reference internal" href="#dsns.constellation.OrbitalCenter" title="dsns.constellation.OrbitalCenter"><span class="pre">OrbitalCenter</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">radius</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">rotation_period</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">angle_offset</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">0.0</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#dsns.constellation.PlanetOrbitalCenter" title="Link to this definition"></a></dt>
+<dd><p>Orbital center class for a planet with a fixed rotation period.
+We assume the orbit is a perfect circle centered on the origin, in the x-y plane.</p>
+<dl class="py method">
+<dt class="sig sig-object py" id="dsns.constellation.PlanetOrbitalCenter.__init__">
+<span class="sig-name descname"><span class="pre">__init__</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">name</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">center</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">ndarray</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">tuple</span><span class="p"><span class="pre">[</span></span><span class="pre">float</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">float</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">float</span><span class="p"><span class="pre">]</span></span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><a class="reference internal" href="#dsns.constellation.OrbitalCenter" title="dsns.constellation.OrbitalCenter"><span class="pre">OrbitalCenter</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">radius</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">rotation_period</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">angle_offset</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">0.0</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#dsns.constellation.PlanetOrbitalCenter.__init__" title="Link to this definition"></a></dt>
+<dd><p>Initialize the orbital center.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>name</strong> – Name of the orbital center.</p></li>
+<li><p><strong>center</strong> – Center of the orbit (m).</p></li>
+<li><p><strong>radius</strong> – Radius of the orbit (m).</p></li>
+<li><p><strong>rotation_period</strong> – Rotation period of the planet (s).</p></li>
+<li><p><strong>angle_offset</strong> – Initial angle of the planet (degrees).</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="dsns.constellation.PlanetOrbitalCenter.update">
+<span class="sig-name descname"><span class="pre">update</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">time</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#dsns.constellation.PlanetOrbitalCenter.update" title="Link to this definition"></a></dt>
+<dd><p>Update the orbital center.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>time</strong> – Time in seconds since the epoch.</p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="dsns.constellation.Satellite">
+<em class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">dsns.constellation.</span></span><span class="sig-name descname"><span class="pre">Satellite</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">name:</span> <span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">sat_id:</span> <span class="pre">int</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">constellation_name:</span> <span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">orbital_center:</span> <span class="pre">~dsns.constellation.OrbitalCenter</span> <span class="pre">=</span> <span class="pre">&lt;dsns.constellation.OrbitalCenter</span> <span class="pre">object&gt;</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#dsns.constellation.Satellite" title="Link to this definition"></a></dt>
+<dd><p>Satellite class.
+Used to represent a satellite in a constellation.</p>
+<dl class="py method">
+<dt class="sig sig-object py" id="dsns.constellation.Satellite.__init__">
+<span class="sig-name descname"><span class="pre">__init__</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">name:</span> <span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">sat_id:</span> <span class="pre">int</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">constellation_name:</span> <span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">orbital_center:</span> <span class="pre">~dsns.constellation.OrbitalCenter</span> <span class="pre">=</span> <span class="pre">&lt;dsns.constellation.OrbitalCenter</span> <span class="pre">object&gt;</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#dsns.constellation.Satellite.__init__" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="dsns.constellation.Satellites">
+<em class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">dsns.constellation.</span></span><span class="sig-name descname"><span class="pre">Satellites</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">satellites</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">list</span><span class="p"><span class="pre">[</span></span><a class="reference internal" href="#dsns.constellation.Satellite" title="dsns.constellation.Satellite"><span class="pre">Satellite</span></a><span class="p"><span class="pre">]</span></span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#dsns.constellation.Satellites" title="Link to this definition"></a></dt>
+<dd><p>List of satellites, with helper functions for lookup by name/ID.</p>
+<dl class="py method">
+<dt class="sig sig-object py" id="dsns.constellation.Satellites.__init__">
+<span class="sig-name descname"><span class="pre">__init__</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">satellites</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">list</span><span class="p"><span class="pre">[</span></span><a class="reference internal" href="#dsns.constellation.Satellite" title="dsns.constellation.Satellite"><span class="pre">Satellite</span></a><span class="p"><span class="pre">]</span></span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#dsns.constellation.Satellites.__init__" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="dsns.constellation.Satellites.ids">
+<em class="property"><span class="k"><span class="pre">property</span></span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">ids</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">list</span><span class="p"><span class="pre">[</span></span><span class="pre">int</span><span class="p"><span class="pre">]</span></span></em><a class="headerlink" href="#dsns.constellation.Satellites.ids" title="Link to this definition"></a></dt>
+<dd><p>Get a list of all satellite IDs.</p>
+</dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="dsns.constellation.Satellites.names">
+<em class="property"><span class="k"><span class="pre">property</span></span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">names</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">list</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span></em><a class="headerlink" href="#dsns.constellation.Satellites.names" title="Link to this definition"></a></dt>
+<dd><p>Get a list of all satellite names.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="dsns.constellation.Satellites.append">
+<span class="sig-name descname"><span class="pre">append</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">satellite</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#dsns.constellation.Satellite" title="dsns.constellation.Satellite"><span class="pre">Satellite</span></a></span></em><span class="sig-paren">)</span><a class="headerlink" href="#dsns.constellation.Satellites.append" title="Link to this definition"></a></dt>
+<dd><p>Add a satellite to the list.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>satellite</strong> – Satellite to add.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="dsns.constellation.Satellites.extend">
+<span class="sig-name descname"><span class="pre">extend</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">satellites</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Self</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">list</span><span class="p"><span class="pre">[</span></span><a class="reference internal" href="#dsns.constellation.Satellite" title="dsns.constellation.Satellite"><span class="pre">Satellite</span></a><span class="p"><span class="pre">]</span></span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#dsns.constellation.Satellites.extend" title="Link to this definition"></a></dt>
+<dd><p>Add multiple satellites to the list.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>satellites</strong> – List of satellites to add.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="dsns.constellation.Satellites.index">
+<span class="sig-name descname"><span class="pre">index</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">satellite</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#dsns.constellation.Satellite" title="dsns.constellation.Satellite"><span class="pre">Satellite</span></a></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">int</span></span></span><a class="headerlink" href="#dsns.constellation.Satellites.index" title="Link to this definition"></a></dt>
+<dd><p>Get the index of a satellite in the list.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>satellite</strong> – Satellite to get the index of.</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>Index of the satellite.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="dsns.constellation.Satellites.by_id">
+<span class="sig-name descname"><span class="pre">by_id</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">sat_id</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="#dsns.constellation.Satellite" title="dsns.constellation.Satellite"><span class="pre">Satellite</span></a><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span></span><a class="headerlink" href="#dsns.constellation.Satellites.by_id" title="Link to this definition"></a></dt>
+<dd><p>Get a satellite by its ID.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>sat_id</strong> – ID of the satellite to get.</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>Satellite with the given ID, or None if no satellite with that ID exists.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="dsns.constellation.Satellites.by_name">
+<span class="sig-name descname"><span class="pre">by_name</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">name</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="#dsns.constellation.Satellite" title="dsns.constellation.Satellite"><span class="pre">Satellite</span></a><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span></span><a class="headerlink" href="#dsns.constellation.Satellites.by_name" title="Link to this definition"></a></dt>
+<dd><p>Get a satellite by its name.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>name</strong> – Name of the satellite to get.</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>Satellite with the given name, or None if no satellite with that name exists.</p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="dsns.constellation.ISLHelper">
+<em class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">dsns.constellation.</span></span><span class="sig-name descname"><span class="pre">ISLHelper</span></span><a class="headerlink" href="#dsns.constellation.ISLHelper" title="Link to this definition"></a></dt>
+<dd><p>Base class for ISL (Inter-Satellite Link) helper classes.</p>
+<dl class="py method">
+<dt class="sig sig-object py" id="dsns.constellation.ISLHelper.get_isls">
+<em class="property"><span class="k"><span class="pre">abstractmethod</span></span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">get_isls</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">satellites</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#dsns.constellation.Satellites" title="dsns.constellation.Satellites"><span class="pre">Satellites</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">positions</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">ndarray</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">list</span><span class="p"><span class="pre">[</span></span><span class="pre">tuple</span><span class="p"><span class="pre">[</span></span><span class="pre">int</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">int</span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span></span></span><a class="headerlink" href="#dsns.constellation.ISLHelper.get_isls" title="Link to this definition"></a></dt>
+<dd><p>Compute the ISLs between all satellites in the constellation, given their positions.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>satellites</strong> – List of satellites in the constellation.</p></li>
+<li><p><strong>positions</strong> – Satellite positions (num_sats, 3).</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>List of ISLs, where each ISL is a tuple of satellite IDs.</p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="dsns.constellation.MultiISLHelper">
+<em class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">dsns.constellation.</span></span><span class="sig-name descname"><span class="pre">MultiISLHelper</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">isl_helpers</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">list</span><span class="p"><span class="pre">[</span></span><a class="reference internal" href="#dsns.constellation.ISLHelper" title="dsns.constellation.ISLHelper"><span class="pre">ISLHelper</span></a><span class="p"><span class="pre">]</span></span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#dsns.constellation.MultiISLHelper" title="Link to this definition"></a></dt>
+<dd><p>Helper class allowing the use of multiple ISL helpers at the same time.</p>
+<dl class="py method">
+<dt class="sig sig-object py" id="dsns.constellation.MultiISLHelper.__init__">
+<span class="sig-name descname"><span class="pre">__init__</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">isl_helpers</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">list</span><span class="p"><span class="pre">[</span></span><a class="reference internal" href="#dsns.constellation.ISLHelper" title="dsns.constellation.ISLHelper"><span class="pre">ISLHelper</span></a><span class="p"><span class="pre">]</span></span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#dsns.constellation.MultiISLHelper.__init__" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="dsns.constellation.MultiISLHelper.get_isls">
+<span class="sig-name descname"><span class="pre">get_isls</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">satellites</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#dsns.constellation.Satellites" title="dsns.constellation.Satellites"><span class="pre">Satellites</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">positions</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">ndarray</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">list</span><span class="p"><span class="pre">[</span></span><span class="pre">tuple</span><span class="p"><span class="pre">[</span></span><span class="pre">int</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">int</span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span></span></span><a class="headerlink" href="#dsns.constellation.MultiISLHelper.get_isls" title="Link to this definition"></a></dt>
+<dd><p>Compute the ISLs between all satellites in the constellation, given their positions.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>satellites</strong> – List of satellites in the constellation.</p></li>
+<li><p><strong>positions</strong> – Satellite positions (num_sats, 3).</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>List of ISLs, where each ISL is a tuple of satellite IDs.</p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="dsns.constellation.Constellation">
+<em class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">dsns.constellation.</span></span><span class="sig-name descname"><span class="pre">Constellation</span></span><a class="headerlink" href="#dsns.constellation.Constellation" title="Link to this definition"></a></dt>
+<dd><p>Base satellite constellation class.</p>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="dsns.constellation.Constellation.name">
+<span class="sig-name descname"><span class="pre">name</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">str</span></em><a class="headerlink" href="#dsns.constellation.Constellation.name" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="dsns.constellation.Constellation.satellites">
+<span class="sig-name descname"><span class="pre">satellites</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference internal" href="#dsns.constellation.Satellites" title="dsns.constellation.Satellites"><span class="pre">Satellites</span></a></em><a class="headerlink" href="#dsns.constellation.Constellation.satellites" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="dsns.constellation.Constellation.isl_helper">
+<span class="sig-name descname"><span class="pre">isl_helper</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference internal" href="#dsns.constellation.ISLHelper" title="dsns.constellation.ISLHelper"><span class="pre">ISLHelper</span></a></em><a class="headerlink" href="#dsns.constellation.Constellation.isl_helper" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="dsns.constellation.Constellation.satellite_positions">
+<span class="sig-name descname"><span class="pre">satellite_positions</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">ndarray</span></em><a class="headerlink" href="#dsns.constellation.Constellation.satellite_positions" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="dsns.constellation.Constellation.isls">
+<span class="sig-name descname"><span class="pre">isls</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">list</span><span class="p"><span class="pre">[</span></span><span class="pre">tuple</span><span class="p"><span class="pre">[</span></span><span class="pre">int</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">int</span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span></em><a class="headerlink" href="#dsns.constellation.Constellation.isls" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="dsns.constellation.Constellation.orbital_center">
+<span class="sig-name descname"><span class="pre">orbital_center</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference internal" href="#dsns.constellation.OrbitalCenter" title="dsns.constellation.OrbitalCenter"><span class="pre">OrbitalCenter</span></a></em><a class="headerlink" href="#dsns.constellation.Constellation.orbital_center" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="dsns.constellation.Constellation.is_relay">
+<span class="sig-name descname"><span class="pre">is_relay</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">bool</span></em><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">False</span></em><a class="headerlink" href="#dsns.constellation.Constellation.is_relay" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="dsns.constellation.Constellation.num_sats">
+<em class="property"><span class="k"><span class="pre">property</span></span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">num_sats</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">int</span></em><a class="headerlink" href="#dsns.constellation.Constellation.num_sats" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="dsns.constellation.Constellation.update_positions">
+<em class="property"><span class="k"><span class="pre">abstractmethod</span></span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">update_positions</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">time</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#dsns.constellation.Constellation.update_positions" title="Link to this definition"></a></dt>
+<dd><p>Update the positions of all satellites in the constellation at a given time.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>time</strong> – Time in seconds since the epoch.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="dsns.constellation.Constellation.update_isls">
+<span class="sig-name descname"><span class="pre">update_isls</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#dsns.constellation.Constellation.update_isls" title="Link to this definition"></a></dt>
+<dd><p>Update the ISLs for the constellation.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="dsns.constellation.Constellation.update">
+<span class="sig-name descname"><span class="pre">update</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">time</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#dsns.constellation.Constellation.update" title="Link to this definition"></a></dt>
+<dd><p>Update the constellation.</p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="dsns.constellation.WalkerConstellation">
+<em class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">dsns.constellation.</span></span><span class="sig-name descname"><span class="pre">WalkerConstellation</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">name:</span> <span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">num_planes:</span> <span class="pre">int</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">sats_per_plane:</span> <span class="pre">int</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">inclination:</span> <span class="pre">float</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">semi_major_axis:</span> <span class="pre">float</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">eccentricity:</span> <span class="pre">float</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">ascending_node_arc:</span> <span class="pre">float</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">phase_offset:</span> <span class="pre">float</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">isl_helper:</span> <span class="pre">~dsns.constellation.ISLHelper</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">id_helper:</span> <span class="pre">~dsns.helpers.IDHelper</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">host_mass:</span> <span class="pre">float</span> <span class="pre">=</span> <span class="pre">5.9722e+24</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">orbital_center:</span> <span class="pre">~dsns.constellation.OrbitalCenter</span> <span class="pre">=</span> <span class="pre">&lt;dsns.constellation.OrbitalCenter</span> <span class="pre">object&gt;</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">right_ascending_node:</span> <span class="pre">float</span> <span class="pre">=</span> <span class="pre">0.0</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#dsns.constellation.WalkerConstellation" title="Link to this definition"></a></dt>
+<dd><p>Walker constellation class.</p>
+<dl class="py method">
+<dt class="sig sig-object py" id="dsns.constellation.WalkerConstellation.__init__">
+<span class="sig-name descname"><span class="pre">__init__</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">name:</span> <span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">num_planes:</span> <span class="pre">int</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">sats_per_plane:</span> <span class="pre">int</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">inclination:</span> <span class="pre">float</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">semi_major_axis:</span> <span class="pre">float</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">eccentricity:</span> <span class="pre">float</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">ascending_node_arc:</span> <span class="pre">float</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">phase_offset:</span> <span class="pre">float</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">isl_helper:</span> <span class="pre">~dsns.constellation.ISLHelper</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">id_helper:</span> <span class="pre">~dsns.helpers.IDHelper</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">host_mass:</span> <span class="pre">float</span> <span class="pre">=</span> <span class="pre">5.9722e+24</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">orbital_center:</span> <span class="pre">~dsns.constellation.OrbitalCenter</span> <span class="pre">=</span> <span class="pre">&lt;dsns.constellation.OrbitalCenter</span> <span class="pre">object&gt;</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">right_ascending_node:</span> <span class="pre">float</span> <span class="pre">=</span> <span class="pre">0.0</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#dsns.constellation.WalkerConstellation.__init__" title="Link to this definition"></a></dt>
+<dd><p>Initialize the Walker constellation.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>name</strong> – Name of the constellation.</p></li>
+<li><p><strong>num_planes</strong> – Number of orbital planes.</p></li>
+<li><p><strong>sats_per_plane</strong> – Number of satellites per orbital plane.</p></li>
+<li><p><strong>inclination</strong> – Orbital plane inclination (degrees).</p></li>
+<li><p><strong>semi_major_axis</strong> – Semi-major axis of the orbit (m).</p></li>
+<li><p><strong>eccentricity</strong> – Orbital eccentricity (0.0 - 1.0).</p></li>
+<li><p><strong>ascending_node_arc</strong> – Angle of arc along which to space ascending nodes (degrees).
+Setting to 360 results in a standard Walker constellation.
+180 results in a “Pi” constellation like Iridium.</p></li>
+<li><p><strong>phase_offset</strong> – Phase offset between planes (degrees).</p></li>
+<li><p><strong>isl_helper</strong> – ISL helper class.</p></li>
+<li><p><strong>id_helper</strong> – ID helper class.</p></li>
+<li><p><strong>host_mass</strong> – Mass of the central body (kg).</p></li>
+<li><p><strong>orbital_center</strong> – Orbital center of the constellation.</p></li>
+<li><p><strong>right_ascending_node</strong> – Longitude of the right ascending node in the first plane (degrees).</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="dsns.constellation.WalkerConstellation.update_positions">
+<span class="sig-name descname"><span class="pre">update_positions</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">time</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#dsns.constellation.WalkerConstellation.update_positions" title="Link to this definition"></a></dt>
+<dd><p>Update the positions of all satellites in the constellation at a given time.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>time</strong> – Time in seconds since the epoch.</p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="dsns.constellation.FixedConstellation">
+<em class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">dsns.constellation.</span></span><span class="sig-name descname"><span class="pre">FixedConstellation</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">name:</span> <span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">satellite_positions:</span> <span class="pre">~numpy.ndarray</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">isl_helper:</span> <span class="pre">~dsns.constellation.ISLHelper</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">id_helper:</span> <span class="pre">~dsns.helpers.IDHelper</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">orbital_center:</span> <span class="pre">~dsns.constellation.OrbitalCenter</span> <span class="pre">=</span> <span class="pre">&lt;dsns.constellation.OrbitalCenter</span> <span class="pre">object&gt;</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#dsns.constellation.FixedConstellation" title="Link to this definition"></a></dt>
+<dd><p>Constellation class for satellites with fixed positions.</p>
+<dl class="py method">
+<dt class="sig sig-object py" id="dsns.constellation.FixedConstellation.__init__">
+<span class="sig-name descname"><span class="pre">__init__</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">name:</span> <span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">satellite_positions:</span> <span class="pre">~numpy.ndarray</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">isl_helper:</span> <span class="pre">~dsns.constellation.ISLHelper</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">id_helper:</span> <span class="pre">~dsns.helpers.IDHelper</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">orbital_center:</span> <span class="pre">~dsns.constellation.OrbitalCenter</span> <span class="pre">=</span> <span class="pre">&lt;dsns.constellation.OrbitalCenter</span> <span class="pre">object&gt;</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#dsns.constellation.FixedConstellation.__init__" title="Link to this definition"></a></dt>
+<dd><p>Initialize the fixed constellation.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>name</strong> – Name of the constellation.</p></li>
+<li><p><strong>satellite_positions</strong> – Array of satellite positions (x/y/z (m)).</p></li>
+<li><p><strong>isl_helper</strong> – ISL helper class.</p></li>
+<li><p><strong>id_helper</strong> – ID helper class.</p></li>
+<li><p><strong>orbital_center</strong> – Orbital center of the constellation.</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="dsns.constellation.FixedConstellation.update_positions">
+<span class="sig-name descname"><span class="pre">update_positions</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">time</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#dsns.constellation.FixedConstellation.update_positions" title="Link to this definition"></a></dt>
+<dd><p>Update the positions of all satellites in the constellation at a given time.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>time</strong> – Time in seconds since the epoch.</p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="dsns.constellation.TLEConstellation">
+<em class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">dsns.constellation.</span></span><span class="sig-name descname"><span class="pre">TLEConstellation</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="pre">name:</span> <span class="pre">str,</span> <span class="pre">tles:</span> <span class="pre">list[tuple[str,</span> <span class="pre">str]],</span> <span class="pre">isl_helper:</span> <span class="pre">~dsns.constellation.ISLHelper,</span> <span class="pre">id_helper:</span> <span class="pre">~dsns.helpers.IDHelper,</span> <span class="pre">epoch:</span> <span class="pre">~datetime.datetime</span> <span class="pre">|</span> <span class="pre">None</span> <span class="pre">=</span> <span class="pre">None,</span> <span class="pre">ignore_errors:</span> <span class="pre">bool</span> <span class="pre">=</span> <span class="pre">False,</span> <span class="pre">orbital_center:</span> <span class="pre">~dsns.constellation.OrbitalCenter</span> <span class="pre">=</span> <span class="pre">&lt;dsns.constellation.OrbitalCenter</span> <span class="pre">object&gt;</span></em><span class="sig-paren">)</span><a class="headerlink" href="#dsns.constellation.TLEConstellation" title="Link to this definition"></a></dt>
+<dd><p>Constellation composed of satellites described by TLEs.
+The SGP4 orbital propagator is used to compute satellite positions.</p>
+<dl class="py method">
+<dt class="sig sig-object py" id="dsns.constellation.TLEConstellation.__init__">
+<span class="sig-name descname"><span class="pre">__init__</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="pre">name:</span> <span class="pre">str,</span> <span class="pre">tles:</span> <span class="pre">list[tuple[str,</span> <span class="pre">str]],</span> <span class="pre">isl_helper:</span> <span class="pre">~dsns.constellation.ISLHelper,</span> <span class="pre">id_helper:</span> <span class="pre">~dsns.helpers.IDHelper,</span> <span class="pre">epoch:</span> <span class="pre">~datetime.datetime</span> <span class="pre">|</span> <span class="pre">None</span> <span class="pre">=</span> <span class="pre">None,</span> <span class="pre">ignore_errors:</span> <span class="pre">bool</span> <span class="pre">=</span> <span class="pre">False,</span> <span class="pre">orbital_center:</span> <span class="pre">~dsns.constellation.OrbitalCenter</span> <span class="pre">=</span> <span class="pre">&lt;dsns.constellation.OrbitalCenter</span> <span class="pre">object&gt;</span></em><span class="sig-paren">)</span><a class="headerlink" href="#dsns.constellation.TLEConstellation.__init__" title="Link to this definition"></a></dt>
+<dd><p>Initialize the TLE constellation.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>name</strong> – Name of the constellation.</p></li>
+<li><p><strong>tles</strong> – List of TLEs.</p></li>
+<li><p><strong>isl_helper</strong> – ISL helper class.</p></li>
+<li><p><strong>id_helper</strong> – ID helper class.</p></li>
+<li><p><strong>epoch</strong> – Epoch of the TLEs - the real time corresponding to simulation time 0.0.</p></li>
+<li><p><strong>ignore_errors</strong> – Ignore errors from the SGP4 propagator.</p></li>
+<li><p><strong>orbital_center</strong> – Orbital center of the constellation.</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="dsns.constellation.TLEConstellation.from_url">
+<em class="property"><span class="k"><span class="pre">classmethod</span></span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">from_url</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">name:</span> <span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">tle_url:</span> <span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">isl_helper:</span> <span class="pre">~dsns.constellation.ISLHelper</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">id_helper:</span> <span class="pre">~dsns.helpers.IDHelper</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">epoch:</span> <span class="pre">~datetime.datetime</span> <span class="pre">|</span> <span class="pre">None</span> <span class="pre">=</span> <span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">ignore_errors:</span> <span class="pre">bool</span> <span class="pre">=</span> <span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">orbital_center:</span> <span class="pre">~dsns.constellation.OrbitalCenter</span> <span class="pre">=</span> <span class="pre">&lt;dsns.constellation.OrbitalCenter</span> <span class="pre">object&gt;</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#dsns.constellation.TLEConstellation.from_url" title="Link to this definition"></a></dt>
+<dd><p>Initialize the TLE constellation from a URL (e.g. Celestrak).</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>name</strong> – Name of the constellation.</p></li>
+<li><p><strong>tle_url</strong> – URL of the TLE file.</p></li>
+<li><p><strong>isl_helper</strong> – ISL helper class.</p></li>
+<li><p><strong>id_helper</strong> – ID helper class.</p></li>
+<li><p><strong>epoch</strong> – Epoch of the TLEs - the real time corresponding to simulation time 0.0.</p></li>
+<li><p><strong>ignore_errors</strong> – Ignore errors from the SGP4 propagator.</p></li>
+<li><p><strong>orbital_center</strong> – Orbital center of the constellation.</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="dsns.constellation.TLEConstellation.from_file">
+<em class="property"><span class="k"><span class="pre">classmethod</span></span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">from_file</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">name:</span> <span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">tle_file:</span> <span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">isl_helper:</span> <span class="pre">~dsns.constellation.ISLHelper</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">id_helper:</span> <span class="pre">~dsns.helpers.IDHelper</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">epoch:</span> <span class="pre">~datetime.datetime</span> <span class="pre">|</span> <span class="pre">None</span> <span class="pre">=</span> <span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">ignore_errors:</span> <span class="pre">bool</span> <span class="pre">=</span> <span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">orbital_center:</span> <span class="pre">~dsns.constellation.OrbitalCenter</span> <span class="pre">=</span> <span class="pre">&lt;dsns.constellation.OrbitalCenter</span> <span class="pre">object&gt;</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#dsns.constellation.TLEConstellation.from_file" title="Link to this definition"></a></dt>
+<dd><p>Initialize the TLE constellation from a file.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>name</strong> – Name of the constellation.</p></li>
+<li><p><strong>tle_file</strong> – Path to the TLE file.</p></li>
+<li><p><strong>isl_helper</strong> – ISL helper class.</p></li>
+<li><p><strong>id_helper</strong> – ID helper class.</p></li>
+<li><p><strong>epoch</strong> – Epoch of the TLEs - the real time corresponding to simulation time 0.0.</p></li>
+<li><p><strong>ignore_errors</strong> – Ignore errors from the SGP4 propagator.</p></li>
+<li><p><strong>orbital_center</strong> – Orbital center of the constellation.</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="dsns.constellation.TLEConstellation.update_positions">
+<span class="sig-name descname"><span class="pre">update_positions</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">time</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#dsns.constellation.TLEConstellation.update_positions" title="Link to this definition"></a></dt>
+<dd><p>Update the positions of all satellites in the constellation at a given time.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>time</strong> – Time in seconds since the epoch.</p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="dsns.constellation.GroundConstellation">
+<em class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">dsns.constellation.</span></span><span class="sig-name descname"><span class="pre">GroundConstellation</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">name:</span> <span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">ground_station_positions:</span> <span class="pre">~numpy.ndarray</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">host_radius:</span> <span class="pre">float</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">rotation_period:</span> <span class="pre">float</span> <span class="pre">|</span> <span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">isl_helper:</span> <span class="pre">~dsns.constellation.ISLHelper</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">id_helper:</span> <span class="pre">~dsns.helpers.IDHelper</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">orbital_center:</span> <span class="pre">~dsns.constellation.OrbitalCenter</span> <span class="pre">=</span> <span class="pre">&lt;dsns.constellation.OrbitalCenter</span> <span class="pre">object&gt;</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#dsns.constellation.GroundConstellation" title="Link to this definition"></a></dt>
+<dd><p>Constellation class for ground stations.
+These are simulated as satellites with a fixed position.</p>
+<dl class="py method">
+<dt class="sig sig-object py" id="dsns.constellation.GroundConstellation.__init__">
+<span class="sig-name descname"><span class="pre">__init__</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">name:</span> <span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">ground_station_positions:</span> <span class="pre">~numpy.ndarray</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">host_radius:</span> <span class="pre">float</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">rotation_period:</span> <span class="pre">float</span> <span class="pre">|</span> <span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">isl_helper:</span> <span class="pre">~dsns.constellation.ISLHelper</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">id_helper:</span> <span class="pre">~dsns.helpers.IDHelper</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">orbital_center:</span> <span class="pre">~dsns.constellation.OrbitalCenter</span> <span class="pre">=</span> <span class="pre">&lt;dsns.constellation.OrbitalCenter</span> <span class="pre">object&gt;</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#dsns.constellation.GroundConstellation.__init__" title="Link to this definition"></a></dt>
+<dd><p>Initialize the ground constellation.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>name</strong> – Name of the constellation.</p></li>
+<li><p><strong>ground_station_positions</strong> – Array of ground station positions (lat/lon/alt (deg, deg, m)).</p></li>
+<li><p><strong>host_radius</strong> – Radius of the central body (m).</p></li>
+<li><p><strong>rotation_period</strong> – Rotation period of the body on which the ground stations are orbiting (s).</p></li>
+<li><p><strong>isl_helper</strong> – ISL helper class.</p></li>
+<li><p><strong>id_helper</strong> – ID helper class.</p></li>
+<li><p><strong>orbital_center</strong> – Orbital center of the constellation.</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="dsns.constellation.GroundConstellation.update_positions">
+<span class="sig-name descname"><span class="pre">update_positions</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">time</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#dsns.constellation.GroundConstellation.update_positions" title="Link to this definition"></a></dt>
+<dd><p>Update the positions of all satellites in the constellation at a given time.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>time</strong> – Time in seconds since the epoch.</p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="dsns.constellation.WalkerISLHelper">
+<em class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">dsns.constellation.</span></span><span class="sig-name descname"><span class="pre">WalkerISLHelper</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">num_planes</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">sats_per_plane</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">intra_layer_links</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bool</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">inter_layer_links</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">disable_cross_seam_links</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bool</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#dsns.constellation.WalkerISLHelper" title="Link to this definition"></a></dt>
+<dd><p>Walker ISL helper class.</p>
+<dl class="py method">
+<dt class="sig sig-object py" id="dsns.constellation.WalkerISLHelper.__init__">
+<span class="sig-name descname"><span class="pre">__init__</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">num_planes</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">sats_per_plane</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">intra_layer_links</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bool</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">inter_layer_links</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">disable_cross_seam_links</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bool</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#dsns.constellation.WalkerISLHelper.__init__" title="Link to this definition"></a></dt>
+<dd><p>Initialize the Walker ISL helper class.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>num_planes</strong> – Number of orbital planes.</p></li>
+<li><p><strong>sats_per_plane</strong> – Number of satellites per orbital plane.</p></li>
+<li><p><strong>intra_layer_links</strong> – Include intra-layer links (links between adjacent satellites on the same layer).</p></li>
+<li><p><strong>inter_layer_links</strong> – Include inter-layer links (links between adjacent satellites on adjacent layers).
+If None, no inter-layer links are included.
+Otherwise, specify the offset between layers.</p></li>
+<li><p><strong>disable_cross_seam_links</strong> – Disable inter-layer links between satellites on opposite sides of the seam.
+Only relevant for polar constellations.</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="dsns.constellation.WalkerISLHelper.get_isls">
+<span class="sig-name descname"><span class="pre">get_isls</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">satellites</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#dsns.constellation.Satellites" title="dsns.constellation.Satellites"><span class="pre">Satellites</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">positions</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">ndarray</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">list</span><span class="p"><span class="pre">[</span></span><span class="pre">tuple</span><span class="p"><span class="pre">[</span></span><span class="pre">int</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">int</span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span></span></span><a class="headerlink" href="#dsns.constellation.WalkerISLHelper.get_isls" title="Link to this definition"></a></dt>
+<dd><p>Compute the ISLs between all satellites in the constellation, given their positions.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>satellites</strong> – List of satellites in the constellation.</p></li>
+<li><p><strong>positions</strong> – Satellite positions (num_sats, 3).</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>List of ISLs, where each ISL is a tuple of satellite IDs.</p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="dsns.constellation.FixedISLHelper">
+<em class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">dsns.constellation.</span></span><span class="sig-name descname"><span class="pre">FixedISLHelper</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">isls</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">list</span><span class="p"><span class="pre">[</span></span><span class="pre">tuple</span><span class="p"><span class="pre">[</span></span><span class="pre">int</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">int</span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#dsns.constellation.FixedISLHelper" title="Link to this definition"></a></dt>
+<dd><p>ISL helper class with fixed ISLs.</p>
+<dl class="py method">
+<dt class="sig sig-object py" id="dsns.constellation.FixedISLHelper.__init__">
+<span class="sig-name descname"><span class="pre">__init__</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">isls</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">list</span><span class="p"><span class="pre">[</span></span><span class="pre">tuple</span><span class="p"><span class="pre">[</span></span><span class="pre">int</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">int</span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#dsns.constellation.FixedISLHelper.__init__" title="Link to this definition"></a></dt>
+<dd><p>Initialize the fixed ISL helper class.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>isls</strong> – List of ISLs.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="dsns.constellation.FixedISLHelper.from_names">
+<em class="property"><span class="k"><span class="pre">classmethod</span></span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">from_names</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">isls</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">list</span><span class="p"><span class="pre">[</span></span><span class="pre">tuple</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">str</span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span></span></em>, <em class="sig-param"><span class="n"><span class="pre">id_helper</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="helpers.html#dsns.helpers.IDHelper" title="dsns.helpers.IDHelper"><span class="pre">IDHelper</span></a></span></em><span class="sig-paren">)</span><a class="headerlink" href="#dsns.constellation.FixedISLHelper.from_names" title="Link to this definition"></a></dt>
+<dd><p>Initialize the fixed ISL helper class from a list of ISL names.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>isls</strong> – List of ISL names.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="dsns.constellation.FixedISLHelper.get_isls">
+<span class="sig-name descname"><span class="pre">get_isls</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">satellites</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#dsns.constellation.Satellites" title="dsns.constellation.Satellites"><span class="pre">Satellites</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">positions</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">ndarray</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">list</span><span class="p"><span class="pre">[</span></span><span class="pre">tuple</span><span class="p"><span class="pre">[</span></span><span class="pre">int</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">int</span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span></span></span><a class="headerlink" href="#dsns.constellation.FixedISLHelper.get_isls" title="Link to this definition"></a></dt>
+<dd><p>Compute the ISLs between all satellites in the constellation, given their positions.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>satellites</strong> – List of satellites in the constellation.</p></li>
+<li><p><strong>positions</strong> – Satellite positions (num_sats, 3).</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>List of ISLs, where each ISL is a tuple of satellite IDs.</p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="dsns.constellation.NullISLHelper">
+<em class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">dsns.constellation.</span></span><span class="sig-name descname"><span class="pre">NullISLHelper</span></span><a class="headerlink" href="#dsns.constellation.NullISLHelper" title="Link to this definition"></a></dt>
+<dd><p>Null ISL helper class - no ISLs are returned.</p>
+<dl class="py method">
+<dt class="sig sig-object py" id="dsns.constellation.NullISLHelper.__init__">
+<span class="sig-name descname"><span class="pre">__init__</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#dsns.constellation.NullISLHelper.__init__" title="Link to this definition"></a></dt>
+<dd><p>Initialize the Null ISL helper class.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="dsns.constellation.NullISLHelper.get_isls">
+<span class="sig-name descname"><span class="pre">get_isls</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">satellites</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#dsns.constellation.Satellites" title="dsns.constellation.Satellites"><span class="pre">Satellites</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">positions</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">ndarray</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">list</span><span class="p"><span class="pre">[</span></span><span class="pre">tuple</span><span class="p"><span class="pre">[</span></span><span class="pre">int</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">int</span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span></span></span><a class="headerlink" href="#dsns.constellation.NullISLHelper.get_isls" title="Link to this definition"></a></dt>
+<dd><p>Compute the ISLs between all satellites in the constellation, given their positions.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>satellites</strong> – List of satellites in the constellation.</p></li>
+<li><p><strong>positions</strong> – Satellite positions (num_sats, 3).</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>List of ISLs, where each ISL is a tuple of satellite IDs.</p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="dsns.constellation.AdHocISLHelper">
+<em class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">dsns.constellation.</span></span><span class="sig-name descname"><span class="pre">AdHocISLHelper</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">max_range</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">max_links</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">min_altitude</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#dsns.constellation.AdHocISLHelper" title="Link to this definition"></a></dt>
+<dd><p>Ad-Hoc ISL helper class.
+Satellites are connected to the nearest satellite(s) within a specified range.</p>
+<dl class="py method">
+<dt class="sig sig-object py" id="dsns.constellation.AdHocISLHelper.__init__">
+<span class="sig-name descname"><span class="pre">__init__</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">max_range</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">max_links</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">min_altitude</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#dsns.constellation.AdHocISLHelper.__init__" title="Link to this definition"></a></dt>
+<dd><p>Initialize the Ad-Hoc ISL helper class.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>max_range</strong> – Maximum range for ISLs (m).</p></li>
+<li><p><strong>max_links</strong> – Maximum number of links per satellite.
+If None, no maximum is enforced.</p></li>
+<li><p><strong>min_altitude</strong> – Minimum altitude for line-of-sight between satellites (m).
+If None, no line-of-sight checks are performed.</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="dsns.constellation.AdHocISLHelper.get_isls">
+<span class="sig-name descname"><span class="pre">get_isls</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">satellites</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#dsns.constellation.Satellites" title="dsns.constellation.Satellites"><span class="pre">Satellites</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">positions</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">ndarray</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">list</span><span class="p"><span class="pre">[</span></span><span class="pre">tuple</span><span class="p"><span class="pre">[</span></span><span class="pre">int</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">int</span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span></span></span><a class="headerlink" href="#dsns.constellation.AdHocISLHelper.get_isls" title="Link to this definition"></a></dt>
+<dd><p>Compute the ISLs between all satellites in the constellation, given their positions.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>satellites</strong> – List of satellites in the constellation.</p></li>
+<li><p><strong>positions</strong> – Satellite positions (num_sats, 3).</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>List of ISLs, where each ISL is a tuple of satellite IDs.</p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="events.html" class="btn btn-neutral float-left" title="Events" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="multiconstellation.html" class="btn btn-neutral float-right" title="Multiconstellation" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2025, Joshua Smailes.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

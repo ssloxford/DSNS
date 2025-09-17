@@ -1,0 +1,433 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="../">
+<head>
+  <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Logging &mdash; DSNS  documentation</title>
+      <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=80d5e7a1" />
+      <link rel="stylesheet" type="text/css" href="../_static/css/theme.css?v=e59714d7" />
+
+  
+      <script src="../_static/jquery.js?v=5d32c60e"></script>
+      <script src="../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="../_static/documentation_options.js?v=5929fcd5"></script>
+      <script src="../_static/doctools.js?v=9bcbadda"></script>
+      <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="Visualizer" href="visualizer.html" />
+    <link rel="prev" title="Reference Scenarios" href="reference_scenarios.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../index.html" class="icon icon-home">
+            DSNS
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../installation.html">Installation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../examples.html">Examples</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="../api.html">API</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="simulation.html">Simulation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="events.html">Events</a></li>
+<li class="toctree-l2"><a class="reference internal" href="constellation.html">Constellation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="multiconstellation.html">Multiconstellation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="message.html">Message</a></li>
+<li class="toctree-l2"><a class="reference internal" href="message_actors.html">Message Actors</a></li>
+<li class="toctree-l2"><a class="reference internal" href="transmission.html">Transmission</a></li>
+<li class="toctree-l2"><a class="reference internal" href="traffic_sim.html">Traffic Simulation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="helpers.html">Helpers</a></li>
+<li class="toctree-l2"><a class="reference internal" href="presets.html">Presets</a></li>
+<li class="toctree-l2"><a class="reference internal" href="reference_scenarios.html">Reference Scenarios</a></li>
+<li class="toctree-l2 current"><a class="current reference internal" href="#">Logging</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#dsns.logging.MessageData"><code class="docutils literal notranslate"><span class="pre">MessageData</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#dsns.logging.MessageData.message"><code class="docutils literal notranslate"><span class="pre">MessageData.message</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#dsns.logging.MessageData.source"><code class="docutils literal notranslate"><span class="pre">MessageData.source</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#dsns.logging.MessageData.destination"><code class="docutils literal notranslate"><span class="pre">MessageData.destination</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#dsns.logging.MessageData.start_time"><code class="docutils literal notranslate"><span class="pre">MessageData.start_time</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#dsns.logging.MessageData.end_time"><code class="docutils literal notranslate"><span class="pre">MessageData.end_time</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#dsns.logging.MessageData.hops"><code class="docutils literal notranslate"><span class="pre">MessageData.hops</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#dsns.logging.MessageData.delivered"><code class="docutils literal notranslate"><span class="pre">MessageData.delivered</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#dsns.logging.MessageData.dropped"><code class="docutils literal notranslate"><span class="pre">MessageData.dropped</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#dsns.logging.MessageData.drop_reason"><code class="docutils literal notranslate"><span class="pre">MessageData.drop_reason</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#dsns.logging.MessageData.aborted"><code class="docutils literal notranslate"><span class="pre">MessageData.aborted</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#dsns.logging.PreprocessedLoggingActor"><code class="docutils literal notranslate"><span class="pre">PreprocessedLoggingActor</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#dsns.logging.PreprocessedLoggingActor.direct_messages"><code class="docutils literal notranslate"><span class="pre">PreprocessedLoggingActor.direct_messages</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#dsns.logging.PreprocessedLoggingActor.broadcast_messages"><code class="docutils literal notranslate"><span class="pre">PreprocessedLoggingActor.broadcast_messages</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#dsns.logging.PreprocessedLoggingActor.other_events"><code class="docutils literal notranslate"><span class="pre">PreprocessedLoggingActor.other_events</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#dsns.logging.PreprocessedLoggingActor.__init__"><code class="docutils literal notranslate"><span class="pre">PreprocessedLoggingActor.__init__()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#dsns.logging.PreprocessedLoggingActor.log_other"><code class="docutils literal notranslate"><span class="pre">PreprocessedLoggingActor.log_other</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#dsns.logging.PreprocessedLoggingActor.initialize"><code class="docutils literal notranslate"><span class="pre">PreprocessedLoggingActor.initialize()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#dsns.logging.PreprocessedLoggingActor.create_message_data"><code class="docutils literal notranslate"><span class="pre">PreprocessedLoggingActor.create_message_data()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#dsns.logging.PreprocessedLoggingActor.update_message"><code class="docutils literal notranslate"><span class="pre">PreprocessedLoggingActor.update_message()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#dsns.logging.PreprocessedLoggingActor.handle_event"><code class="docutils literal notranslate"><span class="pre">PreprocessedLoggingActor.handle_event()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#dsns.logging.Interval"><code class="docutils literal notranslate"><span class="pre">Interval</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#dsns.logging.Interval.start_time"><code class="docutils literal notranslate"><span class="pre">Interval.start_time</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#dsns.logging.Interval.end_time"><code class="docutils literal notranslate"><span class="pre">Interval.end_time</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#dsns.logging.Interval.__init__"><code class="docutils literal notranslate"><span class="pre">Interval.__init__()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#dsns.logging.BandwidthLoggingActor"><code class="docutils literal notranslate"><span class="pre">BandwidthLoggingActor</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#dsns.logging.BandwidthLoggingActor.__init__"><code class="docutils literal notranslate"><span class="pre">BandwidthLoggingActor.__init__()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#dsns.logging.BandwidthLoggingActor.initialize"><code class="docutils literal notranslate"><span class="pre">BandwidthLoggingActor.initialize()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#dsns.logging.BandwidthLoggingActor.last_schedule_end_event"><code class="docutils literal notranslate"><span class="pre">BandwidthLoggingActor.last_schedule_end_event</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#dsns.logging.BandwidthLoggingActor.handle_event"><code class="docutils literal notranslate"><span class="pre">BandwidthLoggingActor.handle_event()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#dsns.logging.BandwidthLoggingActor.aggregate"><code class="docutils literal notranslate"><span class="pre">BandwidthLoggingActor.aggregate()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#dsns.logging.LTPTransmissionLoggingActor"><code class="docutils literal notranslate"><span class="pre">LTPTransmissionLoggingActor</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#dsns.logging.LTPTransmissionLoggingActor.__init__"><code class="docutils literal notranslate"><span class="pre">LTPTransmissionLoggingActor.__init__()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#dsns.logging.LTPTransmissionLoggingActor.initialize"><code class="docutils literal notranslate"><span class="pre">LTPTransmissionLoggingActor.initialize()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#dsns.logging.LTPTransmissionLoggingActor.handle_event"><code class="docutils literal notranslate"><span class="pre">LTPTransmissionLoggingActor.handle_event()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#dsns.logging.LTPTransmissionLoggingActor.aggregate"><code class="docutils literal notranslate"><span class="pre">LTPTransmissionLoggingActor.aggregate()</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="visualizer.html">Visualizer</a></li>
+</ul>
+</li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../index.html">DSNS</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="../api.html">API</a></li>
+      <li class="breadcrumb-item active">Logging</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="../_sources/api/logging.rst.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="module-dsns.logging">
+<span id="logging"></span><h1>Logging<a class="headerlink" href="#module-dsns.logging" title="Link to this heading"></a></h1>
+<dl class="py class">
+<dt class="sig sig-object py" id="dsns.logging.MessageData">
+<em class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">dsns.logging.</span></span><span class="sig-name descname"><span class="pre">MessageData</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">message</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">source</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">destination</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">start_time</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">end_time</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">hops</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">delivered</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">dropped</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">drop_reason</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">aborted</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#dsns.logging.MessageData" title="Link to this definition"></a></dt>
+<dd><dl class="py attribute">
+<dt class="sig sig-object py" id="dsns.logging.MessageData.message">
+<span class="sig-name descname"><span class="pre">message</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference internal" href="message.html#dsns.message.BaseMessage" title="dsns.message.BaseMessage"><span class="pre">BaseMessage</span></a></em><a class="headerlink" href="#dsns.logging.MessageData.message" title="Link to this definition"></a></dt>
+<dd><p>Alias for field number 0</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="dsns.logging.MessageData.source">
+<span class="sig-name descname"><span class="pre">source</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">int</span></em><a class="headerlink" href="#dsns.logging.MessageData.source" title="Link to this definition"></a></dt>
+<dd><p>Alias for field number 1</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="dsns.logging.MessageData.destination">
+<span class="sig-name descname"><span class="pre">destination</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">int</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></em><a class="headerlink" href="#dsns.logging.MessageData.destination" title="Link to this definition"></a></dt>
+<dd><p>Alias for field number 2</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="dsns.logging.MessageData.start_time">
+<span class="sig-name descname"><span class="pre">start_time</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">float</span></em><a class="headerlink" href="#dsns.logging.MessageData.start_time" title="Link to this definition"></a></dt>
+<dd><p>Alias for field number 3</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="dsns.logging.MessageData.end_time">
+<span class="sig-name descname"><span class="pre">end_time</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">float</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></em><a class="headerlink" href="#dsns.logging.MessageData.end_time" title="Link to this definition"></a></dt>
+<dd><p>Alias for field number 4</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="dsns.logging.MessageData.hops">
+<span class="sig-name descname"><span class="pre">hops</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">int</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></em><a class="headerlink" href="#dsns.logging.MessageData.hops" title="Link to this definition"></a></dt>
+<dd><p>Alias for field number 5</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="dsns.logging.MessageData.delivered">
+<span class="sig-name descname"><span class="pre">delivered</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">bool</span></em><a class="headerlink" href="#dsns.logging.MessageData.delivered" title="Link to this definition"></a></dt>
+<dd><p>Alias for field number 6</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="dsns.logging.MessageData.dropped">
+<span class="sig-name descname"><span class="pre">dropped</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">bool</span></em><a class="headerlink" href="#dsns.logging.MessageData.dropped" title="Link to this definition"></a></dt>
+<dd><p>Alias for field number 7</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="dsns.logging.MessageData.drop_reason">
+<span class="sig-name descname"><span class="pre">drop_reason</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference internal" href="message.html#dsns.message.DropReason" title="dsns.message.DropReason"><span class="pre">DropReason</span></a><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></em><a class="headerlink" href="#dsns.logging.MessageData.drop_reason" title="Link to this definition"></a></dt>
+<dd><p>Alias for field number 8</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="dsns.logging.MessageData.aborted">
+<span class="sig-name descname"><span class="pre">aborted</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">bool</span></em><a class="headerlink" href="#dsns.logging.MessageData.aborted" title="Link to this definition"></a></dt>
+<dd><p>Alias for field number 9</p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="dsns.logging.PreprocessedLoggingActor">
+<em class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">dsns.logging.</span></span><span class="sig-name descname"><span class="pre">PreprocessedLoggingActor</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">log_other</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bool</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#dsns.logging.PreprocessedLoggingActor" title="Link to this definition"></a></dt>
+<dd><p>Actor that logs events, producing a preprocessed log aggregating message information.</p>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="dsns.logging.PreprocessedLoggingActor.direct_messages">
+<span class="sig-name descname"><span class="pre">direct_messages</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">dict</span><span class="p"><span class="pre">[</span></span><a class="reference internal" href="message.html#dsns.message.DirectMessage" title="dsns.message.DirectMessage"><span class="pre">DirectMessage</span></a><span class="p"><span class="pre">,</span></span><span class="w"> </span><a class="reference internal" href="#dsns.logging.MessageData" title="dsns.logging.MessageData"><span class="pre">MessageData</span></a><span class="p"><span class="pre">]</span></span></em><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">{}</span></em><a class="headerlink" href="#dsns.logging.PreprocessedLoggingActor.direct_messages" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="dsns.logging.PreprocessedLoggingActor.broadcast_messages">
+<span class="sig-name descname"><span class="pre">broadcast_messages</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">dict</span><span class="p"><span class="pre">[</span></span><a class="reference internal" href="message.html#dsns.message.BroadcastMessage" title="dsns.message.BroadcastMessage"><span class="pre">BroadcastMessage</span></a><span class="p"><span class="pre">,</span></span><span class="w"> </span><a class="reference internal" href="#dsns.logging.MessageData" title="dsns.logging.MessageData"><span class="pre">MessageData</span></a><span class="p"><span class="pre">]</span></span></em><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">{}</span></em><a class="headerlink" href="#dsns.logging.PreprocessedLoggingActor.broadcast_messages" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="dsns.logging.PreprocessedLoggingActor.other_events">
+<span class="sig-name descname"><span class="pre">other_events</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">list</span><span class="p"><span class="pre">[</span></span><a class="reference internal" href="events.html#dsns.events.Event" title="dsns.events.Event"><span class="pre">Event</span></a><span class="p"><span class="pre">]</span></span></em><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">[]</span></em><a class="headerlink" href="#dsns.logging.PreprocessedLoggingActor.other_events" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="dsns.logging.PreprocessedLoggingActor.__init__">
+<span class="sig-name descname"><span class="pre">__init__</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">log_other</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bool</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#dsns.logging.PreprocessedLoggingActor.__init__" title="Link to this definition"></a></dt>
+<dd><dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>log_other</strong> – Whether to log other events (i.e. non-message events).</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="dsns.logging.PreprocessedLoggingActor.log_other">
+<span class="sig-name descname"><span class="pre">log_other</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">bool</span></em><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">False</span></em><a class="headerlink" href="#dsns.logging.PreprocessedLoggingActor.log_other" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="dsns.logging.PreprocessedLoggingActor.initialize">
+<span class="sig-name descname"><span class="pre">initialize</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">list</span><span class="p"><span class="pre">[</span></span><a class="reference internal" href="events.html#dsns.events.Event" title="dsns.events.Event"><span class="pre">Event</span></a><span class="p"><span class="pre">]</span></span></span></span><a class="headerlink" href="#dsns.logging.PreprocessedLoggingActor.initialize" title="Link to this definition"></a></dt>
+<dd><p>Initialize the actor.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>List of events to add to the event queue.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="dsns.logging.PreprocessedLoggingActor.create_message_data">
+<span class="sig-name descname"><span class="pre">create_message_data</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">message</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="message.html#dsns.message.BaseMessage" title="dsns.message.BaseMessage"><span class="pre">BaseMessage</span></a></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="#dsns.logging.MessageData" title="dsns.logging.MessageData"><span class="pre">MessageData</span></a></span></span><a class="headerlink" href="#dsns.logging.PreprocessedLoggingActor.create_message_data" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="dsns.logging.PreprocessedLoggingActor.update_message">
+<span class="sig-name descname"><span class="pre">update_message</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">message</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="message.html#dsns.message.BaseMessage" title="dsns.message.BaseMessage"><span class="pre">BaseMessage</span></a></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#dsns.logging.PreprocessedLoggingActor.update_message" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="dsns.logging.PreprocessedLoggingActor.handle_event">
+<span class="sig-name descname"><span class="pre">handle_event</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">mobility</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">event</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#dsns.logging.PreprocessedLoggingActor.handle_event" title="Link to this definition"></a></dt>
+<dd><p>Handle an event.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>mobility</strong> – The mobility model to handle the event with.</p></li>
+<li><p><strong>event</strong> – The event to handle.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>List of events to add to the event queue.</p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="dsns.logging.Interval">
+<em class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">dsns.logging.</span></span><span class="sig-name descname"><span class="pre">Interval</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="keyword-only-separator o"><abbr title="Keyword-only parameters separator (PEP 3102)"><span class="pre">*</span></abbr></span></em>, <em class="sig-param"><span class="n"><span class="pre">start_time</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">end_time</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#dsns.logging.Interval" title="Link to this definition"></a></dt>
+<dd><dl class="py attribute">
+<dt class="sig sig-object py" id="dsns.logging.Interval.start_time">
+<span class="sig-name descname"><span class="pre">start_time</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">float</span></em><a class="headerlink" href="#dsns.logging.Interval.start_time" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="dsns.logging.Interval.end_time">
+<span class="sig-name descname"><span class="pre">end_time</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">float</span></em><a class="headerlink" href="#dsns.logging.Interval.end_time" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="dsns.logging.Interval.__init__">
+<span class="sig-name descname"><span class="pre">__init__</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="keyword-only-separator o"><abbr title="Keyword-only parameters separator (PEP 3102)"><span class="pre">*</span></abbr></span></em>, <em class="sig-param"><span class="n"><span class="pre">start_time</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">end_time</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="headerlink" href="#dsns.logging.Interval.__init__" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="dsns.logging.BandwidthLoggingActor">
+<em class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">dsns.logging.</span></span><span class="sig-name descname"><span class="pre">BandwidthLoggingActor</span></span><a class="headerlink" href="#dsns.logging.BandwidthLoggingActor" title="Link to this definition"></a></dt>
+<dd><p>Actor that logs bandwidth congestion over time for each link.</p>
+<dl class="py method">
+<dt class="sig sig-object py" id="dsns.logging.BandwidthLoggingActor.__init__">
+<span class="sig-name descname"><span class="pre">__init__</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#dsns.logging.BandwidthLoggingActor.__init__" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="dsns.logging.BandwidthLoggingActor.initialize">
+<span class="sig-name descname"><span class="pre">initialize</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">list</span><span class="p"><span class="pre">[</span></span><a class="reference internal" href="events.html#dsns.events.Event" title="dsns.events.Event"><span class="pre">Event</span></a><span class="p"><span class="pre">]</span></span></span></span><a class="headerlink" href="#dsns.logging.BandwidthLoggingActor.initialize" title="Link to this definition"></a></dt>
+<dd><p>Initialize the actor.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>List of events to add to the event queue.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="dsns.logging.BandwidthLoggingActor.last_schedule_end_event">
+<span class="sig-name descname"><span class="pre">last_schedule_end_event</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference internal" href="transmission.html#dsns.transmission.MessageScheduledSendCompletedEvent" title="dsns.transmission.MessageScheduledSendCompletedEvent"><span class="pre">MessageScheduledSendCompletedEvent</span></a></em><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">None</span></em><a class="headerlink" href="#dsns.logging.BandwidthLoggingActor.last_schedule_end_event" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="dsns.logging.BandwidthLoggingActor.handle_event">
+<span class="sig-name descname"><span class="pre">handle_event</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">mobility</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="multiconstellation.html#dsns.multiconstellation.MultiConstellation" title="dsns.multiconstellation.MultiConstellation"><span class="pre">MultiConstellation</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">event</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="events.html#dsns.events.Event" title="dsns.events.Event"><span class="pre">Event</span></a></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">list</span><span class="p"><span class="pre">[</span></span><a class="reference internal" href="events.html#dsns.events.Event" title="dsns.events.Event"><span class="pre">Event</span></a><span class="p"><span class="pre">]</span></span></span></span><a class="headerlink" href="#dsns.logging.BandwidthLoggingActor.handle_event" title="Link to this definition"></a></dt>
+<dd><p>Handle an event.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>mobility</strong> – The mobility model to handle the event with.</p></li>
+<li><p><strong>event</strong> – The event to handle.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>List of events to add to the event queue.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="dsns.logging.BandwidthLoggingActor.aggregate">
+<span class="sig-name descname"><span class="pre">aggregate</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">period</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">default_bandwidth</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">bandwidth_per_link</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">dict</span><span class="p"><span class="pre">[</span></span><a class="reference internal" href="message.html#dsns.message.Link" title="dsns.message.Link"><span class="pre">Link</span></a><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">dict</span><span class="p"><span class="pre">[</span></span><a class="reference internal" href="#dsns.logging.Interval" title="dsns.logging.Interval"><span class="pre">Interval</span></a><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">tuple</span><span class="p"><span class="pre">[</span></span><span class="pre">float</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">float</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">float</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">float</span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span></span></span><a class="headerlink" href="#dsns.logging.BandwidthLoggingActor.aggregate" title="Link to this definition"></a></dt>
+<dd><p>Returns: link to interval period to [average size of queue, total data sent
+(note something may span across more than one interval so use bandwidth),
+throughput, bandwidth used ratio]</p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="dsns.logging.LTPTransmissionLoggingActor">
+<em class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">dsns.logging.</span></span><span class="sig-name descname"><span class="pre">LTPTransmissionLoggingActor</span></span><a class="headerlink" href="#dsns.logging.LTPTransmissionLoggingActor" title="Link to this definition"></a></dt>
+<dd><p>Actor that logs retransmission events over time. Used to compute the number of retransmissions per message.</p>
+<dl class="py method">
+<dt class="sig sig-object py" id="dsns.logging.LTPTransmissionLoggingActor.__init__">
+<span class="sig-name descname"><span class="pre">__init__</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#dsns.logging.LTPTransmissionLoggingActor.__init__" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="dsns.logging.LTPTransmissionLoggingActor.initialize">
+<span class="sig-name descname"><span class="pre">initialize</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">list</span><span class="p"><span class="pre">[</span></span><a class="reference internal" href="events.html#dsns.events.Event" title="dsns.events.Event"><span class="pre">Event</span></a><span class="p"><span class="pre">]</span></span></span></span><a class="headerlink" href="#dsns.logging.LTPTransmissionLoggingActor.initialize" title="Link to this definition"></a></dt>
+<dd><p>Initialize the actor.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>List of events to add to the event queue.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="dsns.logging.LTPTransmissionLoggingActor.handle_event">
+<span class="sig-name descname"><span class="pre">handle_event</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">mobility</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="multiconstellation.html#dsns.multiconstellation.MultiConstellation" title="dsns.multiconstellation.MultiConstellation"><span class="pre">MultiConstellation</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">event</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="events.html#dsns.events.Event" title="dsns.events.Event"><span class="pre">Event</span></a></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">list</span><span class="p"><span class="pre">[</span></span><a class="reference internal" href="events.html#dsns.events.Event" title="dsns.events.Event"><span class="pre">Event</span></a><span class="p"><span class="pre">]</span></span></span></span><a class="headerlink" href="#dsns.logging.LTPTransmissionLoggingActor.handle_event" title="Link to this definition"></a></dt>
+<dd><p>Handle an event.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>mobility</strong> – The mobility model to handle the event with.</p></li>
+<li><p><strong>event</strong> – The event to handle.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>List of events to add to the event queue.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="dsns.logging.LTPTransmissionLoggingActor.aggregate">
+<span class="sig-name descname"><span class="pre">aggregate</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">period</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">tuple</span><span class="p"><span class="pre">[</span></span><span class="pre">dict</span><span class="p"><span class="pre">[</span></span><a class="reference internal" href="message.html#dsns.message.LinkMessageID" title="dsns.message.LinkMessageID"><span class="pre">LinkMessageID</span></a><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">dict</span><span class="p"><span class="pre">[</span></span><a class="reference internal" href="#dsns.logging.Interval" title="dsns.logging.Interval"><span class="pre">Interval</span></a><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">int</span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">dict</span><span class="p"><span class="pre">[</span></span><a class="reference internal" href="message.html#dsns.message.LinkMessageID" title="dsns.message.LinkMessageID"><span class="pre">LinkMessageID</span></a><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">dict</span><span class="p"><span class="pre">[</span></span><a class="reference internal" href="#dsns.logging.Interval" title="dsns.logging.Interval"><span class="pre">Interval</span></a><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">int</span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">dict</span><span class="p"><span class="pre">[</span></span><a class="reference internal" href="message.html#dsns.message.LinkMessageID" title="dsns.message.LinkMessageID"><span class="pre">LinkMessageID</span></a><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">dict</span><span class="p"><span class="pre">[</span></span><a class="reference internal" href="#dsns.logging.Interval" title="dsns.logging.Interval"><span class="pre">Interval</span></a><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">int</span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">dict</span><span class="p"><span class="pre">[</span></span><a class="reference internal" href="message.html#dsns.message.LinkMessageID" title="dsns.message.LinkMessageID"><span class="pre">LinkMessageID</span></a><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">dict</span><span class="p"><span class="pre">[</span></span><a class="reference internal" href="#dsns.logging.Interval" title="dsns.logging.Interval"><span class="pre">Interval</span></a><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">int</span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span></span></span><a class="headerlink" href="#dsns.logging.LTPTransmissionLoggingActor.aggregate" title="Link to this definition"></a></dt>
+<dd><p>Returns two dictionaries.
+First is link and underying message UID to number of transmissions in each interval
+Second is link and LTP segment UID to number of transmissions in each interval</p>
+</dd></dl>
+
+</dd></dl>
+
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="reference_scenarios.html" class="btn btn-neutral float-left" title="Reference Scenarios" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="visualizer.html" class="btn btn-neutral float-right" title="Visualizer" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2025, Joshua Smailes.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

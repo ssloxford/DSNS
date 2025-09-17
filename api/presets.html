@@ -1,0 +1,825 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="../">
+<head>
+  <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Presets &mdash; DSNS  documentation</title>
+      <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=80d5e7a1" />
+      <link rel="stylesheet" type="text/css" href="../_static/css/theme.css?v=e59714d7" />
+
+  
+      <script src="../_static/jquery.js?v=5d32c60e"></script>
+      <script src="../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="../_static/documentation_options.js?v=5929fcd5"></script>
+      <script src="../_static/doctools.js?v=9bcbadda"></script>
+      <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="Reference Scenarios" href="reference_scenarios.html" />
+    <link rel="prev" title="Helpers" href="helpers.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../index.html" class="icon icon-home">
+            DSNS
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../installation.html">Installation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../examples.html">Examples</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="../api.html">API</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="simulation.html">Simulation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="events.html">Events</a></li>
+<li class="toctree-l2"><a class="reference internal" href="constellation.html">Constellation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="multiconstellation.html">Multiconstellation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="message.html">Message</a></li>
+<li class="toctree-l2"><a class="reference internal" href="message_actors.html">Message Actors</a></li>
+<li class="toctree-l2"><a class="reference internal" href="transmission.html">Transmission</a></li>
+<li class="toctree-l2"><a class="reference internal" href="traffic_sim.html">Traffic Simulation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="helpers.html">Helpers</a></li>
+<li class="toctree-l2 current"><a class="current reference internal" href="#">Presets</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#dsns.presets.ground_constellation"><code class="docutils literal notranslate"><span class="pre">ground_constellation()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#dsns.presets.gps_constellation"><code class="docutils literal notranslate"><span class="pre">gps_constellation()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#dsns.presets.iridium_constellation"><code class="docutils literal notranslate"><span class="pre">iridium_constellation()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#dsns.presets.small_iridium_constellation"><code class="docutils literal notranslate"><span class="pre">small_iridium_constellation()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#dsns.presets.starlink_constellation"><code class="docutils literal notranslate"><span class="pre">starlink_constellation()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#dsns.presets.cubesat_constellation"><code class="docutils literal notranslate"><span class="pre">cubesat_constellation()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#dsns.presets.viasat_constellation"><code class="docutils literal notranslate"><span class="pre">viasat_constellation()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#dsns.presets.mpower_constellation"><code class="docutils literal notranslate"><span class="pre">mpower_constellation()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#dsns.presets.dsn_constellation"><code class="docutils literal notranslate"><span class="pre">dsn_constellation()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#dsns.presets.ground_ill_helper"><code class="docutils literal notranslate"><span class="pre">ground_ill_helper()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#dsns.presets.dsn_ill_helper"><code class="docutils literal notranslate"><span class="pre">dsn_ill_helper()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#dsns.presets.interplanetary_ill_helper"><code class="docutils literal notranslate"><span class="pre">interplanetary_ill_helper()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#dsns.presets.leo_leo_ill_helper"><code class="docutils literal notranslate"><span class="pre">leo_leo_ill_helper()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#dsns.presets.GroundMultiConstellation"><code class="docutils literal notranslate"><span class="pre">GroundMultiConstellation</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#dsns.presets.GroundMultiConstellation.__init__"><code class="docutils literal notranslate"><span class="pre">GroundMultiConstellation.__init__()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#dsns.presets.GPSMultiConstellation"><code class="docutils literal notranslate"><span class="pre">GPSMultiConstellation</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#dsns.presets.GPSMultiConstellation.__init__"><code class="docutils literal notranslate"><span class="pre">GPSMultiConstellation.__init__()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#dsns.presets.IridiumMultiConstellation"><code class="docutils literal notranslate"><span class="pre">IridiumMultiConstellation</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#dsns.presets.IridiumMultiConstellation.__init__"><code class="docutils literal notranslate"><span class="pre">IridiumMultiConstellation.__init__()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#dsns.presets.StarlinkMultiConstellation"><code class="docutils literal notranslate"><span class="pre">StarlinkMultiConstellation</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#dsns.presets.StarlinkMultiConstellation.__init__"><code class="docutils literal notranslate"><span class="pre">StarlinkMultiConstellation.__init__()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#dsns.presets.StarlinkTLEMultiConstellation"><code class="docutils literal notranslate"><span class="pre">StarlinkTLEMultiConstellation</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#dsns.presets.StarlinkTLEMultiConstellation.__init__"><code class="docutils literal notranslate"><span class="pre">StarlinkTLEMultiConstellation.__init__()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#dsns.presets.CubesatMultiConstellation"><code class="docutils literal notranslate"><span class="pre">CubesatMultiConstellation</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#dsns.presets.CubesatMultiConstellation.__init__"><code class="docutils literal notranslate"><span class="pre">CubesatMultiConstellation.__init__()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#dsns.presets.LeoLeoMultiConstellation"><code class="docutils literal notranslate"><span class="pre">LeoLeoMultiConstellation</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#dsns.presets.LeoLeoMultiConstellation.__init__"><code class="docutils literal notranslate"><span class="pre">LeoLeoMultiConstellation.__init__()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#dsns.presets.LeoMeoMultiConstellation"><code class="docutils literal notranslate"><span class="pre">LeoMeoMultiConstellation</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#dsns.presets.LeoMeoMultiConstellation.__init__"><code class="docutils literal notranslate"><span class="pre">LeoMeoMultiConstellation.__init__()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#dsns.presets.LeoGeoMultiConstellation"><code class="docutils literal notranslate"><span class="pre">LeoGeoMultiConstellation</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#dsns.presets.LeoGeoMultiConstellation.__init__"><code class="docutils literal notranslate"><span class="pre">LeoGeoMultiConstellation.__init__()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#dsns.presets.LeoMeoGeoMultiConstellation"><code class="docutils literal notranslate"><span class="pre">LeoMeoGeoMultiConstellation</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#dsns.presets.LeoMeoGeoMultiConstellation.__init__"><code class="docutils literal notranslate"><span class="pre">LeoMeoGeoMultiConstellation.__init__()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#dsns.presets.MultiLayerMultiConstellation"><code class="docutils literal notranslate"><span class="pre">MultiLayerMultiConstellation</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#dsns.presets.MultiLayerMultiConstellation.__init__"><code class="docutils literal notranslate"><span class="pre">MultiLayerMultiConstellation.__init__()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#dsns.presets.EarthMoonMultiConstellation"><code class="docutils literal notranslate"><span class="pre">EarthMoonMultiConstellation</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#dsns.presets.EarthMoonMultiConstellation.earth_nodes"><code class="docutils literal notranslate"><span class="pre">EarthMoonMultiConstellation.earth_nodes</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#dsns.presets.EarthMoonMultiConstellation.moon_nodes"><code class="docutils literal notranslate"><span class="pre">EarthMoonMultiConstellation.moon_nodes</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#dsns.presets.EarthMoonMultiConstellation.earth_moon_links"><code class="docutils literal notranslate"><span class="pre">EarthMoonMultiConstellation.earth_moon_links</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#dsns.presets.EarthMoonMultiConstellation.__init__"><code class="docutils literal notranslate"><span class="pre">EarthMoonMultiConstellation.__init__()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#dsns.presets.EarthMarsMultiConstellation"><code class="docutils literal notranslate"><span class="pre">EarthMarsMultiConstellation</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#dsns.presets.EarthMarsMultiConstellation.earth_nodes"><code class="docutils literal notranslate"><span class="pre">EarthMarsMultiConstellation.earth_nodes</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#dsns.presets.EarthMarsMultiConstellation.mars_nodes"><code class="docutils literal notranslate"><span class="pre">EarthMarsMultiConstellation.mars_nodes</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#dsns.presets.EarthMarsMultiConstellation.earth_mars_links"><code class="docutils literal notranslate"><span class="pre">EarthMarsMultiConstellation.earth_mars_links</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#dsns.presets.EarthMarsMultiConstellation.__init__"><code class="docutils literal notranslate"><span class="pre">EarthMarsMultiConstellation.__init__()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#dsns.presets.EarthMoonMarsMultiConstellation"><code class="docutils literal notranslate"><span class="pre">EarthMoonMarsMultiConstellation</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#dsns.presets.EarthMoonMarsMultiConstellation.earth_nodes"><code class="docutils literal notranslate"><span class="pre">EarthMoonMarsMultiConstellation.earth_nodes</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#dsns.presets.EarthMoonMarsMultiConstellation.moon_nodes"><code class="docutils literal notranslate"><span class="pre">EarthMoonMarsMultiConstellation.moon_nodes</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#dsns.presets.EarthMoonMarsMultiConstellation.mars_nodes"><code class="docutils literal notranslate"><span class="pre">EarthMoonMarsMultiConstellation.mars_nodes</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#dsns.presets.EarthMoonMarsMultiConstellation.relay_constellations"><code class="docutils literal notranslate"><span class="pre">EarthMoonMarsMultiConstellation.relay_constellations</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#dsns.presets.EarthMoonMarsMultiConstellation.__init__"><code class="docutils literal notranslate"><span class="pre">EarthMoonMarsMultiConstellation.__init__()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#dsns.presets.EarthMoonMarsMultiConstellation.moon"><code class="docutils literal notranslate"><span class="pre">EarthMoonMarsMultiConstellation.moon</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#dsns.presets.EarthMoonMarsMultiConstellation.mars"><code class="docutils literal notranslate"><span class="pre">EarthMoonMarsMultiConstellation.mars</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#dsns.presets.EarthMoonMarsMultiConstellation.moon_mars_link"><code class="docutils literal notranslate"><span class="pre">EarthMoonMarsMultiConstellation.moon_mars_link</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#dsns.presets.FixedMultiConstellation"><code class="docutils literal notranslate"><span class="pre">FixedMultiConstellation</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#dsns.presets.FixedMultiConstellation.__init__"><code class="docutils literal notranslate"><span class="pre">FixedMultiConstellation.__init__()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#dsns.presets.EarthVisualizer"><code class="docutils literal notranslate"><span class="pre">EarthVisualizer</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#dsns.presets.EarthVisualizer.__init__"><code class="docutils literal notranslate"><span class="pre">EarthVisualizer.__init__()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#dsns.presets.EarthVisualizer.run_simulation"><code class="docutils literal notranslate"><span class="pre">EarthVisualizer.run_simulation()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#dsns.presets.EarthVisualizer.run_viewer"><code class="docutils literal notranslate"><span class="pre">EarthVisualizer.run_viewer()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#dsns.presets.EarthMarsVisualizer"><code class="docutils literal notranslate"><span class="pre">EarthMarsVisualizer</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#dsns.presets.EarthMarsVisualizer.__init__"><code class="docutils literal notranslate"><span class="pre">EarthMarsVisualizer.__init__()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#dsns.presets.EarthMarsVisualizer.run_simulation"><code class="docutils literal notranslate"><span class="pre">EarthMarsVisualizer.run_simulation()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#dsns.presets.EarthMarsVisualizer.run_viewer"><code class="docutils literal notranslate"><span class="pre">EarthMarsVisualizer.run_viewer()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#dsns.presets.EarthMoonVisualizer"><code class="docutils literal notranslate"><span class="pre">EarthMoonVisualizer</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#dsns.presets.EarthMoonVisualizer.__init__"><code class="docutils literal notranslate"><span class="pre">EarthMoonVisualizer.__init__()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#dsns.presets.EarthMoonVisualizer.run_simulation"><code class="docutils literal notranslate"><span class="pre">EarthMoonVisualizer.run_simulation()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#dsns.presets.EarthMoonVisualizer.run_viewer"><code class="docutils literal notranslate"><span class="pre">EarthMoonVisualizer.run_viewer()</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="reference_scenarios.html">Reference Scenarios</a></li>
+<li class="toctree-l2"><a class="reference internal" href="logging.html">Logging</a></li>
+<li class="toctree-l2"><a class="reference internal" href="visualizer.html">Visualizer</a></li>
+</ul>
+</li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../index.html">DSNS</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="../api.html">API</a></li>
+      <li class="breadcrumb-item active">Presets</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="../_sources/api/presets.rst.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="module-dsns.presets">
+<span id="presets"></span><h1>Presets<a class="headerlink" href="#module-dsns.presets" title="Link to this heading"></a></h1>
+<dl class="py function">
+<dt class="sig sig-object py" id="dsns.presets.ground_constellation">
+<span class="sig-prename descclassname"><span class="pre">dsns.presets.</span></span><span class="sig-name descname"><span class="pre">ground_constellation</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">id_helper</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="helpers.html#dsns.helpers.IDHelper" title="dsns.helpers.IDHelper"><span class="pre">IDHelper</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">aws</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bool</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">connected</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bool</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">reduced</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bool</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="constellation.html#dsns.constellation.Constellation" title="dsns.constellation.Constellation"><span class="pre">Constellation</span></a></span></span><a class="headerlink" href="#dsns.presets.ground_constellation" title="Link to this definition"></a></dt>
+<dd><p>Build a ground constellation using the locations of AWS ground stations.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>id_helper</strong> – ID helper to use.</p></li>
+<li><p><strong>aws</strong> – Whether to use the locations of AWS ground stations.</p></li>
+<li><p><strong>connected</strong> – Whether to connect the ground stations using fixed links.</p></li>
+<li><p><strong>reduced</strong> – If true, limit to ground stations within 60 degrees of the equator.</p></li>
+<li><p><strong>**kwargs</strong> – Additional arguments to pass to the GroundConstellation constructor.</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="dsns.presets.gps_constellation">
+<span class="sig-prename descclassname"><span class="pre">dsns.presets.</span></span><span class="sig-name descname"><span class="pre">gps_constellation</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">id_helper</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="helpers.html#dsns.helpers.IDHelper" title="dsns.helpers.IDHelper"><span class="pre">IDHelper</span></a></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="constellation.html#dsns.constellation.Constellation" title="dsns.constellation.Constellation"><span class="pre">Constellation</span></a></span></span><a class="headerlink" href="#dsns.presets.gps_constellation" title="Link to this definition"></a></dt>
+<dd><p>Build a GPS constellation.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>id_helper</strong> – ID helper to use.</p></li>
+<li><p><strong>**kwargs</strong> – Additional arguments to pass to the WalkerConstellation constructor.</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="dsns.presets.iridium_constellation">
+<span class="sig-prename descclassname"><span class="pre">dsns.presets.</span></span><span class="sig-name descname"><span class="pre">iridium_constellation</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">id_helper</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="helpers.html#dsns.helpers.IDHelper" title="dsns.helpers.IDHelper"><span class="pre">IDHelper</span></a></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="constellation.html#dsns.constellation.Constellation" title="dsns.constellation.Constellation"><span class="pre">Constellation</span></a></span></span><a class="headerlink" href="#dsns.presets.iridium_constellation" title="Link to this definition"></a></dt>
+<dd><p>Build an Iridium constellation.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>id_helper</strong> – ID helper to use.</p></li>
+<li><p><strong>**kwargs</strong> – Additional arguments to pass to the WalkerConstellation constructor.</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="dsns.presets.small_iridium_constellation">
+<span class="sig-prename descclassname"><span class="pre">dsns.presets.</span></span><span class="sig-name descname"><span class="pre">small_iridium_constellation</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">id_helper</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="helpers.html#dsns.helpers.IDHelper" title="dsns.helpers.IDHelper"><span class="pre">IDHelper</span></a></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="constellation.html#dsns.constellation.Constellation" title="dsns.constellation.Constellation"><span class="pre">Constellation</span></a></span></span><a class="headerlink" href="#dsns.presets.small_iridium_constellation" title="Link to this definition"></a></dt>
+<dd><p>Build a constellation similar to Iridium, but with only 2 planes and 4 satellites per plane.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>id_helper</strong> – ID helper to use.</p></li>
+<li><p><strong>**kwargs</strong> – Additional arguments to pass to the WalkerConstellation constructor.</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="dsns.presets.starlink_constellation">
+<span class="sig-prename descclassname"><span class="pre">dsns.presets.</span></span><span class="sig-name descname"><span class="pre">starlink_constellation</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">id_helper</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="helpers.html#dsns.helpers.IDHelper" title="dsns.helpers.IDHelper"><span class="pre">IDHelper</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">use_tle</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bool</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="constellation.html#dsns.constellation.Constellation" title="dsns.constellation.Constellation"><span class="pre">Constellation</span></a></span></span><a class="headerlink" href="#dsns.presets.starlink_constellation" title="Link to this definition"></a></dt>
+<dd><p>Build a Starlink constellation, based on the proposal for phase 1, or on TLE data.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>id_helper</strong> – ID helper to use.</p></li>
+<li><p><strong>use_tle</strong> – Whether to use TLE data.</p></li>
+<li><p><strong>**kwargs</strong> – Additional arguments to pass to the Constellation constructor.</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="dsns.presets.cubesat_constellation">
+<span class="sig-prename descclassname"><span class="pre">dsns.presets.</span></span><span class="sig-name descname"><span class="pre">cubesat_constellation</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">id_helper</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="helpers.html#dsns.helpers.IDHelper" title="dsns.helpers.IDHelper"><span class="pre">IDHelper</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">url_cubesats</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">file_cubesats</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">epoch</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">datetime</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="constellation.html#dsns.constellation.Constellation" title="dsns.constellation.Constellation"><span class="pre">Constellation</span></a></span></span><a class="headerlink" href="#dsns.presets.cubesat_constellation" title="Link to this definition"></a></dt>
+<dd><p>Build a constellation of all CubeSats currently in orbit.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>id_helper</strong> – ID helper to use.</p></li>
+<li><p><strong>**kwargs</strong> – Additional arguments to pass to the TLEConstellation constructor.</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="dsns.presets.viasat_constellation">
+<span class="sig-prename descclassname"><span class="pre">dsns.presets.</span></span><span class="sig-name descname"><span class="pre">viasat_constellation</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">id_helper</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="helpers.html#dsns.helpers.IDHelper" title="dsns.helpers.IDHelper"><span class="pre">IDHelper</span></a></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="constellation.html#dsns.constellation.Constellation" title="dsns.constellation.Constellation"><span class="pre">Constellation</span></a></span></span><a class="headerlink" href="#dsns.presets.viasat_constellation" title="Link to this definition"></a></dt>
+<dd><p>Build a Viasat-3 constellation.
+This constellation is composed of 3 geostationary satellites.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>id_helper</strong> – ID helper to use.</p></li>
+<li><p><strong>**kwargs</strong> – Additional arguments to pass to the WalkerConstellation constructor.</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="dsns.presets.mpower_constellation">
+<span class="sig-prename descclassname"><span class="pre">dsns.presets.</span></span><span class="sig-name descname"><span class="pre">mpower_constellation</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">id_helper</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="helpers.html#dsns.helpers.IDHelper" title="dsns.helpers.IDHelper"><span class="pre">IDHelper</span></a></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="constellation.html#dsns.constellation.Constellation" title="dsns.constellation.Constellation"><span class="pre">Constellation</span></a></span></span><a class="headerlink" href="#dsns.presets.mpower_constellation" title="Link to this definition"></a></dt>
+<dd><p>Build an O3b mPOWER constellation.
+This constellation is composed of 7 satellites in MEO, with a semi-major axis of 14444 km.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>id_helper</strong> – ID helper to use.</p></li>
+<li><p><strong>**kwargs</strong> – Additional arguments to pass to the WalkerConstellation constructor.</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="dsns.presets.dsn_constellation">
+<span class="sig-prename descclassname"><span class="pre">dsns.presets.</span></span><span class="sig-name descname"><span class="pre">dsn_constellation</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">id_helper</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="helpers.html#dsns.helpers.IDHelper" title="dsns.helpers.IDHelper"><span class="pre">IDHelper</span></a></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="constellation.html#dsns.constellation.Constellation" title="dsns.constellation.Constellation"><span class="pre">Constellation</span></a></span></span><a class="headerlink" href="#dsns.presets.dsn_constellation" title="Link to this definition"></a></dt>
+<dd><p>Build a Deep Space Network constellation.
+This constellation is composed of 3 ground stations.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>id_helper</strong> – ID helper to use.</p></li>
+<li><p><strong>**kwargs</strong> – Additional arguments to pass to the GroundConstellation constructor.</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="dsns.presets.ground_ill_helper">
+<span class="sig-prename descclassname"><span class="pre">dsns.presets.</span></span><span class="sig-name descname"><span class="pre">ground_ill_helper</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">ground_constellation</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="constellation.html#dsns.constellation.Constellation" title="dsns.constellation.Constellation"><span class="pre">Constellation</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">space_constellation</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="constellation.html#dsns.constellation.Constellation" title="dsns.constellation.Constellation"><span class="pre">Constellation</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">min_elevation</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">20.0</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="multiconstellation.html#dsns.multiconstellation.GroundILLHelper" title="dsns.multiconstellation.GroundILLHelper"><span class="pre">GroundILLHelper</span></a></span></span><a class="headerlink" href="#dsns.presets.ground_ill_helper" title="Link to this definition"></a></dt>
+<dd><p>Build an inter-layer link helper for a ground constellation and a space constellation.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>ground_constellation</strong> – Ground constellation.</p></li>
+<li><p><strong>space_constellation</strong> – Space constellation.</p></li>
+<li><p><strong>min_elevation</strong> – Minimum elevation angle for visibility (degrees).</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="dsns.presets.dsn_ill_helper">
+<span class="sig-prename descclassname"><span class="pre">dsns.presets.</span></span><span class="sig-name descname"><span class="pre">dsn_ill_helper</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">dsn_constellation</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="constellation.html#dsns.constellation.Constellation" title="dsns.constellation.Constellation"><span class="pre">Constellation</span></a><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">list</span><span class="p"><span class="pre">[</span></span><span class="pre">int</span><span class="p"><span class="pre">]</span></span></span></em>, <em class="sig-param"><span class="n"><span class="pre">space_constellation</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="constellation.html#dsns.constellation.Constellation" title="dsns.constellation.Constellation"><span class="pre">Constellation</span></a><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">list</span><span class="p"><span class="pre">[</span></span><span class="pre">int</span><span class="p"><span class="pre">]</span></span></span></em>, <em class="sig-param"><span class="n"><span class="pre">space_body_radius</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="multiconstellation.html#dsns.multiconstellation.OcclusionILLHelper" title="dsns.multiconstellation.OcclusionILLHelper"><span class="pre">OcclusionILLHelper</span></a></span></span><a class="headerlink" href="#dsns.presets.dsn_ill_helper" title="Link to this definition"></a></dt>
+<dd><p>Build an inter-layer link helper for a DSN constellation and a space constellation.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>dsn_constellation</strong> – DSN constellation.</p></li>
+<li><p><strong>space_constellation</strong> – Space constellation.</p></li>
+<li><p><strong>space_body_radius</strong> – Radius of the body around which the space constellation orbits (m).</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="dsns.presets.interplanetary_ill_helper">
+<span class="sig-prename descclassname"><span class="pre">dsns.presets.</span></span><span class="sig-name descname"><span class="pre">interplanetary_ill_helper</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">constellation_a</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="constellation.html#dsns.constellation.Constellation" title="dsns.constellation.Constellation"><span class="pre">Constellation</span></a><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">list</span><span class="p"><span class="pre">[</span></span><span class="pre">int</span><span class="p"><span class="pre">]</span></span></span></em>, <em class="sig-param"><span class="n"><span class="pre">constellation_b</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="constellation.html#dsns.constellation.Constellation" title="dsns.constellation.Constellation"><span class="pre">Constellation</span></a><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">list</span><span class="p"><span class="pre">[</span></span><span class="pre">int</span><span class="p"><span class="pre">]</span></span></span></em>, <em class="sig-param"><span class="n"><span class="pre">radius_a</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">radius_b</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">max_links</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">1</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="multiconstellation.html#dsns.multiconstellation.OcclusionILLHelper" title="dsns.multiconstellation.OcclusionILLHelper"><span class="pre">OcclusionILLHelper</span></a></span></span><a class="headerlink" href="#dsns.presets.interplanetary_ill_helper" title="Link to this definition"></a></dt>
+<dd><p>Build an inter-layer link helper for a connection between two constellations orbiting different bodies.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>constellation_a</strong> – First constellation.</p></li>
+<li><p><strong>constellation_b</strong> – Second constellation.</p></li>
+<li><p><strong>radius_a</strong> – Radius of the body around which the first constellation orbits (m).</p></li>
+<li><p><strong>radius_b</strong> – Radius of the body around which the second constellation orbits (m).</p></li>
+<li><p><strong>max_links</strong> – Maximum number of links per satellite.</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="dsns.presets.leo_leo_ill_helper">
+<span class="sig-prename descclassname"><span class="pre">dsns.presets.</span></span><span class="sig-name descname"><span class="pre">leo_leo_ill_helper</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">leo_constellation_a</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="constellation.html#dsns.constellation.Constellation" title="dsns.constellation.Constellation"><span class="pre">Constellation</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">leo_constellation_b</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="constellation.html#dsns.constellation.Constellation" title="dsns.constellation.Constellation"><span class="pre">Constellation</span></a></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="multiconstellation.html#dsns.multiconstellation.DistanceILLHelper" title="dsns.multiconstellation.DistanceILLHelper"><span class="pre">DistanceILLHelper</span></a></span></span><a class="headerlink" href="#dsns.presets.leo_leo_ill_helper" title="Link to this definition"></a></dt>
+<dd><p>Build an inter-layer link helper for two LEO constellations.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>leo_constellation_a</strong> – First LEO constellation.</p></li>
+<li><p><strong>leo_constellation_b</strong> – Second LEO constellation.</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="dsns.presets.GroundMultiConstellation">
+<em class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">dsns.presets.</span></span><span class="sig-name descname"><span class="pre">GroundMultiConstellation</span></span><a class="headerlink" href="#dsns.presets.GroundMultiConstellation" title="Link to this definition"></a></dt>
+<dd><p>Preset multi-constellation for a ground “constellation” consisting of ground stations only.
+Ground stations are connected to each other using fixed links.</p>
+<dl class="py method">
+<dt class="sig sig-object py" id="dsns.presets.GroundMultiConstellation.__init__">
+<span class="sig-name descname"><span class="pre">__init__</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#dsns.presets.GroundMultiConstellation.__init__" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="dsns.presets.GPSMultiConstellation">
+<em class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">dsns.presets.</span></span><span class="sig-name descname"><span class="pre">GPSMultiConstellation</span></span><a class="headerlink" href="#dsns.presets.GPSMultiConstellation" title="Link to this definition"></a></dt>
+<dd><p>Preset multi-constellation for a GPS constellation with ground stations.
+GPS satellites are connected to the ground stations based on visibility.</p>
+<dl class="py method">
+<dt class="sig sig-object py" id="dsns.presets.GPSMultiConstellation.__init__">
+<span class="sig-name descname"><span class="pre">__init__</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#dsns.presets.GPSMultiConstellation.__init__" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="dsns.presets.IridiumMultiConstellation">
+<em class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">dsns.presets.</span></span><span class="sig-name descname"><span class="pre">IridiumMultiConstellation</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">iridium_kwargs</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">dict</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">Any</span><span class="p"><span class="pre">]</span></span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">{}</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#dsns.presets.IridiumMultiConstellation" title="Link to this definition"></a></dt>
+<dd><p>Preset multi-constellation for the Iridium constellation connected to ground stations.</p>
+<dl class="py method">
+<dt class="sig sig-object py" id="dsns.presets.IridiumMultiConstellation.__init__">
+<span class="sig-name descname"><span class="pre">__init__</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">iridium_kwargs</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">dict</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">Any</span><span class="p"><span class="pre">]</span></span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">{}</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#dsns.presets.IridiumMultiConstellation.__init__" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="dsns.presets.StarlinkMultiConstellation">
+<em class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">dsns.presets.</span></span><span class="sig-name descname"><span class="pre">StarlinkMultiConstellation</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">starlink_kwargs</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">dict</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">Any</span><span class="p"><span class="pre">]</span></span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">{}</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#dsns.presets.StarlinkMultiConstellation" title="Link to this definition"></a></dt>
+<dd><p>Preset multi-constellation for a Walker constellation corresponding to a proposal for phase 1 of the Starlink
+constellation.</p>
+<dl class="py method">
+<dt class="sig sig-object py" id="dsns.presets.StarlinkMultiConstellation.__init__">
+<span class="sig-name descname"><span class="pre">__init__</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">starlink_kwargs</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">dict</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">Any</span><span class="p"><span class="pre">]</span></span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">{}</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#dsns.presets.StarlinkMultiConstellation.__init__" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="dsns.presets.StarlinkTLEMultiConstellation">
+<em class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">dsns.presets.</span></span><span class="sig-name descname"><span class="pre">StarlinkTLEMultiConstellation</span></span><a class="headerlink" href="#dsns.presets.StarlinkTLEMultiConstellation" title="Link to this definition"></a></dt>
+<dd><p>Preset multi-constellation for the Starlink constellation using TLE data.</p>
+<dl class="py method">
+<dt class="sig sig-object py" id="dsns.presets.StarlinkTLEMultiConstellation.__init__">
+<span class="sig-name descname"><span class="pre">__init__</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#dsns.presets.StarlinkTLEMultiConstellation.__init__" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="dsns.presets.CubesatMultiConstellation">
+<em class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">dsns.presets.</span></span><span class="sig-name descname"><span class="pre">CubesatMultiConstellation</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">url_cubesats</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">file_cubesats</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">epoch</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">datetime</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#dsns.presets.CubesatMultiConstellation" title="Link to this definition"></a></dt>
+<dd><p>Preset multi-constellation for all CubeSats currently in orbit using TLE data.</p>
+<dl class="py method">
+<dt class="sig sig-object py" id="dsns.presets.CubesatMultiConstellation.__init__">
+<span class="sig-name descname"><span class="pre">__init__</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">url_cubesats</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">file_cubesats</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">epoch</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">datetime</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#dsns.presets.CubesatMultiConstellation.__init__" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="dsns.presets.LeoLeoMultiConstellation">
+<em class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">dsns.presets.</span></span><span class="sig-name descname"><span class="pre">LeoLeoMultiConstellation</span></span><a class="headerlink" href="#dsns.presets.LeoLeoMultiConstellation" title="Link to this definition"></a></dt>
+<dd><p>Preset multi-constellation containing a ground constellation, a Starlink constellation, and an Iridium
+constellation.
+All constellations are connected to the ground.
+Starlink and OneWeb satellites are also connected to each other.</p>
+<dl class="py method">
+<dt class="sig sig-object py" id="dsns.presets.LeoLeoMultiConstellation.__init__">
+<span class="sig-name descname"><span class="pre">__init__</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#dsns.presets.LeoLeoMultiConstellation.__init__" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="dsns.presets.LeoMeoMultiConstellation">
+<em class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">dsns.presets.</span></span><span class="sig-name descname"><span class="pre">LeoMeoMultiConstellation</span></span><a class="headerlink" href="#dsns.presets.LeoMeoMultiConstellation" title="Link to this definition"></a></dt>
+<dd><p>Preset multi-constellation containing a ground constellation, an Iridium constellation, and an mPOWER constellation.
+All constellations are connected to the ground.
+Iridium and mPOWER satellites are also connected to each other.</p>
+<dl class="py method">
+<dt class="sig sig-object py" id="dsns.presets.LeoMeoMultiConstellation.__init__">
+<span class="sig-name descname"><span class="pre">__init__</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#dsns.presets.LeoMeoMultiConstellation.__init__" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="dsns.presets.LeoGeoMultiConstellation">
+<em class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">dsns.presets.</span></span><span class="sig-name descname"><span class="pre">LeoGeoMultiConstellation</span></span><a class="headerlink" href="#dsns.presets.LeoGeoMultiConstellation" title="Link to this definition"></a></dt>
+<dd><p>Preset multi-constellation containing a ground constellation, an Iridium constellation, and the Viasat-3 constellation.
+All constellations are connected to the ground.
+Iridium and Viasat-3 satellites are also connected to each other.</p>
+<dl class="py method">
+<dt class="sig sig-object py" id="dsns.presets.LeoGeoMultiConstellation.__init__">
+<span class="sig-name descname"><span class="pre">__init__</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#dsns.presets.LeoGeoMultiConstellation.__init__" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="dsns.presets.LeoMeoGeoMultiConstellation">
+<em class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">dsns.presets.</span></span><span class="sig-name descname"><span class="pre">LeoMeoGeoMultiConstellation</span></span><a class="headerlink" href="#dsns.presets.LeoMeoGeoMultiConstellation" title="Link to this definition"></a></dt>
+<dd><p>Preset multi-constellation containing a ground constellation, an Iridium constellation, an mPOWER constellation, and the Viasat-3 constellation.
+All constellations are connected to the ground.
+Iridium, mPOWER, and Viasat-3 satellites are also connected to each other.</p>
+<dl class="py method">
+<dt class="sig sig-object py" id="dsns.presets.LeoMeoGeoMultiConstellation.__init__">
+<span class="sig-name descname"><span class="pre">__init__</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#dsns.presets.LeoMeoGeoMultiConstellation.__init__" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="dsns.presets.MultiLayerMultiConstellation">
+<em class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">dsns.presets.</span></span><span class="sig-name descname"><span class="pre">MultiLayerMultiConstellation</span></span><a class="headerlink" href="#dsns.presets.MultiLayerMultiConstellation" title="Link to this definition"></a></dt>
+<dd><p>Preset multi-constellation for a multi-layer constellation consisting of a ground constellation, a GPS
+constellation, a Starlink constellation, and an Iridium constellation.
+All constellations are connected to the ground.
+GPS and Iridium satellites are also connected to each other.</p>
+<dl class="py method">
+<dt class="sig sig-object py" id="dsns.presets.MultiLayerMultiConstellation.__init__">
+<span class="sig-name descname"><span class="pre">__init__</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#dsns.presets.MultiLayerMultiConstellation.__init__" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="dsns.presets.EarthMoonMultiConstellation">
+<em class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">dsns.presets.</span></span><span class="sig-name descname"><span class="pre">EarthMoonMultiConstellation</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">num_relays</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">1</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">configuration</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'base'</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#dsns.presets.EarthMoonMultiConstellation" title="Link to this definition"></a></dt>
+<dd><p>Preset multi-constellation for Earth-Mars communication.
+TODO finish description.</p>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="dsns.presets.EarthMoonMultiConstellation.earth_nodes">
+<span class="sig-name descname"><span class="pre">earth_nodes</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">list</span><span class="p"><span class="pre">[</span></span><span class="pre">int</span><span class="p"><span class="pre">]</span></span></em><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">[]</span></em><a class="headerlink" href="#dsns.presets.EarthMoonMultiConstellation.earth_nodes" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="dsns.presets.EarthMoonMultiConstellation.moon_nodes">
+<span class="sig-name descname"><span class="pre">moon_nodes</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">list</span><span class="p"><span class="pre">[</span></span><span class="pre">int</span><span class="p"><span class="pre">]</span></span></em><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">[]</span></em><a class="headerlink" href="#dsns.presets.EarthMoonMultiConstellation.moon_nodes" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="dsns.presets.EarthMoonMultiConstellation.earth_moon_links">
+<span class="sig-name descname"><span class="pre">earth_moon_links</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">list</span><span class="p"><span class="pre">[</span></span><span class="pre">tuple</span><span class="p"><span class="pre">[</span></span><span class="pre">int</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">int</span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span></em><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">[]</span></em><a class="headerlink" href="#dsns.presets.EarthMoonMultiConstellation.earth_moon_links" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="dsns.presets.EarthMoonMultiConstellation.__init__">
+<span class="sig-name descname"><span class="pre">__init__</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">num_relays</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">1</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">configuration</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'base'</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#dsns.presets.EarthMoonMultiConstellation.__init__" title="Link to this definition"></a></dt>
+<dd><p>Initialize the multi-constellation.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>num_relays</strong> – Number of relay satellites around the Moon.</p></li>
+<li><p><strong>configuration</strong> – Configuration to use (base, surface, single, multiple).</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="dsns.presets.EarthMarsMultiConstellation">
+<em class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">dsns.presets.</span></span><span class="sig-name descname"><span class="pre">EarthMarsMultiConstellation</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">earth_constellation</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">'iridium'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">mars_constellation</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">'iridium'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">num_relays</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">1</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#dsns.presets.EarthMarsMultiConstellation" title="Link to this definition"></a></dt>
+<dd><p>Preset multi-constellation for Earth-Mars communication.
+Earth and Mars each have a constellation of satellites.
+There is a deep space link between Earth and Mars.</p>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="dsns.presets.EarthMarsMultiConstellation.earth_nodes">
+<span class="sig-name descname"><span class="pre">earth_nodes</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">list</span><span class="p"><span class="pre">[</span></span><span class="pre">int</span><span class="p"><span class="pre">]</span></span></em><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">[]</span></em><a class="headerlink" href="#dsns.presets.EarthMarsMultiConstellation.earth_nodes" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="dsns.presets.EarthMarsMultiConstellation.mars_nodes">
+<span class="sig-name descname"><span class="pre">mars_nodes</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">list</span><span class="p"><span class="pre">[</span></span><span class="pre">int</span><span class="p"><span class="pre">]</span></span></em><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">[]</span></em><a class="headerlink" href="#dsns.presets.EarthMarsMultiConstellation.mars_nodes" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="dsns.presets.EarthMarsMultiConstellation.earth_mars_links">
+<span class="sig-name descname"><span class="pre">earth_mars_links</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">list</span><span class="p"><span class="pre">[</span></span><span class="pre">tuple</span><span class="p"><span class="pre">[</span></span><span class="pre">int</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">int</span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span></em><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">[]</span></em><a class="headerlink" href="#dsns.presets.EarthMarsMultiConstellation.earth_mars_links" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="dsns.presets.EarthMarsMultiConstellation.__init__">
+<span class="sig-name descname"><span class="pre">__init__</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">earth_constellation</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">'iridium'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">mars_constellation</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">'iridium'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">num_relays</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">1</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#dsns.presets.EarthMarsMultiConstellation.__init__" title="Link to this definition"></a></dt>
+<dd><p>Initialize the multi-constellation.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>earth_constellation</strong> – Constellation to use for Earth (iridium or starlink).</p></li>
+<li><p><strong>mars_constellation</strong> – Constellation to use for Mars (iridium or starlink).</p></li>
+<li><p><strong>num_relays</strong> – Number of relay satellites around Mars.</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="dsns.presets.EarthMoonMarsMultiConstellation">
+<em class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">dsns.presets.</span></span><span class="sig-name descname"><span class="pre">EarthMoonMarsMultiConstellation</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">num_relays</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">1</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">moon</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bool</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">mars</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bool</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">moon_mars_link</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bool</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">True</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#dsns.presets.EarthMoonMarsMultiConstellation" title="Link to this definition"></a></dt>
+<dd><p>Preset multi-constellation for Earth-Moon-Mars communication.</p>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="dsns.presets.EarthMoonMarsMultiConstellation.earth_nodes">
+<span class="sig-name descname"><span class="pre">earth_nodes</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">list</span><span class="p"><span class="pre">[</span></span><span class="pre">int</span><span class="p"><span class="pre">]</span></span></em><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">[]</span></em><a class="headerlink" href="#dsns.presets.EarthMoonMarsMultiConstellation.earth_nodes" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="dsns.presets.EarthMoonMarsMultiConstellation.moon_nodes">
+<span class="sig-name descname"><span class="pre">moon_nodes</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">list</span><span class="p"><span class="pre">[</span></span><span class="pre">int</span><span class="p"><span class="pre">]</span></span></em><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">[]</span></em><a class="headerlink" href="#dsns.presets.EarthMoonMarsMultiConstellation.moon_nodes" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="dsns.presets.EarthMoonMarsMultiConstellation.mars_nodes">
+<span class="sig-name descname"><span class="pre">mars_nodes</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">list</span><span class="p"><span class="pre">[</span></span><span class="pre">int</span><span class="p"><span class="pre">]</span></span></em><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">[]</span></em><a class="headerlink" href="#dsns.presets.EarthMoonMarsMultiConstellation.mars_nodes" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="dsns.presets.EarthMoonMarsMultiConstellation.relay_constellations">
+<span class="sig-name descname"><span class="pre">relay_constellations</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference internal" href="constellation.html#dsns.constellation.Constellation" title="dsns.constellation.Constellation"><span class="pre">Constellation</span></a></em><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">[]</span></em><a class="headerlink" href="#dsns.presets.EarthMoonMarsMultiConstellation.relay_constellations" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="dsns.presets.EarthMoonMarsMultiConstellation.__init__">
+<span class="sig-name descname"><span class="pre">__init__</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">num_relays</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">1</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">moon</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bool</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">mars</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bool</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">moon_mars_link</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bool</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">True</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#dsns.presets.EarthMoonMarsMultiConstellation.__init__" title="Link to this definition"></a></dt>
+<dd><p>Initialize the multi-constellation.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>num_relays</strong> – Number of relay satellites around the Moon and Mars.</p></li>
+<li><p><strong>moon</strong> – Include the Moon in the simulation.</p></li>
+<li><p><strong>mars</strong> – Include Mars in the simulation.</p></li>
+<li><p><strong>moon_mars_link</strong> – Include a link between the Moon and Mars.</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="dsns.presets.EarthMoonMarsMultiConstellation.moon">
+<span class="sig-name descname"><span class="pre">moon</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">bool</span></em><a class="headerlink" href="#dsns.presets.EarthMoonMarsMultiConstellation.moon" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="dsns.presets.EarthMoonMarsMultiConstellation.mars">
+<span class="sig-name descname"><span class="pre">mars</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">bool</span></em><a class="headerlink" href="#dsns.presets.EarthMoonMarsMultiConstellation.mars" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="dsns.presets.EarthMoonMarsMultiConstellation.moon_mars_link">
+<span class="sig-name descname"><span class="pre">moon_mars_link</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">bool</span></em><a class="headerlink" href="#dsns.presets.EarthMoonMarsMultiConstellation.moon_mars_link" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="dsns.presets.FixedMultiConstellation">
+<em class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">dsns.presets.</span></span><span class="sig-name descname"><span class="pre">FixedMultiConstellation</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">num_sats</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">10</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#dsns.presets.FixedMultiConstellation" title="Link to this definition"></a></dt>
+<dd><p>Preset multi-constellation with a fixed number of unmoving satellites, connected via fixed links.
+Satellites are distributed evenly on a circle around the origin, with a radius of 1e6 meters.
+Satellites are connected to each other in a ring.</p>
+<dl class="py method">
+<dt class="sig sig-object py" id="dsns.presets.FixedMultiConstellation.__init__">
+<span class="sig-name descname"><span class="pre">__init__</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">num_sats</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">10</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#dsns.presets.FixedMultiConstellation.__init__" title="Link to this definition"></a></dt>
+<dd><p>Initialize the multi-constellation.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>num_sats</strong> – Number of satellites to create.</p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="dsns.presets.EarthVisualizer">
+<em class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">dsns.presets.</span></span><span class="sig-name descname"><span class="pre">EarthVisualizer</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">multi_constellation</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="multiconstellation.html#dsns.multiconstellation.MultiConstellation" title="dsns.multiconstellation.MultiConstellation"><span class="pre">MultiConstellation</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">time_scale</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">100.0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">space_scale</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">1e-06</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">earth_materials</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">tuple</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">str</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">str</span><span class="p"><span class="pre">]</span></span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">viewport_size</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">tuple</span><span class="p"><span class="pre">[</span></span><span class="pre">int</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">int</span><span class="p"><span class="pre">]</span></span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">(800,</span> <span class="pre">600)</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">bg_color</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">tuple</span><span class="p"><span class="pre">[</span></span><span class="pre">float</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">float</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">float</span><span class="p"><span class="pre">]</span></span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">(0.0,</span> <span class="pre">0.0,</span> <span class="pre">0.0)</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#dsns.presets.EarthVisualizer" title="Link to this definition"></a></dt>
+<dd><p>Preset visualizer for rendering Earth satellites.</p>
+<dl class="py method">
+<dt class="sig sig-object py" id="dsns.presets.EarthVisualizer.__init__">
+<span class="sig-name descname"><span class="pre">__init__</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">multi_constellation</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="multiconstellation.html#dsns.multiconstellation.MultiConstellation" title="dsns.multiconstellation.MultiConstellation"><span class="pre">MultiConstellation</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">time_scale</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">100.0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">space_scale</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">1e-06</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">earth_materials</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">tuple</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">str</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">str</span><span class="p"><span class="pre">]</span></span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">viewport_size</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">tuple</span><span class="p"><span class="pre">[</span></span><span class="pre">int</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">int</span><span class="p"><span class="pre">]</span></span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">(800,</span> <span class="pre">600)</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">bg_color</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">tuple</span><span class="p"><span class="pre">[</span></span><span class="pre">float</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">float</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">float</span><span class="p"><span class="pre">]</span></span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">(0.0,</span> <span class="pre">0.0,</span> <span class="pre">0.0)</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#dsns.presets.EarthVisualizer.__init__" title="Link to this definition"></a></dt>
+<dd><p>Initialize the visualizer.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>multi_constellation</strong> – Multi-constellation to visualize.</p></li>
+<li><p><strong>time_scale</strong> – Time scale factor.</p></li>
+<li><p><strong>space_scale</strong> – Space scale factor.</p></li>
+<li><p><strong>earth_materials</strong> – Materials to use for the Earth.</p></li>
+<li><p><strong>viewport_size</strong> – Size of the viewport.</p></li>
+<li><p><strong>bg_color</strong> – Background color.</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="dsns.presets.EarthVisualizer.run_simulation">
+<span class="sig-name descname"><span class="pre">run_simulation</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#dsns.presets.EarthVisualizer.run_simulation" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="dsns.presets.EarthVisualizer.run_viewer">
+<span class="sig-name descname"><span class="pre">run_viewer</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#dsns.presets.EarthVisualizer.run_viewer" title="Link to this definition"></a></dt>
+<dd><p>Run the viewer.
+This should be called after run_simulation().</p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="dsns.presets.EarthMarsVisualizer">
+<em class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">dsns.presets.</span></span><span class="sig-name descname"><span class="pre">EarthMarsVisualizer</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">multi_constellation</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#dsns.presets.EarthMarsMultiConstellation" title="dsns.presets.EarthMarsMultiConstellation"><span class="pre">EarthMarsMultiConstellation</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">time_scale</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">100.0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">space_scale</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">1e-06</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">interplanetary_scale</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">1e-10</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">earth_materials</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">tuple</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">str</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">str</span><span class="p"><span class="pre">]</span></span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">mars_material</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">viewport_size</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">tuple</span><span class="p"><span class="pre">[</span></span><span class="pre">int</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">int</span><span class="p"><span class="pre">]</span></span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">(800,</span> <span class="pre">600)</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">bg_color</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">tuple</span><span class="p"><span class="pre">[</span></span><span class="pre">float</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">float</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">float</span><span class="p"><span class="pre">]</span></span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">(0.0,</span> <span class="pre">0.0,</span> <span class="pre">0.0)</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#dsns.presets.EarthMarsVisualizer" title="Link to this definition"></a></dt>
+<dd><p>Preset visualizer for rendering Earth-Mars communication.</p>
+<dl class="py method">
+<dt class="sig sig-object py" id="dsns.presets.EarthMarsVisualizer.__init__">
+<span class="sig-name descname"><span class="pre">__init__</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">multi_constellation</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#dsns.presets.EarthMarsMultiConstellation" title="dsns.presets.EarthMarsMultiConstellation"><span class="pre">EarthMarsMultiConstellation</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">time_scale</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">100.0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">space_scale</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">1e-06</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">interplanetary_scale</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">1e-10</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">earth_materials</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">tuple</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">str</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">str</span><span class="p"><span class="pre">]</span></span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">mars_material</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">viewport_size</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">tuple</span><span class="p"><span class="pre">[</span></span><span class="pre">int</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">int</span><span class="p"><span class="pre">]</span></span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">(800,</span> <span class="pre">600)</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">bg_color</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">tuple</span><span class="p"><span class="pre">[</span></span><span class="pre">float</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">float</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">float</span><span class="p"><span class="pre">]</span></span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">(0.0,</span> <span class="pre">0.0,</span> <span class="pre">0.0)</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#dsns.presets.EarthMarsVisualizer.__init__" title="Link to this definition"></a></dt>
+<dd><p>Initialize the visualizer.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>multi_constellation</strong> – Multi-constellation to visualize.</p></li>
+<li><p><strong>time_scale</strong> – Time scale factor.</p></li>
+<li><p><strong>space_scale</strong> – Space scale factor.</p></li>
+<li><p><strong>interplanetary_scale</strong> – Interplanetary scale factor.</p></li>
+<li><p><strong>earth_materials</strong> – Materials to use for the Earth.</p></li>
+<li><p><strong>mars_material</strong> – Material to use for Mars.</p></li>
+<li><p><strong>viewport_size</strong> – Size of the viewport.</p></li>
+<li><p><strong>bg_color</strong> – Background color.</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="dsns.presets.EarthMarsVisualizer.run_simulation">
+<span class="sig-name descname"><span class="pre">run_simulation</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#dsns.presets.EarthMarsVisualizer.run_simulation" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="dsns.presets.EarthMarsVisualizer.run_viewer">
+<span class="sig-name descname"><span class="pre">run_viewer</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#dsns.presets.EarthMarsVisualizer.run_viewer" title="Link to this definition"></a></dt>
+<dd><p>Run the viewer.
+This should be called after run_simulation().</p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="dsns.presets.EarthMoonVisualizer">
+<em class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">dsns.presets.</span></span><span class="sig-name descname"><span class="pre">EarthMoonVisualizer</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">multi_constellation</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#dsns.presets.EarthMoonMultiConstellation" title="dsns.presets.EarthMoonMultiConstellation"><span class="pre">EarthMoonMultiConstellation</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">time_scale</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">100.0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">space_scale</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">1e-06</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">interplanetary_scale</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">1e-10</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">earth_materials</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">tuple</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">str</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">str</span><span class="p"><span class="pre">]</span></span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">moon_material</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">viewport_size</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">tuple</span><span class="p"><span class="pre">[</span></span><span class="pre">int</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">int</span><span class="p"><span class="pre">]</span></span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">(800,</span> <span class="pre">600)</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">bg_color</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">tuple</span><span class="p"><span class="pre">[</span></span><span class="pre">float</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">float</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">float</span><span class="p"><span class="pre">]</span></span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">(0.0,</span> <span class="pre">0.0,</span> <span class="pre">0.0)</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#dsns.presets.EarthMoonVisualizer" title="Link to this definition"></a></dt>
+<dd><p>Preset visualizer for rendering Earth-Moon communication.</p>
+<dl class="py method">
+<dt class="sig sig-object py" id="dsns.presets.EarthMoonVisualizer.__init__">
+<span class="sig-name descname"><span class="pre">__init__</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">multi_constellation</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#dsns.presets.EarthMoonMultiConstellation" title="dsns.presets.EarthMoonMultiConstellation"><span class="pre">EarthMoonMultiConstellation</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">time_scale</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">100.0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">space_scale</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">1e-06</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">interplanetary_scale</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">1e-10</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">earth_materials</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">tuple</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">str</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">str</span><span class="p"><span class="pre">]</span></span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">moon_material</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">viewport_size</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">tuple</span><span class="p"><span class="pre">[</span></span><span class="pre">int</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">int</span><span class="p"><span class="pre">]</span></span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">(800,</span> <span class="pre">600)</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">bg_color</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">tuple</span><span class="p"><span class="pre">[</span></span><span class="pre">float</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">float</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">float</span><span class="p"><span class="pre">]</span></span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">(0.0,</span> <span class="pre">0.0,</span> <span class="pre">0.0)</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#dsns.presets.EarthMoonVisualizer.__init__" title="Link to this definition"></a></dt>
+<dd><p>Initialize the visualizer.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>multi_constellation</strong> – Multi-constellation to visualize.</p></li>
+<li><p><strong>time_scale</strong> – Time scale factor.</p></li>
+<li><p><strong>space_scale</strong> – Space scale factor.</p></li>
+<li><p><strong>interplanetary_scale</strong> – Interplanetary scale factor.</p></li>
+<li><p><strong>earth_materials</strong> – Materials to use for the Earth.</p></li>
+<li><p><strong>moon_material</strong> – Material to use for the Moon.</p></li>
+<li><p><strong>viewport_size</strong> – Size of the viewport.</p></li>
+<li><p><strong>bg_color</strong> – Background color.</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="dsns.presets.EarthMoonVisualizer.run_simulation">
+<span class="sig-name descname"><span class="pre">run_simulation</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#dsns.presets.EarthMoonVisualizer.run_simulation" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="dsns.presets.EarthMoonVisualizer.run_viewer">
+<span class="sig-name descname"><span class="pre">run_viewer</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#dsns.presets.EarthMoonVisualizer.run_viewer" title="Link to this definition"></a></dt>
+<dd><p>Run the viewer.
+This should be called after run_simulation().</p>
+</dd></dl>
+
+</dd></dl>
+
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="helpers.html" class="btn btn-neutral float-left" title="Helpers" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="reference_scenarios.html" class="btn btn-neutral float-right" title="Reference Scenarios" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2025, Joshua Smailes.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>
