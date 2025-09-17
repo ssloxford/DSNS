@@ -1,0 +1,37 @@
+[project]
+name = "dsns"
+version = "1.0.0"
+authors = [
+    {name = "Joshua Smailes", email = "joshua.smailes@cs.ox.ac.uk"},
+]
+description = "An event-based network simulator optimized for federated and deep-space satellite networks."
+readme = {file = "README.md", content-type = "text/markdown"}
+requires-python = ">=3.11"
+dependencies = [
+    "sphinx",
+    "sphinx-argparse",
+    "sphinx-rtd-theme",
+    "PyAstronomy",
+    "sgp4",
+    'pyrender; python_version<="0.1.45"',
+    "networkit",
+    "pyrender",
+    "numpy",
+    "pandas",
+    "tqdm",
+]
+classifiers = [
+    "Programming Language :: Python :: 3",
+    "Operating System :: OS Independent",
+    "Development Status :: 5 - Production/Stable",
+]
+license = "GPL-3.0-or-later"
+license-files = ["LICEN[CS]E*"]
+
+[project.urls]
+Homepage = "https://github.com/ssloxford/dsns"
+Issues = "https://github.com/ssloxford/dsns/issues"
+
+[build-system]
+requires = ["setuptools >= 77.0.3"]
+build-backend = "setuptools.build_meta"
