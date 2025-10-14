@@ -215,9 +215,8 @@ class Visualizer:
             self.scene,
             viewport_size=self.viewport_size,
             use_raymond_lighting=True,
-            auto_start=False
+            run_in_thread=True,
             )
-        self.viewer.start()
 
 
 class ConstellationVisualizer(Visualizer):
