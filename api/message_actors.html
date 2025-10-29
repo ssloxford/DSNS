@@ -1,0 +1,738 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="../">
+<head>
+  <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Message Actors &mdash; DSNS  documentation</title>
+      <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=80d5e7a1" />
+      <link rel="stylesheet" type="text/css" href="../_static/css/theme.css?v=e59714d7" />
+
+  
+      <script src="../_static/jquery.js?v=5d32c60e"></script>
+      <script src="../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="../_static/documentation_options.js?v=5929fcd5"></script>
+      <script src="../_static/doctools.js?v=9bcbadda"></script>
+      <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="Transmission" href="transmission.html" />
+    <link rel="prev" title="Message" href="message.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../index.html" class="icon icon-home">
+            DSNS
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../installation.html">Installation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../examples.html">Examples</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="../api.html">API</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="simulation.html">Simulation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="events.html">Events</a></li>
+<li class="toctree-l2"><a class="reference internal" href="constellation.html">Constellation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="multiconstellation.html">Multiconstellation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="message.html">Message</a></li>
+<li class="toctree-l2 current"><a class="current reference internal" href="#">Message Actors</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#dsns.message_actors.MessageRoutingActor"><code class="docutils literal notranslate"><span class="pre">MessageRoutingActor</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#dsns.message_actors.MessageRoutingActor.__init__"><code class="docutils literal notranslate"><span class="pre">MessageRoutingActor.__init__()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#dsns.message_actors.MessageRoutingActor.initialize"><code class="docutils literal notranslate"><span class="pre">MessageRoutingActor.initialize()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#dsns.message_actors.MessageRoutingActor.handle_message_sent_event"><code class="docutils literal notranslate"><span class="pre">MessageRoutingActor.handle_message_sent_event()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#dsns.message_actors.MessageRoutingActor.handle_message_received_event"><code class="docutils literal notranslate"><span class="pre">MessageRoutingActor.handle_message_received_event()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#dsns.message_actors.MessageRoutingActor.handle_message_created_event"><code class="docutils literal notranslate"><span class="pre">MessageRoutingActor.handle_message_created_event()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#dsns.message_actors.MessageRoutingActor.handle_link_up_event"><code class="docutils literal notranslate"><span class="pre">MessageRoutingActor.handle_link_up_event()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#dsns.message_actors.MessageRoutingActor.handle_link_loss_probability_update_event"><code class="docutils literal notranslate"><span class="pre">MessageRoutingActor.handle_link_loss_probability_update_event()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#dsns.message_actors.MessageRoutingActor.handle_message_reroute_event"><code class="docutils literal notranslate"><span class="pre">MessageRoutingActor.handle_message_reroute_event()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#dsns.message_actors.MessageRoutingActor.handle_event"><code class="docutils literal notranslate"><span class="pre">MessageRoutingActor.handle_event()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#dsns.message_actors.MessageBroadcastActor"><code class="docutils literal notranslate"><span class="pre">MessageBroadcastActor</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#dsns.message_actors.MessageBroadcastActor.__init__"><code class="docutils literal notranslate"><span class="pre">MessageBroadcastActor.__init__()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#dsns.message_actors.MessageBroadcastActor.initialize"><code class="docutils literal notranslate"><span class="pre">MessageBroadcastActor.initialize()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#dsns.message_actors.MessageBroadcastActor.handle_message_sent_event"><code class="docutils literal notranslate"><span class="pre">MessageBroadcastActor.handle_message_sent_event()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#dsns.message_actors.MessageBroadcastActor.handle_message_received_event"><code class="docutils literal notranslate"><span class="pre">MessageBroadcastActor.handle_message_received_event()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#dsns.message_actors.MessageBroadcastActor.handle_message_delivered_event"><code class="docutils literal notranslate"><span class="pre">MessageBroadcastActor.handle_message_delivered_event()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#dsns.message_actors.MessageBroadcastActor.handle_message_created_event"><code class="docutils literal notranslate"><span class="pre">MessageBroadcastActor.handle_message_created_event()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#dsns.message_actors.MessageBroadcastActor.handle_link_up_event"><code class="docutils literal notranslate"><span class="pre">MessageBroadcastActor.handle_link_up_event()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#dsns.message_actors.MessageBroadcastActor.handle_link_loss_probability_update_event"><code class="docutils literal notranslate"><span class="pre">MessageBroadcastActor.handle_link_loss_probability_update_event()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#dsns.message_actors.MessageBroadcastActor.handle_event"><code class="docutils literal notranslate"><span class="pre">MessageBroadcastActor.handle_event()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#dsns.message_actors.BestEffortRoutingDataProvider"><code class="docutils literal notranslate"><span class="pre">BestEffortRoutingDataProvider</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#dsns.message_actors.BestEffortRoutingDataProvider.time"><code class="docutils literal notranslate"><span class="pre">BestEffortRoutingDataProvider.time</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#dsns.message_actors.BestEffortRoutingDataProvider.__init__"><code class="docutils literal notranslate"><span class="pre">BestEffortRoutingDataProvider.__init__()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#dsns.message_actors.BestEffortRoutingDataProvider.initialize"><code class="docutils literal notranslate"><span class="pre">BestEffortRoutingDataProvider.initialize()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#dsns.message_actors.BestEffortRoutingDataProvider.update"><code class="docutils literal notranslate"><span class="pre">BestEffortRoutingDataProvider.update()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#dsns.message_actors.BestEffortRoutingDataProvider.handle_event"><code class="docutils literal notranslate"><span class="pre">BestEffortRoutingDataProvider.handle_event()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#dsns.message_actors.BestEffortRoutingDataProvider.get_distance"><code class="docutils literal notranslate"><span class="pre">BestEffortRoutingDataProvider.get_distance()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#dsns.message_actors.BestEffortRoutingDataProvider.get_path_cost"><code class="docutils literal notranslate"><span class="pre">BestEffortRoutingDataProvider.get_path_cost()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#dsns.message_actors.BestEffortRoutingDataProvider.get_neighbors"><code class="docutils literal notranslate"><span class="pre">BestEffortRoutingDataProvider.get_neighbors()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#dsns.message_actors.UpdateConnectivityEvent"><code class="docutils literal notranslate"><span class="pre">UpdateConnectivityEvent</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#dsns.message_actors.UpdateConnectivityEvent.__init__"><code class="docutils literal notranslate"><span class="pre">UpdateConnectivityEvent.__init__()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#dsns.message_actors.LookaheadRoutingDataProvider"><code class="docutils literal notranslate"><span class="pre">LookaheadRoutingDataProvider</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#dsns.message_actors.LookaheadRoutingDataProvider.time"><code class="docutils literal notranslate"><span class="pre">LookaheadRoutingDataProvider.time</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#dsns.message_actors.LookaheadRoutingDataProvider.__init__"><code class="docutils literal notranslate"><span class="pre">LookaheadRoutingDataProvider.__init__()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#dsns.message_actors.LookaheadRoutingDataProvider.resolution"><code class="docutils literal notranslate"><span class="pre">LookaheadRoutingDataProvider.resolution</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#dsns.message_actors.LookaheadRoutingDataProvider.num_steps"><code class="docutils literal notranslate"><span class="pre">LookaheadRoutingDataProvider.num_steps</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#dsns.message_actors.LookaheadRoutingDataProvider.initialize"><code class="docutils literal notranslate"><span class="pre">LookaheadRoutingDataProvider.initialize()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#dsns.message_actors.LookaheadRoutingDataProvider.update"><code class="docutils literal notranslate"><span class="pre">LookaheadRoutingDataProvider.update()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#dsns.message_actors.LookaheadRoutingDataProvider.update_connectivity"><code class="docutils literal notranslate"><span class="pre">LookaheadRoutingDataProvider.update_connectivity()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#dsns.message_actors.LookaheadRoutingDataProvider.handle_update_connectivity_event"><code class="docutils literal notranslate"><span class="pre">LookaheadRoutingDataProvider.handle_update_connectivity_event()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#dsns.message_actors.LookaheadRoutingDataProvider.handle_event"><code class="docutils literal notranslate"><span class="pre">LookaheadRoutingDataProvider.handle_event()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#dsns.message_actors.LookaheadRoutingDataProvider.get_path_cost"><code class="docutils literal notranslate"><span class="pre">LookaheadRoutingDataProvider.get_path_cost()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#dsns.message_actors.LookaheadRoutingDataProvider.get_distance"><code class="docutils literal notranslate"><span class="pre">LookaheadRoutingDataProvider.get_distance()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#dsns.message_actors.LookaheadRoutingDataProvider.get_neighbors"><code class="docutils literal notranslate"><span class="pre">LookaheadRoutingDataProvider.get_neighbors()</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="transmission.html">Transmission</a></li>
+<li class="toctree-l2"><a class="reference internal" href="traffic_sim.html">Traffic Simulation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="helpers.html">Helpers</a></li>
+<li class="toctree-l2"><a class="reference internal" href="presets.html">Presets</a></li>
+<li class="toctree-l2"><a class="reference internal" href="reference_scenarios.html">Reference Scenarios</a></li>
+<li class="toctree-l2"><a class="reference internal" href="logging.html">Logging</a></li>
+<li class="toctree-l2"><a class="reference internal" href="visualizer.html">Visualizer</a></li>
+</ul>
+</li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../index.html">DSNS</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="../api.html">API</a></li>
+      <li class="breadcrumb-item active">Message Actors</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="../_sources/api/message_actors.rst.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="module-dsns.message_actors">
+<span id="message-actors"></span><h1>Message Actors<a class="headerlink" href="#module-dsns.message_actors" title="Link to this heading"></a></h1>
+<dl class="py class">
+<dt class="sig sig-object py" id="dsns.message_actors.MessageRoutingActor">
+<em class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">dsns.message_actors.</span></span><span class="sig-name descname"><span class="pre">MessageRoutingActor</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">routing:</span> <span class="pre">~dsns.simulation.RoutingDataProvider</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">store_and_forward:</span> <span class="pre">bool</span> <span class="pre">=</span> <span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">model_bandwidth=False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">attack_strategy:</span> <span class="pre">None</span> <span class="pre">=</span> <span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">loss_config:</span> <span class="pre">~dsns.message.LossConfig</span> <span class="pre">=</span> <span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">reliable_transfer_config:</span> <span class="pre">~dsns.message.ReliableTransferConfig</span> <span class="pre">=</span> <span class="pre">&lt;dsns.message.UnreliableConfig</span> <span class="pre">object&gt;</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#dsns.message_actors.MessageRoutingActor" title="Link to this definition"></a></dt>
+<dd><p>Actor that implements message routing for each node in the simulation.
+This actor requires a RoutingDataProvider to be present in the data providers.</p>
+<p>Routing can be done using either IP-style best-effort routing, or DTN-style store-and-forward routing.
+For each of these, the store_and_forward parameter should be set and the appropriate RoutingDataProvider should be used.</p>
+<p>Note that this actor does not handle broadcast messages.</p>
+<dl class="py method">
+<dt class="sig sig-object py" id="dsns.message_actors.MessageRoutingActor.__init__">
+<span class="sig-name descname"><span class="pre">__init__</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">routing:</span> <span class="pre">~dsns.simulation.RoutingDataProvider</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">store_and_forward:</span> <span class="pre">bool</span> <span class="pre">=</span> <span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">model_bandwidth=False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">attack_strategy:</span> <span class="pre">None</span> <span class="pre">=</span> <span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">loss_config:</span> <span class="pre">~dsns.message.LossConfig</span> <span class="pre">=</span> <span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">reliable_transfer_config:</span> <span class="pre">~dsns.message.ReliableTransferConfig</span> <span class="pre">=</span> <span class="pre">&lt;dsns.message.UnreliableConfig</span> <span class="pre">object&gt;</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#dsns.message_actors.MessageRoutingActor.__init__" title="Link to this definition"></a></dt>
+<dd><p>Build the actor.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>routing</strong> – The routing data provider to use.</p></li>
+<li><p><strong>store_and_forward</strong> – Whether to use store-and-forward routing, instead of best-effort routing.</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="dsns.message_actors.MessageRoutingActor.initialize">
+<span class="sig-name descname"><span class="pre">initialize</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">list</span><span class="p"><span class="pre">[</span></span><a class="reference internal" href="events.html#dsns.events.Event" title="dsns.events.Event"><span class="pre">Event</span></a><span class="p"><span class="pre">]</span></span></span></span><a class="headerlink" href="#dsns.message_actors.MessageRoutingActor.initialize" title="Link to this definition"></a></dt>
+<dd><p>Initialize the actor.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>List of events to add to the event queue.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="dsns.message_actors.MessageRoutingActor.handle_message_sent_event">
+<span class="sig-name descname"><span class="pre">handle_message_sent_event</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">mobility</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="multiconstellation.html#dsns.multiconstellation.MultiConstellation" title="dsns.multiconstellation.MultiConstellation"><span class="pre">MultiConstellation</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">event</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="message.html#dsns.message.MessageSentEvent" title="dsns.message.MessageSentEvent"><span class="pre">MessageSentEvent</span></a></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">list</span><span class="p"><span class="pre">[</span></span><a class="reference internal" href="events.html#dsns.events.Event" title="dsns.events.Event"><span class="pre">Event</span></a><span class="p"><span class="pre">]</span></span></span></span><a class="headerlink" href="#dsns.message_actors.MessageRoutingActor.handle_message_sent_event" title="Link to this definition"></a></dt>
+<dd><p>Handle a message sent event.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>mobility</strong> – The mobility model to handle the event with.</p></li>
+<li><p><strong>event</strong> – The event to handle.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>List of events to add to the event queue.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="dsns.message_actors.MessageRoutingActor.handle_message_received_event">
+<span class="sig-name descname"><span class="pre">handle_message_received_event</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">mobility</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="multiconstellation.html#dsns.multiconstellation.MultiConstellation" title="dsns.multiconstellation.MultiConstellation"><span class="pre">MultiConstellation</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">event</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="message.html#dsns.message.MessageReceivedEvent" title="dsns.message.MessageReceivedEvent"><span class="pre">MessageReceivedEvent</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">message</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="message.html#dsns.message.DirectMessage" title="dsns.message.DirectMessage"><span class="pre">DirectMessage</span></a></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">list</span><span class="p"><span class="pre">[</span></span><a class="reference internal" href="events.html#dsns.events.Event" title="dsns.events.Event"><span class="pre">Event</span></a><span class="p"><span class="pre">]</span></span></span></span><a class="headerlink" href="#dsns.message_actors.MessageRoutingActor.handle_message_received_event" title="Link to this definition"></a></dt>
+<dd><p>Handle a message received event.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>mobility</strong> – The mobility model to handle the event with.</p></li>
+<li><p><strong>event</strong> – The event to handle.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>List of events to add to the event queue.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="dsns.message_actors.MessageRoutingActor.handle_message_created_event">
+<span class="sig-name descname"><span class="pre">handle_message_created_event</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">mobility</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="multiconstellation.html#dsns.multiconstellation.MultiConstellation" title="dsns.multiconstellation.MultiConstellation"><span class="pre">MultiConstellation</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">event</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="message.html#dsns.message.MessageCreatedEvent" title="dsns.message.MessageCreatedEvent"><span class="pre">MessageCreatedEvent</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">message</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="message.html#dsns.message.DirectMessage" title="dsns.message.DirectMessage"><span class="pre">DirectMessage</span></a></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">list</span><span class="p"><span class="pre">[</span></span><a class="reference internal" href="events.html#dsns.events.Event" title="dsns.events.Event"><span class="pre">Event</span></a><span class="p"><span class="pre">]</span></span></span></span><a class="headerlink" href="#dsns.message_actors.MessageRoutingActor.handle_message_created_event" title="Link to this definition"></a></dt>
+<dd><p>Handle a message created event.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>mobility</strong> – The mobility model to handle the event with.</p></li>
+<li><p><strong>event</strong> – The event to handle.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>List of events to add to the event queue.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="dsns.message_actors.MessageRoutingActor.handle_link_up_event">
+<span class="sig-name descname"><span class="pre">handle_link_up_event</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">mobility</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="multiconstellation.html#dsns.multiconstellation.MultiConstellation" title="dsns.multiconstellation.MultiConstellation"><span class="pre">MultiConstellation</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">event</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="events.html#dsns.events.LinkUpEvent" title="dsns.events.LinkUpEvent"><span class="pre">LinkUpEvent</span></a></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">list</span><span class="p"><span class="pre">[</span></span><a class="reference internal" href="events.html#dsns.events.Event" title="dsns.events.Event"><span class="pre">Event</span></a><span class="p"><span class="pre">]</span></span></span></span><a class="headerlink" href="#dsns.message_actors.MessageRoutingActor.handle_link_up_event" title="Link to this definition"></a></dt>
+<dd><p>Handle a link up event.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>mobility</strong> – The mobility model to handle the event with.</p></li>
+<li><p><strong>event</strong> – The event to handle.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>List of events to add to the event queue.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="dsns.message_actors.MessageRoutingActor.handle_link_loss_probability_update_event">
+<span class="sig-name descname"><span class="pre">handle_link_loss_probability_update_event</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">mobility</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="multiconstellation.html#dsns.multiconstellation.MultiConstellation" title="dsns.multiconstellation.MultiConstellation"><span class="pre">MultiConstellation</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">event</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="message.html#dsns.message.LinkLossProbabilityUpdateEvent" title="dsns.message.LinkLossProbabilityUpdateEvent"><span class="pre">LinkLossProbabilityUpdateEvent</span></a></span></em><span class="sig-paren">)</span><a class="headerlink" href="#dsns.message_actors.MessageRoutingActor.handle_link_loss_probability_update_event" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="dsns.message_actors.MessageRoutingActor.handle_message_reroute_event">
+<span class="sig-name descname"><span class="pre">handle_message_reroute_event</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">mobility</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="multiconstellation.html#dsns.multiconstellation.MultiConstellation" title="dsns.multiconstellation.MultiConstellation"><span class="pre">MultiConstellation</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">event</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="message.html#dsns.message.MessageRerouteEvent" title="dsns.message.MessageRerouteEvent"><span class="pre">MessageRerouteEvent</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">message</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="message.html#dsns.message.DirectMessage" title="dsns.message.DirectMessage"><span class="pre">DirectMessage</span></a></span></em><span class="sig-paren">)</span><a class="headerlink" href="#dsns.message_actors.MessageRoutingActor.handle_message_reroute_event" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="dsns.message_actors.MessageRoutingActor.handle_event">
+<span class="sig-name descname"><span class="pre">handle_event</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">mobility</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="multiconstellation.html#dsns.multiconstellation.MultiConstellation" title="dsns.multiconstellation.MultiConstellation"><span class="pre">MultiConstellation</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">event</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="events.html#dsns.events.Event" title="dsns.events.Event"><span class="pre">Event</span></a></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">list</span><span class="p"><span class="pre">[</span></span><a class="reference internal" href="events.html#dsns.events.Event" title="dsns.events.Event"><span class="pre">Event</span></a><span class="p"><span class="pre">]</span></span></span></span><a class="headerlink" href="#dsns.message_actors.MessageRoutingActor.handle_event" title="Link to this definition"></a></dt>
+<dd><p>Handle an event.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>mobility</strong> – The mobility model to handle the event with.</p></li>
+<li><p><strong>event</strong> – The event to handle.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>List of events to add to the event queue.</p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="dsns.message_actors.MessageBroadcastActor">
+<em class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">dsns.message_actors.</span></span><span class="sig-name descname"><span class="pre">MessageBroadcastActor</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">routing</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="simulation.html#dsns.simulation.RoutingDataProvider" title="dsns.simulation.RoutingDataProvider"><span class="pre">RoutingDataProvider</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">store_and_forward</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bool</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">model_bandwidth</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">forwarding_strategy</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">'flooding'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">gossip_neighbors</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">1</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">max_cache_time</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">None</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">float</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">dict</span><span class="p"><span class="pre">[</span></span><span class="pre">int</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">float</span><span class="p"><span class="pre">]</span></span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">attack_strategy</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">loss_config</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="message.html#dsns.message.LossConfig" title="dsns.message.LossConfig"><span class="pre">LossConfig</span></a></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#dsns.message_actors.MessageBroadcastActor" title="Link to this definition"></a></dt>
+<dd><p>Actor that provides message broadcasting for each node in the simulation.</p>
+<p>Routing can be done using either IP-style best-effort routing, or DTN-style store-and-forward routing.
+For each of these, the store_and_forward parameter should be set and the appropriate RoutingDataProvider should be used.</p>
+<p>Note that this actor does not handle unicast messages.</p>
+<dl class="py method">
+<dt class="sig sig-object py" id="dsns.message_actors.MessageBroadcastActor.__init__">
+<span class="sig-name descname"><span class="pre">__init__</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">routing</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="simulation.html#dsns.simulation.RoutingDataProvider" title="dsns.simulation.RoutingDataProvider"><span class="pre">RoutingDataProvider</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">store_and_forward</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bool</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">model_bandwidth</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">forwarding_strategy</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">'flooding'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">gossip_neighbors</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">1</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">max_cache_time</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">None</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">float</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">dict</span><span class="p"><span class="pre">[</span></span><span class="pre">int</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">float</span><span class="p"><span class="pre">]</span></span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">attack_strategy</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">loss_config</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="message.html#dsns.message.LossConfig" title="dsns.message.LossConfig"><span class="pre">LossConfig</span></a></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#dsns.message_actors.MessageBroadcastActor.__init__" title="Link to this definition"></a></dt>
+<dd><p>Build the actor.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>routing</strong> – The routing data provider to use.</p></li>
+<li><p><strong>store_and_forward</strong> – Whether to use store-and-forward routing, instead of best-effort routing.</p></li>
+<li><p><strong>forwarding_strategy</strong> – The broadcast forwarding strategy to use.
+“flooding” sends the message to all neighbors.
+“gossip” sends the message to a random subset of neighbors.</p></li>
+<li><p><strong>gossip_neighbors</strong> – Number of neighbors to forward to when using the gossip forwarding strategy.</p></li>
+<li><p><strong>max_cache_time</strong> – Maximum time to cache messages for, or None to disable caching.
+If a dict is provided, it should map satellite IDs to cache times.
+Should not be used when store_and_forward is False.</p></li>
+<li><p><strong>attack_strategy</strong> – Attack strategy to use.</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="dsns.message_actors.MessageBroadcastActor.initialize">
+<span class="sig-name descname"><span class="pre">initialize</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">list</span><span class="p"><span class="pre">[</span></span><a class="reference internal" href="events.html#dsns.events.Event" title="dsns.events.Event"><span class="pre">Event</span></a><span class="p"><span class="pre">]</span></span></span></span><a class="headerlink" href="#dsns.message_actors.MessageBroadcastActor.initialize" title="Link to this definition"></a></dt>
+<dd><p>Initialize the actor.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>List of events to add to the event queue.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="dsns.message_actors.MessageBroadcastActor.handle_message_sent_event">
+<span class="sig-name descname"><span class="pre">handle_message_sent_event</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">mobility</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="multiconstellation.html#dsns.multiconstellation.MultiConstellation" title="dsns.multiconstellation.MultiConstellation"><span class="pre">MultiConstellation</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">event</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="message.html#dsns.message.MessageSentEvent" title="dsns.message.MessageSentEvent"><span class="pre">MessageSentEvent</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">message</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="message.html#dsns.message.BroadcastMessage" title="dsns.message.BroadcastMessage"><span class="pre">BroadcastMessage</span></a></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">list</span><span class="p"><span class="pre">[</span></span><a class="reference internal" href="events.html#dsns.events.Event" title="dsns.events.Event"><span class="pre">Event</span></a><span class="p"><span class="pre">]</span></span></span></span><a class="headerlink" href="#dsns.message_actors.MessageBroadcastActor.handle_message_sent_event" title="Link to this definition"></a></dt>
+<dd><p>Handle a message sent event.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>mobility</strong> – The mobility model to handle the event with.</p></li>
+<li><p><strong>event</strong> – The event to handle.</p></li>
+<li><p><strong>message</strong> – The message to send.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>List of events to add to the event queue.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="dsns.message_actors.MessageBroadcastActor.handle_message_received_event">
+<span class="sig-name descname"><span class="pre">handle_message_received_event</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">mobility</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="multiconstellation.html#dsns.multiconstellation.MultiConstellation" title="dsns.multiconstellation.MultiConstellation"><span class="pre">MultiConstellation</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">event</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="message.html#dsns.message.MessageReceivedEvent" title="dsns.message.MessageReceivedEvent"><span class="pre">MessageReceivedEvent</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">message</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="message.html#dsns.message.BroadcastMessage" title="dsns.message.BroadcastMessage"><span class="pre">BroadcastMessage</span></a></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">list</span><span class="p"><span class="pre">[</span></span><a class="reference internal" href="events.html#dsns.events.Event" title="dsns.events.Event"><span class="pre">Event</span></a><span class="p"><span class="pre">]</span></span></span></span><a class="headerlink" href="#dsns.message_actors.MessageBroadcastActor.handle_message_received_event" title="Link to this definition"></a></dt>
+<dd><p>Handle a message received event.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>mobility</strong> – The mobility model to handle the event with.</p></li>
+<li><p><strong>event</strong> – The event to handle.</p></li>
+<li><p><strong>message</strong> – The received message.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>List of events to add to the event queue.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="dsns.message_actors.MessageBroadcastActor.handle_message_delivered_event">
+<span class="sig-name descname"><span class="pre">handle_message_delivered_event</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">mobility</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="multiconstellation.html#dsns.multiconstellation.MultiConstellation" title="dsns.multiconstellation.MultiConstellation"><span class="pre">MultiConstellation</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">event</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="message.html#dsns.message.MessageDeliveredEvent" title="dsns.message.MessageDeliveredEvent"><span class="pre">MessageDeliveredEvent</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">message</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="message.html#dsns.message.BroadcastMessage" title="dsns.message.BroadcastMessage"><span class="pre">BroadcastMessage</span></a></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">list</span><span class="p"><span class="pre">[</span></span><a class="reference internal" href="events.html#dsns.events.Event" title="dsns.events.Event"><span class="pre">Event</span></a><span class="p"><span class="pre">]</span></span></span></span><a class="headerlink" href="#dsns.message_actors.MessageBroadcastActor.handle_message_delivered_event" title="Link to this definition"></a></dt>
+<dd><p>Handle a message delivered event.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>mobility</strong> – The mobility model to handle the event with.</p></li>
+<li><p><strong>event</strong> – The event to handle.</p></li>
+<li><p><strong>message</strong> – The received message.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>List of events to add to the event queue.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="dsns.message_actors.MessageBroadcastActor.handle_message_created_event">
+<span class="sig-name descname"><span class="pre">handle_message_created_event</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">mobility</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="multiconstellation.html#dsns.multiconstellation.MultiConstellation" title="dsns.multiconstellation.MultiConstellation"><span class="pre">MultiConstellation</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">event</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="message.html#dsns.message.MessageCreatedEvent" title="dsns.message.MessageCreatedEvent"><span class="pre">MessageCreatedEvent</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">message</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="message.html#dsns.message.BroadcastMessage" title="dsns.message.BroadcastMessage"><span class="pre">BroadcastMessage</span></a></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">list</span><span class="p"><span class="pre">[</span></span><a class="reference internal" href="events.html#dsns.events.Event" title="dsns.events.Event"><span class="pre">Event</span></a><span class="p"><span class="pre">]</span></span></span></span><a class="headerlink" href="#dsns.message_actors.MessageBroadcastActor.handle_message_created_event" title="Link to this definition"></a></dt>
+<dd><p>Handle a message created event.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>mobility</strong> – The mobility model to handle the event with.</p></li>
+<li><p><strong>event</strong> – The event to handle.</p></li>
+<li><p><strong>message</strong> – The created message.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>List of events to add to the event queue.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="dsns.message_actors.MessageBroadcastActor.handle_link_up_event">
+<span class="sig-name descname"><span class="pre">handle_link_up_event</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">mobility</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="multiconstellation.html#dsns.multiconstellation.MultiConstellation" title="dsns.multiconstellation.MultiConstellation"><span class="pre">MultiConstellation</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">event</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="events.html#dsns.events.LinkUpEvent" title="dsns.events.LinkUpEvent"><span class="pre">LinkUpEvent</span></a></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">list</span><span class="p"><span class="pre">[</span></span><a class="reference internal" href="events.html#dsns.events.Event" title="dsns.events.Event"><span class="pre">Event</span></a><span class="p"><span class="pre">]</span></span></span></span><a class="headerlink" href="#dsns.message_actors.MessageBroadcastActor.handle_link_up_event" title="Link to this definition"></a></dt>
+<dd><p>Handle a link up event.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>mobility</strong> – The mobility model to handle the event with.</p></li>
+<li><p><strong>event</strong> – The event to handle.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>List of events to add to the event queue.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="dsns.message_actors.MessageBroadcastActor.handle_link_loss_probability_update_event">
+<span class="sig-name descname"><span class="pre">handle_link_loss_probability_update_event</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">mobility</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="multiconstellation.html#dsns.multiconstellation.MultiConstellation" title="dsns.multiconstellation.MultiConstellation"><span class="pre">MultiConstellation</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">event</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="message.html#dsns.message.LinkLossProbabilityUpdateEvent" title="dsns.message.LinkLossProbabilityUpdateEvent"><span class="pre">LinkLossProbabilityUpdateEvent</span></a></span></em><span class="sig-paren">)</span><a class="headerlink" href="#dsns.message_actors.MessageBroadcastActor.handle_link_loss_probability_update_event" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="dsns.message_actors.MessageBroadcastActor.handle_event">
+<span class="sig-name descname"><span class="pre">handle_event</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">mobility</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="multiconstellation.html#dsns.multiconstellation.MultiConstellation" title="dsns.multiconstellation.MultiConstellation"><span class="pre">MultiConstellation</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">event</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="events.html#dsns.events.Event" title="dsns.events.Event"><span class="pre">Event</span></a></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">list</span><span class="p"><span class="pre">[</span></span><a class="reference internal" href="events.html#dsns.events.Event" title="dsns.events.Event"><span class="pre">Event</span></a><span class="p"><span class="pre">]</span></span></span></span><a class="headerlink" href="#dsns.message_actors.MessageBroadcastActor.handle_event" title="Link to this definition"></a></dt>
+<dd><p>Handle an event.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>mobility</strong> – The mobility model to handle the event with.</p></li>
+<li><p><strong>event</strong> – The event to handle.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>List of events to add to the event queue.</p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="dsns.message_actors.BestEffortRoutingDataProvider">
+<em class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">dsns.message_actors.</span></span><span class="sig-name descname"><span class="pre">BestEffortRoutingDataProvider</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">get_next_hop_override</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Callable</span><span class="p"><span class="pre">[</span></span><span class="p"><span class="pre">[</span></span><a class="reference internal" href="message.html#dsns.message.BaseMessage" title="dsns.message.BaseMessage"><span class="pre">BaseMessage</span></a><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">int</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">int</span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">int</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span><span class="p"><span class="pre">]</span></span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#dsns.message_actors.BestEffortRoutingDataProvider" title="Link to this definition"></a></dt>
+<dd><p>Routing data provider that implements best effort routing.</p>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="dsns.message_actors.BestEffortRoutingDataProvider.time">
+<span class="sig-name descname"><span class="pre">time</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">float</span></em><a class="headerlink" href="#dsns.message_actors.BestEffortRoutingDataProvider.time" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="dsns.message_actors.BestEffortRoutingDataProvider.__init__">
+<span class="sig-name descname"><span class="pre">__init__</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">get_next_hop_override</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Callable</span><span class="p"><span class="pre">[</span></span><span class="p"><span class="pre">[</span></span><a class="reference internal" href="message.html#dsns.message.BaseMessage" title="dsns.message.BaseMessage"><span class="pre">BaseMessage</span></a><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">int</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">int</span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">int</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span><span class="p"><span class="pre">]</span></span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#dsns.message_actors.BestEffortRoutingDataProvider.__init__" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="dsns.message_actors.BestEffortRoutingDataProvider.initialize">
+<span class="sig-name descname"><span class="pre">initialize</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">mobility</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="multiconstellation.html#dsns.multiconstellation.MultiConstellation" title="dsns.multiconstellation.MultiConstellation"><span class="pre">MultiConstellation</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">time</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">list</span><span class="p"><span class="pre">[</span></span><a class="reference internal" href="events.html#dsns.events.Event" title="dsns.events.Event"><span class="pre">Event</span></a><span class="p"><span class="pre">]</span></span></span></span><a class="headerlink" href="#dsns.message_actors.BestEffortRoutingDataProvider.initialize" title="Link to this definition"></a></dt>
+<dd><p>Initialize the data provider.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>mobility</strong> – The mobility model to initialize the data provider with.</p></li>
+<li><p><strong>time</strong> – The initial simulation time.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>List of events to add to the event queue.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="dsns.message_actors.BestEffortRoutingDataProvider.update">
+<span class="sig-name descname"><span class="pre">update</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">mobility</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="multiconstellation.html#dsns.multiconstellation.MultiConstellation" title="dsns.multiconstellation.MultiConstellation"><span class="pre">MultiConstellation</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">time</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#dsns.message_actors.BestEffortRoutingDataProvider.update" title="Link to this definition"></a></dt>
+<dd><p>Update the data provider. This is called every time the clock updates.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>mobility</strong> – The mobility model to update the data provider with.</p></li>
+<li><p><strong>time</strong> – The current simulation time.</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="dsns.message_actors.BestEffortRoutingDataProvider.handle_event">
+<span class="sig-name descname"><span class="pre">handle_event</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">mobility</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="multiconstellation.html#dsns.multiconstellation.MultiConstellation" title="dsns.multiconstellation.MultiConstellation"><span class="pre">MultiConstellation</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">event</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="events.html#dsns.events.Event" title="dsns.events.Event"><span class="pre">Event</span></a></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">list</span><span class="p"><span class="pre">[</span></span><a class="reference internal" href="events.html#dsns.events.Event" title="dsns.events.Event"><span class="pre">Event</span></a><span class="p"><span class="pre">]</span></span></span></span><a class="headerlink" href="#dsns.message_actors.BestEffortRoutingDataProvider.handle_event" title="Link to this definition"></a></dt>
+<dd><p>Handle an event.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>mobility</strong> – The mobility model to handle the event with.</p></li>
+<li><p><strong>event</strong> – The event to handle.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>List of events to add to the event queue.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="dsns.message_actors.BestEffortRoutingDataProvider.get_distance">
+<span class="sig-name descname"><span class="pre">get_distance</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">source</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">destination</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">float</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span></span><a class="headerlink" href="#dsns.message_actors.BestEffortRoutingDataProvider.get_distance" title="Link to this definition"></a></dt>
+<dd><p>Get the distance (time difference, latency) between a given source and destination.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>source</strong> – Source satellite.</p></li>
+<li><p><strong>destination</strong> – Destination satellite.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>Distance (time difference) between the source and destination, or None if no distance is available.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="dsns.message_actors.BestEffortRoutingDataProvider.get_path_cost">
+<span class="sig-name descname"><span class="pre">get_path_cost</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">source</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">destination</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#dsns.message_actors.BestEffortRoutingDataProvider.get_path_cost" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="dsns.message_actors.BestEffortRoutingDataProvider.get_neighbors">
+<span class="sig-name descname"><span class="pre">get_neighbors</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">source</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">max_distance</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">list</span><span class="p"><span class="pre">[</span></span><span class="pre">int</span><span class="p"><span class="pre">]</span></span></span></span><a class="headerlink" href="#dsns.message_actors.BestEffortRoutingDataProvider.get_neighbors" title="Link to this definition"></a></dt>
+<dd><p>Get the neighbors of a given source.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>source</strong> – Source satellite.</p></li>
+<li><p><strong>max_distance</strong> – Maximum distance to neighbors.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>List of neighbors.</p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="dsns.message_actors.UpdateConnectivityEvent">
+<em class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">dsns.message_actors.</span></span><span class="sig-name descname"><span class="pre">UpdateConnectivityEvent</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">time</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#dsns.message_actors.UpdateConnectivityEvent" title="Link to this definition"></a></dt>
+<dd><p>Event for updating the connectivity graph.</p>
+<dl class="py method">
+<dt class="sig sig-object py" id="dsns.message_actors.UpdateConnectivityEvent.__init__">
+<span class="sig-name descname"><span class="pre">__init__</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">time</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#dsns.message_actors.UpdateConnectivityEvent.__init__" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="dsns.message_actors.LookaheadRoutingDataProvider">
+<em class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">dsns.message_actors.</span></span><span class="sig-name descname"><span class="pre">LookaheadRoutingDataProvider</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">resolution</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">num_steps</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">get_next_hop_override</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Callable</span><span class="p"><span class="pre">[</span></span><span class="p"><span class="pre">[</span></span><a class="reference internal" href="message.html#dsns.message.BaseMessage" title="dsns.message.BaseMessage"><span class="pre">BaseMessage</span></a><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">int</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">int</span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">int</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span><span class="p"><span class="pre">]</span></span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#dsns.message_actors.LookaheadRoutingDataProvider" title="Link to this definition"></a></dt>
+<dd><p>Data provider that keeps track of a connectivity graph over time, for use in store-and-forward routing.
+Multiple timesteps are measured at once, to provide information on the next time a link will be up (within a given time bound).</p>
+<p>This also generates events for when links go up and down.</p>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="dsns.message_actors.LookaheadRoutingDataProvider.time">
+<span class="sig-name descname"><span class="pre">time</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">float</span></em><a class="headerlink" href="#dsns.message_actors.LookaheadRoutingDataProvider.time" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="dsns.message_actors.LookaheadRoutingDataProvider.__init__">
+<span class="sig-name descname"><span class="pre">__init__</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">resolution</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">num_steps</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">get_next_hop_override</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Callable</span><span class="p"><span class="pre">[</span></span><span class="p"><span class="pre">[</span></span><a class="reference internal" href="message.html#dsns.message.BaseMessage" title="dsns.message.BaseMessage"><span class="pre">BaseMessage</span></a><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">int</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">int</span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">int</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span><span class="p"><span class="pre">]</span></span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#dsns.message_actors.LookaheadRoutingDataProvider.__init__" title="Link to this definition"></a></dt>
+<dd><p>Initialise the connectivity system.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>resolution</strong> – Time between updates of the connectivity graph.</p></li>
+<li><p><strong>num_steps</strong> – Number of timesteps of lookahead to store at once.</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="dsns.message_actors.LookaheadRoutingDataProvider.resolution">
+<span class="sig-name descname"><span class="pre">resolution</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">float</span></em><a class="headerlink" href="#dsns.message_actors.LookaheadRoutingDataProvider.resolution" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="dsns.message_actors.LookaheadRoutingDataProvider.num_steps">
+<span class="sig-name descname"><span class="pre">num_steps</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">int</span></em><a class="headerlink" href="#dsns.message_actors.LookaheadRoutingDataProvider.num_steps" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="dsns.message_actors.LookaheadRoutingDataProvider.initialize">
+<span class="sig-name descname"><span class="pre">initialize</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">mobility</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="multiconstellation.html#dsns.multiconstellation.MultiConstellation" title="dsns.multiconstellation.MultiConstellation"><span class="pre">MultiConstellation</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">time</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">list</span><span class="p"><span class="pre">[</span></span><a class="reference internal" href="events.html#dsns.events.Event" title="dsns.events.Event"><span class="pre">Event</span></a><span class="p"><span class="pre">]</span></span></span></span><a class="headerlink" href="#dsns.message_actors.LookaheadRoutingDataProvider.initialize" title="Link to this definition"></a></dt>
+<dd><p>Initialize the connectivity system.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>mobility</strong> – The mobility model to initialize the data provider with.</p></li>
+<li><p><strong>time</strong> – The initial simulation time.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>List of events to add to the event queue.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="dsns.message_actors.LookaheadRoutingDataProvider.update">
+<span class="sig-name descname"><span class="pre">update</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">mobility</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="multiconstellation.html#dsns.multiconstellation.MultiConstellation" title="dsns.multiconstellation.MultiConstellation"><span class="pre">MultiConstellation</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">time</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#dsns.message_actors.LookaheadRoutingDataProvider.update" title="Link to this definition"></a></dt>
+<dd><p>Update the connectivity system for a given timestep.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>mobility</strong> – The mobility model to update the data provider with.</p></li>
+<li><p><strong>time</strong> – The current simulation time.</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="dsns.message_actors.LookaheadRoutingDataProvider.update_connectivity">
+<span class="sig-name descname"><span class="pre">update_connectivity</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">mobility</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="multiconstellation.html#dsns.multiconstellation.MultiConstellation" title="dsns.multiconstellation.MultiConstellation"><span class="pre">MultiConstellation</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">initial</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bool</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">list</span><span class="p"><span class="pre">[</span></span><a class="reference internal" href="events.html#dsns.events.Event" title="dsns.events.Event"><span class="pre">Event</span></a><span class="p"><span class="pre">]</span></span></span></span><a class="headerlink" href="#dsns.message_actors.LookaheadRoutingDataProvider.update_connectivity" title="Link to this definition"></a></dt>
+<dd><p>Update the connectivity graphs.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>mobility</strong> – The mobility model to update the connectivity graph with.</p></li>
+<li><p><strong>initial</strong> – Whether this is the initial update.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>List of events to add to the event queue.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="dsns.message_actors.LookaheadRoutingDataProvider.handle_update_connectivity_event">
+<span class="sig-name descname"><span class="pre">handle_update_connectivity_event</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">mobility</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="multiconstellation.html#dsns.multiconstellation.MultiConstellation" title="dsns.multiconstellation.MultiConstellation"><span class="pre">MultiConstellation</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">event</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#dsns.message_actors.UpdateConnectivityEvent" title="dsns.message_actors.UpdateConnectivityEvent"><span class="pre">UpdateConnectivityEvent</span></a></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">list</span><span class="p"><span class="pre">[</span></span><a class="reference internal" href="events.html#dsns.events.Event" title="dsns.events.Event"><span class="pre">Event</span></a><span class="p"><span class="pre">]</span></span></span></span><a class="headerlink" href="#dsns.message_actors.LookaheadRoutingDataProvider.handle_update_connectivity_event" title="Link to this definition"></a></dt>
+<dd><p>Handle an update connectivity event.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>mobility</strong> – The mobility model to handle the event with.</p></li>
+<li><p><strong>event</strong> – The event to handle.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>List of events to add to the event queue.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="dsns.message_actors.LookaheadRoutingDataProvider.handle_event">
+<span class="sig-name descname"><span class="pre">handle_event</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">mobility</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="multiconstellation.html#dsns.multiconstellation.MultiConstellation" title="dsns.multiconstellation.MultiConstellation"><span class="pre">MultiConstellation</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">event</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="events.html#dsns.events.Event" title="dsns.events.Event"><span class="pre">Event</span></a></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">list</span><span class="p"><span class="pre">[</span></span><a class="reference internal" href="events.html#dsns.events.Event" title="dsns.events.Event"><span class="pre">Event</span></a><span class="p"><span class="pre">]</span></span></span></span><a class="headerlink" href="#dsns.message_actors.LookaheadRoutingDataProvider.handle_event" title="Link to this definition"></a></dt>
+<dd><p>Handle an event.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>mobility</strong> – The mobility model to handle the event with.</p></li>
+<li><p><strong>event</strong> – The event to handle.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>List of events to add to the event queue.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="dsns.message_actors.LookaheadRoutingDataProvider.get_path_cost">
+<span class="sig-name descname"><span class="pre">get_path_cost</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">source</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">destination</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#dsns.message_actors.LookaheadRoutingDataProvider.get_path_cost" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="dsns.message_actors.LookaheadRoutingDataProvider.get_distance">
+<span class="sig-name descname"><span class="pre">get_distance</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">source</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">destination</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">float</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span></span><a class="headerlink" href="#dsns.message_actors.LookaheadRoutingDataProvider.get_distance" title="Link to this definition"></a></dt>
+<dd><p>Get the distance (time difference, latency) between a given source and destination.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>source</strong> – Source satellite.</p></li>
+<li><p><strong>destination</strong> – Destination satellite.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>Distance (time difference) between the source and destination, or None if no distance is available.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="dsns.message_actors.LookaheadRoutingDataProvider.get_neighbors">
+<span class="sig-name descname"><span class="pre">get_neighbors</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">source</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">max_distance</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">list</span><span class="p"><span class="pre">[</span></span><span class="pre">int</span><span class="p"><span class="pre">]</span></span></span></span><a class="headerlink" href="#dsns.message_actors.LookaheadRoutingDataProvider.get_neighbors" title="Link to this definition"></a></dt>
+<dd><p>Get the neighbors of a given source.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>source</strong> – Source satellite.</p></li>
+<li><p><strong>max_distance</strong> – Maximum distance to neighbors.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>List of neighbors.</p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="message.html" class="btn btn-neutral float-left" title="Message" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="transmission.html" class="btn btn-neutral float-right" title="Transmission" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2025, Joshua Smailes.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

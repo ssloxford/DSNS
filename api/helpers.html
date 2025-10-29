@@ -1,0 +1,380 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="../">
+<head>
+  <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Helpers &mdash; DSNS  documentation</title>
+      <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=80d5e7a1" />
+      <link rel="stylesheet" type="text/css" href="../_static/css/theme.css?v=e59714d7" />
+
+  
+      <script src="../_static/jquery.js?v=5d32c60e"></script>
+      <script src="../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="../_static/documentation_options.js?v=5929fcd5"></script>
+      <script src="../_static/doctools.js?v=9bcbadda"></script>
+      <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="Presets" href="presets.html" />
+    <link rel="prev" title="Traffic Simulation" href="traffic_sim.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../index.html" class="icon icon-home">
+            DSNS
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../installation.html">Installation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../examples.html">Examples</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="../api.html">API</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="simulation.html">Simulation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="events.html">Events</a></li>
+<li class="toctree-l2"><a class="reference internal" href="constellation.html">Constellation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="multiconstellation.html">Multiconstellation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="message.html">Message</a></li>
+<li class="toctree-l2"><a class="reference internal" href="message_actors.html">Message Actors</a></li>
+<li class="toctree-l2"><a class="reference internal" href="transmission.html">Transmission</a></li>
+<li class="toctree-l2"><a class="reference internal" href="traffic_sim.html">Traffic Simulation</a></li>
+<li class="toctree-l2 current"><a class="current reference internal" href="#">Helpers</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#dsns.helpers.GRAVITATIONAL_CONSTANT"><code class="docutils literal notranslate"><span class="pre">GRAVITATIONAL_CONSTANT</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#dsns.helpers.EARTH_MASS"><code class="docutils literal notranslate"><span class="pre">EARTH_MASS</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#dsns.helpers.EARTH_RADIUS"><code class="docutils literal notranslate"><span class="pre">EARTH_RADIUS</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#dsns.helpers.EARTH_ROTATION_PERIOD"><code class="docutils literal notranslate"><span class="pre">EARTH_ROTATION_PERIOD</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#dsns.helpers.EARTH_ORBITAL_PERIOD"><code class="docutils literal notranslate"><span class="pre">EARTH_ORBITAL_PERIOD</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#dsns.helpers.EARTH_ORBITAL_RADIUS"><code class="docutils literal notranslate"><span class="pre">EARTH_ORBITAL_RADIUS</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#dsns.helpers.MARS_MASS"><code class="docutils literal notranslate"><span class="pre">MARS_MASS</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#dsns.helpers.MARS_RADIUS"><code class="docutils literal notranslate"><span class="pre">MARS_RADIUS</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#dsns.helpers.MARS_ROTATION_PERIOD"><code class="docutils literal notranslate"><span class="pre">MARS_ROTATION_PERIOD</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#dsns.helpers.MARS_ORBITAL_PERIOD"><code class="docutils literal notranslate"><span class="pre">MARS_ORBITAL_PERIOD</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#dsns.helpers.MARS_ORBITAL_RADIUS"><code class="docutils literal notranslate"><span class="pre">MARS_ORBITAL_RADIUS</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#dsns.helpers.MOON_MASS"><code class="docutils literal notranslate"><span class="pre">MOON_MASS</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#dsns.helpers.MOON_RADIUS"><code class="docutils literal notranslate"><span class="pre">MOON_RADIUS</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#dsns.helpers.MOON_ROTATION_PERIOD"><code class="docutils literal notranslate"><span class="pre">MOON_ROTATION_PERIOD</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#dsns.helpers.MOON_ORBITAL_PERIOD"><code class="docutils literal notranslate"><span class="pre">MOON_ORBITAL_PERIOD</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#dsns.helpers.MOON_ORBITAL_RADIUS"><code class="docutils literal notranslate"><span class="pre">MOON_ORBITAL_RADIUS</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#dsns.helpers.SPEED_OF_LIGHT"><code class="docutils literal notranslate"><span class="pre">SPEED_OF_LIGHT</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#dsns.helpers.GROUND_STATIONS_AWS"><code class="docutils literal notranslate"><span class="pre">GROUND_STATIONS_AWS</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#dsns.helpers.orbital_period"><code class="docutils literal notranslate"><span class="pre">orbital_period()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#dsns.helpers.get_semi_major_axis"><code class="docutils literal notranslate"><span class="pre">get_semi_major_axis()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#dsns.helpers.lat_lon_alt_to_xyz"><code class="docutils literal notranslate"><span class="pre">lat_lon_alt_to_xyz()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#dsns.helpers.IDHelper"><code class="docutils literal notranslate"><span class="pre">IDHelper</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#dsns.helpers.IDHelper.__init__"><code class="docutils literal notranslate"><span class="pre">IDHelper.__init__()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#dsns.helpers.IDHelper.get_id"><code class="docutils literal notranslate"><span class="pre">IDHelper.get_id()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#dsns.helpers.IDHelper.get_name"><code class="docutils literal notranslate"><span class="pre">IDHelper.get_name()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#dsns.helpers.IDHelper.assign_id"><code class="docutils literal notranslate"><span class="pre">IDHelper.assign_id()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#dsns.helpers.threaded"><code class="docutils literal notranslate"><span class="pre">threaded()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="presets.html">Presets</a></li>
+<li class="toctree-l2"><a class="reference internal" href="reference_scenarios.html">Reference Scenarios</a></li>
+<li class="toctree-l2"><a class="reference internal" href="logging.html">Logging</a></li>
+<li class="toctree-l2"><a class="reference internal" href="visualizer.html">Visualizer</a></li>
+</ul>
+</li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../index.html">DSNS</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="../api.html">API</a></li>
+      <li class="breadcrumb-item active">Helpers</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="../_sources/api/helpers.rst.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="module-dsns.helpers">
+<span id="helpers"></span><h1>Helpers<a class="headerlink" href="#module-dsns.helpers" title="Link to this heading"></a></h1>
+<dl class="py data">
+<dt class="sig sig-object py" id="dsns.helpers.GRAVITATIONAL_CONSTANT">
+<span class="sig-prename descclassname"><span class="pre">dsns.helpers.</span></span><span class="sig-name descname"><span class="pre">GRAVITATIONAL_CONSTANT</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">float</span></em><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">6.6743e-11</span></em><a class="headerlink" href="#dsns.helpers.GRAVITATIONAL_CONSTANT" title="Link to this definition"></a></dt>
+<dd><p>Gravitational constant, in m^3 / (kg * s^2)</p>
+</dd></dl>
+
+<dl class="py data">
+<dt class="sig sig-object py" id="dsns.helpers.EARTH_MASS">
+<span class="sig-prename descclassname"><span class="pre">dsns.helpers.</span></span><span class="sig-name descname"><span class="pre">EARTH_MASS</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">5.9722e+24</span></em><a class="headerlink" href="#dsns.helpers.EARTH_MASS" title="Link to this definition"></a></dt>
+<dd><p>Mass of the Earth, in kg</p>
+</dd></dl>
+
+<dl class="py data">
+<dt class="sig sig-object py" id="dsns.helpers.EARTH_RADIUS">
+<span class="sig-prename descclassname"><span class="pre">dsns.helpers.</span></span><span class="sig-name descname"><span class="pre">EARTH_RADIUS</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">6378100.0</span></em><a class="headerlink" href="#dsns.helpers.EARTH_RADIUS" title="Link to this definition"></a></dt>
+<dd><p>Radius of the Earth, in m</p>
+</dd></dl>
+
+<dl class="py data">
+<dt class="sig sig-object py" id="dsns.helpers.EARTH_ROTATION_PERIOD">
+<span class="sig-prename descclassname"><span class="pre">dsns.helpers.</span></span><span class="sig-name descname"><span class="pre">EARTH_ROTATION_PERIOD</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">86400.0</span></em><a class="headerlink" href="#dsns.helpers.EARTH_ROTATION_PERIOD" title="Link to this definition"></a></dt>
+<dd><p>Rotation period of the Earth, in s</p>
+</dd></dl>
+
+<dl class="py data">
+<dt class="sig sig-object py" id="dsns.helpers.EARTH_ORBITAL_PERIOD">
+<span class="sig-prename descclassname"><span class="pre">dsns.helpers.</span></span><span class="sig-name descname"><span class="pre">EARTH_ORBITAL_PERIOD</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">31558118.4</span></em><a class="headerlink" href="#dsns.helpers.EARTH_ORBITAL_PERIOD" title="Link to this definition"></a></dt>
+<dd><p>Orbital period of the Earth, in s</p>
+</dd></dl>
+
+<dl class="py data">
+<dt class="sig sig-object py" id="dsns.helpers.EARTH_ORBITAL_RADIUS">
+<span class="sig-prename descclassname"><span class="pre">dsns.helpers.</span></span><span class="sig-name descname"><span class="pre">EARTH_ORBITAL_RADIUS</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">149598000000.0</span></em><a class="headerlink" href="#dsns.helpers.EARTH_ORBITAL_RADIUS" title="Link to this definition"></a></dt>
+<dd><p>Orbital radius of the Earth, in m</p>
+</dd></dl>
+
+<dl class="py data">
+<dt class="sig sig-object py" id="dsns.helpers.MARS_MASS">
+<span class="sig-prename descclassname"><span class="pre">dsns.helpers.</span></span><span class="sig-name descname"><span class="pre">MARS_MASS</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">6.4171e+23</span></em><a class="headerlink" href="#dsns.helpers.MARS_MASS" title="Link to this definition"></a></dt>
+<dd><p>Mass of Mars, in kg</p>
+</dd></dl>
+
+<dl class="py data">
+<dt class="sig sig-object py" id="dsns.helpers.MARS_RADIUS">
+<span class="sig-prename descclassname"><span class="pre">dsns.helpers.</span></span><span class="sig-name descname"><span class="pre">MARS_RADIUS</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">3389500.0</span></em><a class="headerlink" href="#dsns.helpers.MARS_RADIUS" title="Link to this definition"></a></dt>
+<dd><p>Radius of Mars, in m</p>
+</dd></dl>
+
+<dl class="py data">
+<dt class="sig sig-object py" id="dsns.helpers.MARS_ROTATION_PERIOD">
+<span class="sig-prename descclassname"><span class="pre">dsns.helpers.</span></span><span class="sig-name descname"><span class="pre">MARS_ROTATION_PERIOD</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">88619.62</span></em><a class="headerlink" href="#dsns.helpers.MARS_ROTATION_PERIOD" title="Link to this definition"></a></dt>
+<dd><p>Rotation period of Mars, in s</p>
+</dd></dl>
+
+<dl class="py data">
+<dt class="sig sig-object py" id="dsns.helpers.MARS_ORBITAL_PERIOD">
+<span class="sig-prename descclassname"><span class="pre">dsns.helpers.</span></span><span class="sig-name descname"><span class="pre">MARS_ORBITAL_PERIOD</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">59355072.0</span></em><a class="headerlink" href="#dsns.helpers.MARS_ORBITAL_PERIOD" title="Link to this definition"></a></dt>
+<dd><p>Orbital period of Mars, in s</p>
+</dd></dl>
+
+<dl class="py data">
+<dt class="sig sig-object py" id="dsns.helpers.MARS_ORBITAL_RADIUS">
+<span class="sig-prename descclassname"><span class="pre">dsns.helpers.</span></span><span class="sig-name descname"><span class="pre">MARS_ORBITAL_RADIUS</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">227939000000.0</span></em><a class="headerlink" href="#dsns.helpers.MARS_ORBITAL_RADIUS" title="Link to this definition"></a></dt>
+<dd><p>Orbital radius of Mars, in m</p>
+</dd></dl>
+
+<dl class="py data">
+<dt class="sig sig-object py" id="dsns.helpers.MOON_MASS">
+<span class="sig-prename descclassname"><span class="pre">dsns.helpers.</span></span><span class="sig-name descname"><span class="pre">MOON_MASS</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">7.342e+22</span></em><a class="headerlink" href="#dsns.helpers.MOON_MASS" title="Link to this definition"></a></dt>
+<dd><p>Mass of the Moon, in kg</p>
+</dd></dl>
+
+<dl class="py data">
+<dt class="sig sig-object py" id="dsns.helpers.MOON_RADIUS">
+<span class="sig-prename descclassname"><span class="pre">dsns.helpers.</span></span><span class="sig-name descname"><span class="pre">MOON_RADIUS</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">1737400.0</span></em><a class="headerlink" href="#dsns.helpers.MOON_RADIUS" title="Link to this definition"></a></dt>
+<dd><p>Radius of the Moon, in m</p>
+</dd></dl>
+
+<dl class="py data">
+<dt class="sig sig-object py" id="dsns.helpers.MOON_ROTATION_PERIOD">
+<span class="sig-prename descclassname"><span class="pre">dsns.helpers.</span></span><span class="sig-name descname"><span class="pre">MOON_ROTATION_PERIOD</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">2360591.5104</span></em><a class="headerlink" href="#dsns.helpers.MOON_ROTATION_PERIOD" title="Link to this definition"></a></dt>
+<dd><p>Rotation period of the Moon, in s</p>
+</dd></dl>
+
+<dl class="py data">
+<dt class="sig sig-object py" id="dsns.helpers.MOON_ORBITAL_PERIOD">
+<span class="sig-prename descclassname"><span class="pre">dsns.helpers.</span></span><span class="sig-name descname"><span class="pre">MOON_ORBITAL_PERIOD</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">2360591.5104</span></em><a class="headerlink" href="#dsns.helpers.MOON_ORBITAL_PERIOD" title="Link to this definition"></a></dt>
+<dd><p>Orbital period of the Moon, in s</p>
+</dd></dl>
+
+<dl class="py data">
+<dt class="sig sig-object py" id="dsns.helpers.MOON_ORBITAL_RADIUS">
+<span class="sig-prename descclassname"><span class="pre">dsns.helpers.</span></span><span class="sig-name descname"><span class="pre">MOON_ORBITAL_RADIUS</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">384748000.0</span></em><a class="headerlink" href="#dsns.helpers.MOON_ORBITAL_RADIUS" title="Link to this definition"></a></dt>
+<dd><p>Orbital radius of the Moon, in m</p>
+</dd></dl>
+
+<dl class="py data">
+<dt class="sig sig-object py" id="dsns.helpers.SPEED_OF_LIGHT">
+<span class="sig-prename descclassname"><span class="pre">dsns.helpers.</span></span><span class="sig-name descname"><span class="pre">SPEED_OF_LIGHT</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">299792458.0</span></em><a class="headerlink" href="#dsns.helpers.SPEED_OF_LIGHT" title="Link to this definition"></a></dt>
+<dd><p>Speed of light, in m/s</p>
+</dd></dl>
+
+<dl class="py data">
+<dt class="sig sig-object py" id="dsns.helpers.GROUND_STATIONS_AWS">
+<span class="sig-prename descclassname"><span class="pre">dsns.helpers.</span></span><span class="sig-name descname"><span class="pre">GROUND_STATIONS_AWS</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">array([[</span>&#160; <span class="pre">53.7798,</span>&#160;&#160; <span class="pre">-7.3055,</span>&#160;&#160;&#160; <span class="pre">0.</span>&#160;&#160;&#160; <span class="pre">],</span>&#160;&#160;&#160;&#160;&#160;&#160;&#160; <span class="pre">[</span>&#160; <span class="pre">59.3293,</span>&#160;&#160; <span class="pre">18.0686,</span>&#160;&#160;&#160; <span class="pre">0.</span>&#160;&#160;&#160; <span class="pre">],</span>&#160;&#160;&#160;&#160;&#160;&#160;&#160; <span class="pre">[</span>&#160; <span class="pre">26.0667,</span>&#160;&#160; <span class="pre">50.5577,</span>&#160;&#160;&#160; <span class="pre">0.</span>&#160;&#160;&#160; <span class="pre">],</span>&#160;&#160;&#160;&#160;&#160;&#160;&#160; <span class="pre">[</span> <span class="pre">-33.9249,</span>&#160;&#160; <span class="pre">18.4241,</span>&#160;&#160;&#160; <span class="pre">0.</span>&#160;&#160;&#160; <span class="pre">],</span>&#160;&#160;&#160;&#160;&#160;&#160;&#160; <span class="pre">[</span>&#160; <span class="pre">37.5665,</span>&#160; <span class="pre">126.978</span> <span class="pre">,</span>&#160;&#160;&#160; <span class="pre">0.</span>&#160;&#160;&#160; <span class="pre">],</span>&#160;&#160;&#160;&#160;&#160;&#160;&#160; <span class="pre">[</span>&#160;&#160; <span class="pre">1.3521,</span>&#160; <span class="pre">103.8198,</span>&#160;&#160;&#160; <span class="pre">0.</span>&#160;&#160;&#160; <span class="pre">],</span>&#160;&#160;&#160;&#160;&#160;&#160;&#160; <span class="pre">[</span> <span class="pre">-32.243</span> <span class="pre">,</span>&#160; <span class="pre">148.6048,</span>&#160;&#160;&#160; <span class="pre">0.</span>&#160;&#160;&#160; <span class="pre">],</span>&#160;&#160;&#160;&#160;&#160;&#160;&#160; <span class="pre">[</span>&#160; <span class="pre">19.8968,</span> <span class="pre">-155.5828,</span>&#160;&#160;&#160; <span class="pre">0.</span>&#160;&#160;&#160; <span class="pre">],</span>&#160;&#160;&#160;&#160;&#160;&#160;&#160; <span class="pre">[</span>&#160; <span class="pre">43.8041,</span> <span class="pre">-120.5542,</span>&#160;&#160;&#160; <span class="pre">0.</span>&#160;&#160;&#160; <span class="pre">],</span>&#160;&#160;&#160;&#160;&#160;&#160;&#160; <span class="pre">[</span>&#160; <span class="pre">40.4173,</span>&#160; <span class="pre">-82.9071,</span>&#160;&#160;&#160; <span class="pre">0.</span>&#160;&#160;&#160; <span class="pre">],</span>&#160;&#160;&#160;&#160;&#160;&#160;&#160; <span class="pre">[</span> <span class="pre">-53.1634,</span>&#160; <span class="pre">-70.9078,</span>&#160;&#160;&#160; <span class="pre">0.</span>&#160;&#160;&#160; <span class="pre">],</span>&#160;&#160;&#160;&#160;&#160;&#160;&#160; <span class="pre">[</span>&#160; <span class="pre">62.0758,</span> <span class="pre">-153.6101,</span>&#160;&#160;&#160; <span class="pre">0.</span>&#160;&#160;&#160; <span class="pre">]])</span></em><a class="headerlink" href="#dsns.helpers.GROUND_STATIONS_AWS" title="Link to this definition"></a></dt>
+<dd><p>Locations of cities/countries containing AWS ground stations
+From <a class="reference external" href="https://aws.amazon.com/ground-station/locations/">https://aws.amazon.com/ground-station/locations/</a></p>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="dsns.helpers.orbital_period">
+<span class="sig-prename descclassname"><span class="pre">dsns.helpers.</span></span><span class="sig-name descname"><span class="pre">orbital_period</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">semi_major_axis</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">mass</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">gravitational_constant</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">6.6743e-11</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#dsns.helpers.orbital_period" title="Link to this definition"></a></dt>
+<dd><p>Calculate the orbital period of an orbit given its semi-major axis and the mass of the central body.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>semi_major_axis</strong> – Semi-major axis of the orbit (m).</p></li>
+<li><p><strong>mass</strong> – Mass of the central body (kg).</p></li>
+<li><p><strong>gravitational_constant</strong> – Gravitational constant (m^3 / (kg * s^2)).</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>Orbital period (s).</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="dsns.helpers.get_semi_major_axis">
+<span class="sig-prename descclassname"><span class="pre">dsns.helpers.</span></span><span class="sig-name descname"><span class="pre">get_semi_major_axis</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">orbital_period</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">mass</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">gravitational_constant</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">6.6743e-11</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#dsns.helpers.get_semi_major_axis" title="Link to this definition"></a></dt>
+<dd><p>Calculate the semi-major axis of an orbit given its orbital period and the mass of the central body.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>orbital_period</strong> – Orbital period (s).</p></li>
+<li><p><strong>mass</strong> – Mass of the central body (kg).</p></li>
+<li><p><strong>gravitational_constant</strong> – Gravitational constant (m^3 / (kg * s^2)).</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>Semi-major axis of the orbit (m).</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="dsns.helpers.lat_lon_alt_to_xyz">
+<span class="sig-prename descclassname"><span class="pre">dsns.helpers.</span></span><span class="sig-name descname"><span class="pre">lat_lon_alt_to_xyz</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">lat_lon_alt</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">ndarray</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">host_radius</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">ndarray</span></span></span><a class="headerlink" href="#dsns.helpers.lat_lon_alt_to_xyz" title="Link to this definition"></a></dt>
+<dd><p>Convert a set of latitude, longitude and altitude coordinates to Cartesian coordinates.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>lat_lon_alt</strong> – Array of latitude, longitude and altitude coordinates (degrees, degrees, m).</p></li>
+<li><p><strong>host_radius</strong> – Radius of the central body (m).</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>Array of Cartesian coordinates (m, m, m).</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="dsns.helpers.IDHelper">
+<em class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">dsns.helpers.</span></span><span class="sig-name descname"><span class="pre">IDHelper</span></span><a class="headerlink" href="#dsns.helpers.IDHelper" title="Link to this definition"></a></dt>
+<dd><p>Helper class for generating unique IDs.</p>
+<dl class="py method">
+<dt class="sig sig-object py" id="dsns.helpers.IDHelper.__init__">
+<span class="sig-name descname"><span class="pre">__init__</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#dsns.helpers.IDHelper.__init__" title="Link to this definition"></a></dt>
+<dd><p>Initialise the ID helper.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="dsns.helpers.IDHelper.get_id">
+<span class="sig-name descname"><span class="pre">get_id</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">name</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">int</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span></span><a class="headerlink" href="#dsns.helpers.IDHelper.get_id" title="Link to this definition"></a></dt>
+<dd><p>Get the ID for a given name.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>name</strong> – Name to look up.</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>ID for the given name, or None if no ID has been assigned.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="dsns.helpers.IDHelper.get_name">
+<span class="sig-name descname"><span class="pre">get_name</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">id_</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">str</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span></span><a class="headerlink" href="#dsns.helpers.IDHelper.get_name" title="Link to this definition"></a></dt>
+<dd><p>Get the name for a given ID.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>id</strong> – ID to look up.</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>Name for the given ID, or None if the ID has not been assigned.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="dsns.helpers.IDHelper.assign_id">
+<span class="sig-name descname"><span class="pre">assign_id</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">name</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">int</span></span></span><a class="headerlink" href="#dsns.helpers.IDHelper.assign_id" title="Link to this definition"></a></dt>
+<dd><p>Assign an ID to a name.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>name</strong> – Name to assign an ID to.</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>ID for the given name.</p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="dsns.helpers.threaded">
+<span class="sig-prename descclassname"><span class="pre">dsns.helpers.</span></span><span class="sig-name descname"><span class="pre">threaded</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">fn</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#dsns.helpers.threaded" title="Link to this definition"></a></dt>
+<dd><p>Decorator for running a function in a separate thread.</p>
+</dd></dl>
+
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="traffic_sim.html" class="btn btn-neutral float-left" title="Traffic Simulation" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="presets.html" class="btn btn-neutral float-right" title="Presets" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2025, Joshua Smailes.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

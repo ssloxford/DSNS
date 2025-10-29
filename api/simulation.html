@@ -1,0 +1,512 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="../">
+<head>
+  <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Simulation &mdash; DSNS  documentation</title>
+      <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=80d5e7a1" />
+      <link rel="stylesheet" type="text/css" href="../_static/css/theme.css?v=e59714d7" />
+
+  
+      <script src="../_static/jquery.js?v=5d32c60e"></script>
+      <script src="../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="../_static/documentation_options.js?v=5929fcd5"></script>
+      <script src="../_static/doctools.js?v=9bcbadda"></script>
+      <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="Events" href="events.html" />
+    <link rel="prev" title="API" href="../api.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../index.html" class="icon icon-home">
+            DSNS
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../installation.html">Installation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../examples.html">Examples</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="../api.html">API</a><ul class="current">
+<li class="toctree-l2 current"><a class="current reference internal" href="#">Simulation</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#dsns.simulation.DataProvider"><code class="docutils literal notranslate"><span class="pre">DataProvider</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#dsns.simulation.DataProvider.name"><code class="docutils literal notranslate"><span class="pre">DataProvider.name</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#dsns.simulation.DataProvider.kind"><code class="docutils literal notranslate"><span class="pre">DataProvider.kind</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#dsns.simulation.DataProvider.__init__"><code class="docutils literal notranslate"><span class="pre">DataProvider.__init__()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#dsns.simulation.DataProvider.initialize"><code class="docutils literal notranslate"><span class="pre">DataProvider.initialize()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#dsns.simulation.DataProvider.update"><code class="docutils literal notranslate"><span class="pre">DataProvider.update()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#dsns.simulation.DataProvider.handle_event"><code class="docutils literal notranslate"><span class="pre">DataProvider.handle_event()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#dsns.simulation.RoutingDataProvider"><code class="docutils literal notranslate"><span class="pre">RoutingDataProvider</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#dsns.simulation.RoutingDataProvider.kind"><code class="docutils literal notranslate"><span class="pre">RoutingDataProvider.kind</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#dsns.simulation.RoutingDataProvider.__init__"><code class="docutils literal notranslate"><span class="pre">RoutingDataProvider.__init__()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#dsns.simulation.RoutingDataProvider.get_next_hop"><code class="docutils literal notranslate"><span class="pre">RoutingDataProvider.get_next_hop()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#dsns.simulation.RoutingDataProvider.get_distance"><code class="docutils literal notranslate"><span class="pre">RoutingDataProvider.get_distance()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#dsns.simulation.RoutingDataProvider.get_path_cost"><code class="docutils literal notranslate"><span class="pre">RoutingDataProvider.get_path_cost()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#dsns.simulation.RoutingDataProvider.get_neighbors"><code class="docutils literal notranslate"><span class="pre">RoutingDataProvider.get_neighbors()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#dsns.simulation.Actor"><code class="docutils literal notranslate"><span class="pre">Actor</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#dsns.simulation.Actor.__init__"><code class="docutils literal notranslate"><span class="pre">Actor.__init__()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#dsns.simulation.Actor.initialize"><code class="docutils literal notranslate"><span class="pre">Actor.initialize()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#dsns.simulation.Actor.handle_event"><code class="docutils literal notranslate"><span class="pre">Actor.handle_event()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#dsns.simulation.Simulation"><code class="docutils literal notranslate"><span class="pre">Simulation</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#dsns.simulation.Simulation.__init__"><code class="docutils literal notranslate"><span class="pre">Simulation.__init__()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#dsns.simulation.Simulation.initialize"><code class="docutils literal notranslate"><span class="pre">Simulation.initialize()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#dsns.simulation.Simulation.step"><code class="docutils literal notranslate"><span class="pre">Simulation.step()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#dsns.simulation.Simulation.step_event"><code class="docutils literal notranslate"><span class="pre">Simulation.step_event()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#dsns.simulation.Simulation.run"><code class="docutils literal notranslate"><span class="pre">Simulation.run()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#dsns.simulation.LoggingActor"><code class="docutils literal notranslate"><span class="pre">LoggingActor</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#dsns.simulation.LoggingActor.events"><code class="docutils literal notranslate"><span class="pre">LoggingActor.events</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#dsns.simulation.LoggingActor.__init__"><code class="docutils literal notranslate"><span class="pre">LoggingActor.__init__()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#dsns.simulation.LoggingActor.event_filter"><code class="docutils literal notranslate"><span class="pre">LoggingActor.event_filter</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#dsns.simulation.LoggingActor.initialize"><code class="docutils literal notranslate"><span class="pre">LoggingActor.initialize()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#dsns.simulation.LoggingActor.handle_event"><code class="docutils literal notranslate"><span class="pre">LoggingActor.handle_event()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#dsns.simulation.LoggingActor.get_events"><code class="docutils literal notranslate"><span class="pre">LoggingActor.get_events()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#dsns.simulation.FixedEventsActor"><code class="docutils literal notranslate"><span class="pre">FixedEventsActor</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#dsns.simulation.FixedEventsActor.__init__"><code class="docutils literal notranslate"><span class="pre">FixedEventsActor.__init__()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#dsns.simulation.FixedEventsActor.initialize"><code class="docutils literal notranslate"><span class="pre">FixedEventsActor.initialize()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#dsns.simulation.FixedEventsActor.handle_event"><code class="docutils literal notranslate"><span class="pre">FixedEventsActor.handle_event()</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="events.html">Events</a></li>
+<li class="toctree-l2"><a class="reference internal" href="constellation.html">Constellation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="multiconstellation.html">Multiconstellation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="message.html">Message</a></li>
+<li class="toctree-l2"><a class="reference internal" href="message_actors.html">Message Actors</a></li>
+<li class="toctree-l2"><a class="reference internal" href="transmission.html">Transmission</a></li>
+<li class="toctree-l2"><a class="reference internal" href="traffic_sim.html">Traffic Simulation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="helpers.html">Helpers</a></li>
+<li class="toctree-l2"><a class="reference internal" href="presets.html">Presets</a></li>
+<li class="toctree-l2"><a class="reference internal" href="reference_scenarios.html">Reference Scenarios</a></li>
+<li class="toctree-l2"><a class="reference internal" href="logging.html">Logging</a></li>
+<li class="toctree-l2"><a class="reference internal" href="visualizer.html">Visualizer</a></li>
+</ul>
+</li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../index.html">DSNS</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="../api.html">API</a></li>
+      <li class="breadcrumb-item active">Simulation</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="../_sources/api/simulation.rst.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="module-dsns.simulation">
+<span id="simulation"></span><h1>Simulation<a class="headerlink" href="#module-dsns.simulation" title="Link to this heading"></a></h1>
+<dl class="py class">
+<dt class="sig sig-object py" id="dsns.simulation.DataProvider">
+<em class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">dsns.simulation.</span></span><span class="sig-name descname"><span class="pre">DataProvider</span></span><a class="headerlink" href="#dsns.simulation.DataProvider" title="Link to this definition"></a></dt>
+<dd><p>Base class for data providers (e.g. routing tables, etc.).</p>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="dsns.simulation.DataProvider.name">
+<span class="sig-name descname"><span class="pre">name</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">str</span></em><a class="headerlink" href="#dsns.simulation.DataProvider.name" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="dsns.simulation.DataProvider.kind">
+<span class="sig-name descname"><span class="pre">kind</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">str</span></em><a class="headerlink" href="#dsns.simulation.DataProvider.kind" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="dsns.simulation.DataProvider.__init__">
+<span class="sig-name descname"><span class="pre">__init__</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#dsns.simulation.DataProvider.__init__" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="dsns.simulation.DataProvider.initialize">
+<em class="property"><span class="k"><span class="pre">abstractmethod</span></span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">initialize</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">mobility</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="multiconstellation.html#dsns.multiconstellation.MultiConstellation" title="dsns.multiconstellation.MultiConstellation"><span class="pre">MultiConstellation</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">time</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">list</span><span class="p"><span class="pre">[</span></span><a class="reference internal" href="events.html#dsns.events.Event" title="dsns.events.Event"><span class="pre">Event</span></a><span class="p"><span class="pre">]</span></span></span></span><a class="headerlink" href="#dsns.simulation.DataProvider.initialize" title="Link to this definition"></a></dt>
+<dd><p>Initialize the data provider.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>mobility</strong> – The mobility model to initialize the data provider with.</p></li>
+<li><p><strong>time</strong> – The initial simulation time.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>List of events to add to the event queue.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="dsns.simulation.DataProvider.update">
+<em class="property"><span class="k"><span class="pre">abstractmethod</span></span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">update</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">mobility</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="multiconstellation.html#dsns.multiconstellation.MultiConstellation" title="dsns.multiconstellation.MultiConstellation"><span class="pre">MultiConstellation</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">time</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#dsns.simulation.DataProvider.update" title="Link to this definition"></a></dt>
+<dd><p>Update the data provider. This is called every time the clock updates.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>mobility</strong> – The mobility model to update the data provider with.</p></li>
+<li><p><strong>time</strong> – The current simulation time.</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="dsns.simulation.DataProvider.handle_event">
+<em class="property"><span class="k"><span class="pre">abstractmethod</span></span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">handle_event</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">mobility</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="multiconstellation.html#dsns.multiconstellation.MultiConstellation" title="dsns.multiconstellation.MultiConstellation"><span class="pre">MultiConstellation</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">event</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="events.html#dsns.events.Event" title="dsns.events.Event"><span class="pre">Event</span></a></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">list</span><span class="p"><span class="pre">[</span></span><a class="reference internal" href="events.html#dsns.events.Event" title="dsns.events.Event"><span class="pre">Event</span></a><span class="p"><span class="pre">]</span></span></span></span><a class="headerlink" href="#dsns.simulation.DataProvider.handle_event" title="Link to this definition"></a></dt>
+<dd><p>Handle an event.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>mobility</strong> – The mobility model to handle the event with.</p></li>
+<li><p><strong>event</strong> – The event to handle.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>List of events to add to the event queue.</p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="dsns.simulation.RoutingDataProvider">
+<em class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">dsns.simulation.</span></span><span class="sig-name descname"><span class="pre">RoutingDataProvider</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">get_next_hop_override</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Callable</span><span class="p"><span class="pre">[</span></span><span class="p"><span class="pre">[</span></span><a class="reference internal" href="message.html#dsns.message.BaseMessage" title="dsns.message.BaseMessage"><span class="pre">BaseMessage</span></a><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">int</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">int</span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">int</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span><span class="p"><span class="pre">]</span></span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#dsns.simulation.RoutingDataProvider" title="Link to this definition"></a></dt>
+<dd><p>Base class for routing data providers.</p>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="dsns.simulation.RoutingDataProvider.kind">
+<span class="sig-name descname"><span class="pre">kind</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">str</span></em><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'routing'</span></em><a class="headerlink" href="#dsns.simulation.RoutingDataProvider.kind" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="dsns.simulation.RoutingDataProvider.__init__">
+<span class="sig-name descname"><span class="pre">__init__</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">get_next_hop_override</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Callable</span><span class="p"><span class="pre">[</span></span><span class="p"><span class="pre">[</span></span><a class="reference internal" href="message.html#dsns.message.BaseMessage" title="dsns.message.BaseMessage"><span class="pre">BaseMessage</span></a><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">int</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">int</span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">int</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span><span class="p"><span class="pre">]</span></span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#dsns.simulation.RoutingDataProvider.__init__" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="dsns.simulation.RoutingDataProvider.get_next_hop">
+<span class="sig-name descname"><span class="pre">get_next_hop</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">source</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">destination</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">message</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="message.html#dsns.message.BaseMessage" title="dsns.message.BaseMessage"><span class="pre">BaseMessage</span></a></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">int</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span></span><a class="headerlink" href="#dsns.simulation.RoutingDataProvider.get_next_hop" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="dsns.simulation.RoutingDataProvider.get_distance">
+<em class="property"><span class="k"><span class="pre">abstractmethod</span></span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">get_distance</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">source</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">destination</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">float</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span></span><a class="headerlink" href="#dsns.simulation.RoutingDataProvider.get_distance" title="Link to this definition"></a></dt>
+<dd><p>Get the distance (time difference, latency) between a given source and destination.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>source</strong> – Source satellite.</p></li>
+<li><p><strong>destination</strong> – Destination satellite.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>Distance (time difference) between the source and destination, or None if no distance is available.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="dsns.simulation.RoutingDataProvider.get_path_cost">
+<em class="property"><span class="k"><span class="pre">abstractmethod</span></span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">get_path_cost</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">source</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">destination</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">float</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span></span><a class="headerlink" href="#dsns.simulation.RoutingDataProvider.get_path_cost" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="dsns.simulation.RoutingDataProvider.get_neighbors">
+<em class="property"><span class="k"><span class="pre">abstractmethod</span></span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">get_neighbors</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">source</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">max_distance</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">list</span><span class="p"><span class="pre">[</span></span><span class="pre">int</span><span class="p"><span class="pre">]</span></span></span></span><a class="headerlink" href="#dsns.simulation.RoutingDataProvider.get_neighbors" title="Link to this definition"></a></dt>
+<dd><p>Get the neighbors for a given source, up to a maximum distance (time difference).
+For look-ahead routing, this should provide the neighbors that are reachable within the given time difference,
+including those that are not currently connected.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>source</strong> – Source satellite.</p></li>
+<li><p><strong>max_distance</strong> – Maximum time difference (distance) to consider.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>List of neighbor satellites.</p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="dsns.simulation.Actor">
+<em class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">dsns.simulation.</span></span><span class="sig-name descname"><span class="pre">Actor</span></span><a class="headerlink" href="#dsns.simulation.Actor" title="Link to this definition"></a></dt>
+<dd><p>Base class for simulation actors.</p>
+<p>Actors are objects that can be added to the simulation and can react to events, and generate their own events.</p>
+<dl class="py method">
+<dt class="sig sig-object py" id="dsns.simulation.Actor.__init__">
+<span class="sig-name descname"><span class="pre">__init__</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#dsns.simulation.Actor.__init__" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="dsns.simulation.Actor.initialize">
+<em class="property"><span class="k"><span class="pre">abstractmethod</span></span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">initialize</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">list</span><span class="p"><span class="pre">[</span></span><a class="reference internal" href="events.html#dsns.events.Event" title="dsns.events.Event"><span class="pre">Event</span></a><span class="p"><span class="pre">]</span></span></span></span><a class="headerlink" href="#dsns.simulation.Actor.initialize" title="Link to this definition"></a></dt>
+<dd><p>Initialize the actor.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>List of events to add to the event queue.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="dsns.simulation.Actor.handle_event">
+<em class="property"><span class="k"><span class="pre">abstractmethod</span></span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">handle_event</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">mobility</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="multiconstellation.html#dsns.multiconstellation.MultiConstellation" title="dsns.multiconstellation.MultiConstellation"><span class="pre">MultiConstellation</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">event</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="events.html#dsns.events.Event" title="dsns.events.Event"><span class="pre">Event</span></a></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">list</span><span class="p"><span class="pre">[</span></span><a class="reference internal" href="events.html#dsns.events.Event" title="dsns.events.Event"><span class="pre">Event</span></a><span class="p"><span class="pre">]</span></span></span></span><a class="headerlink" href="#dsns.simulation.Actor.handle_event" title="Link to this definition"></a></dt>
+<dd><p>Handle an event.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>mobility</strong> – The mobility model to handle the event with.</p></li>
+<li><p><strong>event</strong> – The event to handle.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>List of events to add to the event queue.</p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="dsns.simulation.Simulation">
+<em class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">dsns.simulation.</span></span><span class="sig-name descname"><span class="pre">Simulation</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">mobility</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="multiconstellation.html#dsns.multiconstellation.MultiConstellation" title="dsns.multiconstellation.MultiConstellation"><span class="pre">MultiConstellation</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">actors</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">list</span><span class="p"><span class="pre">[</span></span><a class="reference internal" href="#dsns.simulation.Actor" title="dsns.simulation.Actor"><span class="pre">Actor</span></a><span class="p"><span class="pre">]</span></span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">[]</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">logging_actors</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">list</span><span class="p"><span class="pre">[</span></span><a class="reference internal" href="#dsns.simulation.Actor" title="dsns.simulation.Actor"><span class="pre">Actor</span></a><span class="p"><span class="pre">]</span></span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">[]</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">data_providers</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">list</span><span class="p"><span class="pre">[</span></span><a class="reference internal" href="#dsns.simulation.DataProvider" title="dsns.simulation.DataProvider"><span class="pre">DataProvider</span></a><span class="p"><span class="pre">]</span></span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">[]</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">timestep</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#dsns.simulation.Simulation" title="Link to this definition"></a></dt>
+<dd><p>Main event-based simulator.</p>
+<dl class="py method">
+<dt class="sig sig-object py" id="dsns.simulation.Simulation.__init__">
+<span class="sig-name descname"><span class="pre">__init__</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">mobility</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="multiconstellation.html#dsns.multiconstellation.MultiConstellation" title="dsns.multiconstellation.MultiConstellation"><span class="pre">MultiConstellation</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">actors</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">list</span><span class="p"><span class="pre">[</span></span><a class="reference internal" href="#dsns.simulation.Actor" title="dsns.simulation.Actor"><span class="pre">Actor</span></a><span class="p"><span class="pre">]</span></span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">[]</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">logging_actors</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">list</span><span class="p"><span class="pre">[</span></span><a class="reference internal" href="#dsns.simulation.Actor" title="dsns.simulation.Actor"><span class="pre">Actor</span></a><span class="p"><span class="pre">]</span></span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">[]</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">data_providers</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">list</span><span class="p"><span class="pre">[</span></span><a class="reference internal" href="#dsns.simulation.DataProvider" title="dsns.simulation.DataProvider"><span class="pre">DataProvider</span></a><span class="p"><span class="pre">]</span></span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">[]</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">timestep</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#dsns.simulation.Simulation.__init__" title="Link to this definition"></a></dt>
+<dd><p>Setup the simulation.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>mobility</strong> – The mobility model to use.</p></li>
+<li><p><strong>actors</strong> – List of actors to add to the simulation.</p></li>
+<li><p><strong>data_providers</strong> – List of data providers to add to the simulation.</p></li>
+<li><p><strong>timestep</strong> – Timestep for mobility and data provider updates. If None, update on every event.
+This can signficantly speed up the simulation, but may cause inaccuracies with some data providers.</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="dsns.simulation.Simulation.initialize">
+<span class="sig-name descname"><span class="pre">initialize</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">time</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">0.0</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#dsns.simulation.Simulation.initialize" title="Link to this definition"></a></dt>
+<dd><p>Initialize the simulation.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>time</strong> – Initial time for the simulation.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="dsns.simulation.Simulation.step">
+<span class="sig-name descname"><span class="pre">step</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#dsns.simulation.Simulation.step" title="Link to this definition"></a></dt>
+<dd><p>Run the simulation for a single step.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="dsns.simulation.Simulation.step_event">
+<span class="sig-name descname"><span class="pre">step_event</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">event</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="events.html#dsns.events.Event" title="dsns.events.Event"><span class="pre">Event</span></a></span></em><span class="sig-paren">)</span><a class="headerlink" href="#dsns.simulation.Simulation.step_event" title="Link to this definition"></a></dt>
+<dd><p>Process a single event.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="dsns.simulation.Simulation.run">
+<span class="sig-name descname"><span class="pre">run</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">duration</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">progress</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bool</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#dsns.simulation.Simulation.run" title="Link to this definition"></a></dt>
+<dd><p>Run the simulation for a given duration.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>duration</strong> – Duration of the simulation.</p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="dsns.simulation.LoggingActor">
+<em class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">dsns.simulation.</span></span><span class="sig-name descname"><span class="pre">LoggingActor</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="pre">verbose:</span> <span class="pre">bool</span> <span class="pre">=</span> <span class="pre">False,</span> <span class="pre">event_filter:</span> <span class="pre">~typing.Callable[[~dsns.events.Event],</span> <span class="pre">bool]</span> <span class="pre">=</span> <span class="pre">&lt;function</span> <span class="pre">LoggingActor.&lt;lambda&gt;&gt;</span></em><span class="sig-paren">)</span><a class="headerlink" href="#dsns.simulation.LoggingActor" title="Link to this definition"></a></dt>
+<dd><p>Actor that logs all events.</p>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="dsns.simulation.LoggingActor.events">
+<span class="sig-name descname"><span class="pre">events</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">list</span><span class="p"><span class="pre">[</span></span><a class="reference internal" href="events.html#dsns.events.Event" title="dsns.events.Event"><span class="pre">Event</span></a><span class="p"><span class="pre">]</span></span></em><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">[]</span></em><a class="headerlink" href="#dsns.simulation.LoggingActor.events" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="dsns.simulation.LoggingActor.__init__">
+<span class="sig-name descname"><span class="pre">__init__</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="pre">verbose:</span> <span class="pre">bool</span> <span class="pre">=</span> <span class="pre">False,</span> <span class="pre">event_filter:</span> <span class="pre">~typing.Callable[[~dsns.events.Event],</span> <span class="pre">bool]</span> <span class="pre">=</span> <span class="pre">&lt;function</span> <span class="pre">LoggingActor.&lt;lambda&gt;&gt;</span></em><span class="sig-paren">)</span><a class="headerlink" href="#dsns.simulation.LoggingActor.__init__" title="Link to this definition"></a></dt>
+<dd><p>Setup the logging actor.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>verbose</strong> – If True, print events to stdout.</p></li>
+<li><p><strong>event_filter</strong> – Optional filter function to filter events.</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="dsns.simulation.LoggingActor.event_filter">
+<span class="sig-name descname"><span class="pre">event_filter</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">Callable</span><span class="p"><span class="pre">[</span></span><span class="p"><span class="pre">[</span></span><a class="reference internal" href="events.html#dsns.events.Event" title="dsns.events.Event"><span class="pre">Event</span></a><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">bool</span><span class="p"><span class="pre">]</span></span></em><a class="headerlink" href="#dsns.simulation.LoggingActor.event_filter" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="dsns.simulation.LoggingActor.initialize">
+<span class="sig-name descname"><span class="pre">initialize</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">list</span><span class="p"><span class="pre">[</span></span><a class="reference internal" href="events.html#dsns.events.Event" title="dsns.events.Event"><span class="pre">Event</span></a><span class="p"><span class="pre">]</span></span></span></span><a class="headerlink" href="#dsns.simulation.LoggingActor.initialize" title="Link to this definition"></a></dt>
+<dd><p>Initialize the actor.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>List of events to add to the event queue.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="dsns.simulation.LoggingActor.handle_event">
+<span class="sig-name descname"><span class="pre">handle_event</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">mobility</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="multiconstellation.html#dsns.multiconstellation.MultiConstellation" title="dsns.multiconstellation.MultiConstellation"><span class="pre">MultiConstellation</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">event</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="events.html#dsns.events.Event" title="dsns.events.Event"><span class="pre">Event</span></a></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">list</span><span class="p"><span class="pre">[</span></span><a class="reference internal" href="events.html#dsns.events.Event" title="dsns.events.Event"><span class="pre">Event</span></a><span class="p"><span class="pre">]</span></span></span></span><a class="headerlink" href="#dsns.simulation.LoggingActor.handle_event" title="Link to this definition"></a></dt>
+<dd><p>Handle an event.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>mobility</strong> – The mobility model to handle the event with.</p></li>
+<li><p><strong>event</strong> – The event to handle.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>List of events to add to the event queue.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="dsns.simulation.LoggingActor.get_events">
+<span class="sig-name descname"><span class="pre">get_events</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">list</span><span class="p"><span class="pre">[</span></span><a class="reference internal" href="events.html#dsns.events.Event" title="dsns.events.Event"><span class="pre">Event</span></a><span class="p"><span class="pre">]</span></span></span></span><a class="headerlink" href="#dsns.simulation.LoggingActor.get_events" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="dsns.simulation.FixedEventsActor">
+<em class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">dsns.simulation.</span></span><span class="sig-name descname"><span class="pre">FixedEventsActor</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">events</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">list</span><span class="p"><span class="pre">[</span></span><a class="reference internal" href="events.html#dsns.events.Event" title="dsns.events.Event"><span class="pre">Event</span></a><span class="p"><span class="pre">]</span></span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#dsns.simulation.FixedEventsActor" title="Link to this definition"></a></dt>
+<dd><p>Actor that generates a fixed set of events.</p>
+<dl class="py method">
+<dt class="sig sig-object py" id="dsns.simulation.FixedEventsActor.__init__">
+<span class="sig-name descname"><span class="pre">__init__</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">events</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">list</span><span class="p"><span class="pre">[</span></span><a class="reference internal" href="events.html#dsns.events.Event" title="dsns.events.Event"><span class="pre">Event</span></a><span class="p"><span class="pre">]</span></span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#dsns.simulation.FixedEventsActor.__init__" title="Link to this definition"></a></dt>
+<dd><p>Setup the fixed events actor.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>events</strong> – List of events to add to the queue.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="dsns.simulation.FixedEventsActor.initialize">
+<span class="sig-name descname"><span class="pre">initialize</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">list</span><span class="p"><span class="pre">[</span></span><a class="reference internal" href="events.html#dsns.events.Event" title="dsns.events.Event"><span class="pre">Event</span></a><span class="p"><span class="pre">]</span></span></span></span><a class="headerlink" href="#dsns.simulation.FixedEventsActor.initialize" title="Link to this definition"></a></dt>
+<dd><p>Initialize the actor.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>List of events to add to the event queue.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="dsns.simulation.FixedEventsActor.handle_event">
+<span class="sig-name descname"><span class="pre">handle_event</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">mobility</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="multiconstellation.html#dsns.multiconstellation.MultiConstellation" title="dsns.multiconstellation.MultiConstellation"><span class="pre">MultiConstellation</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">event</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="events.html#dsns.events.Event" title="dsns.events.Event"><span class="pre">Event</span></a></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">list</span><span class="p"><span class="pre">[</span></span><a class="reference internal" href="events.html#dsns.events.Event" title="dsns.events.Event"><span class="pre">Event</span></a><span class="p"><span class="pre">]</span></span></span></span><a class="headerlink" href="#dsns.simulation.FixedEventsActor.handle_event" title="Link to this definition"></a></dt>
+<dd><p>Handle an event.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>mobility</strong> – The mobility model to handle the event with.</p></li>
+<li><p><strong>event</strong> – The event to handle.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>List of events to add to the event queue.</p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="../api.html" class="btn btn-neutral float-left" title="API" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="events.html" class="btn btn-neutral float-right" title="Events" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2025, Joshua Smailes.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

@@ -1,0 +1,1047 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="../">
+<head>
+  <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Message &mdash; DSNS  documentation</title>
+      <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=80d5e7a1" />
+      <link rel="stylesheet" type="text/css" href="../_static/css/theme.css?v=e59714d7" />
+
+  
+      <script src="../_static/jquery.js?v=5d32c60e"></script>
+      <script src="../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="../_static/documentation_options.js?v=5929fcd5"></script>
+      <script src="../_static/doctools.js?v=9bcbadda"></script>
+      <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="Message Actors" href="message_actors.html" />
+    <link rel="prev" title="Multiconstellation" href="multiconstellation.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../index.html" class="icon icon-home">
+            DSNS
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../installation.html">Installation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../examples.html">Examples</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="../api.html">API</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="simulation.html">Simulation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="events.html">Events</a></li>
+<li class="toctree-l2"><a class="reference internal" href="constellation.html">Constellation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="multiconstellation.html">Multiconstellation</a></li>
+<li class="toctree-l2 current"><a class="current reference internal" href="#">Message</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#dsns.message.hashable"><code class="docutils literal notranslate"><span class="pre">hashable()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#dsns.message.broadcast"><code class="docutils literal notranslate"><span class="pre">broadcast()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#dsns.message.lcg_id_generator"><code class="docutils literal notranslate"><span class="pre">lcg_id_generator()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#dsns.message.BaseMessage"><code class="docutils literal notranslate"><span class="pre">BaseMessage</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#dsns.message.BaseMessage.source"><code class="docutils literal notranslate"><span class="pre">BaseMessage.source</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#dsns.message.BaseMessage.data"><code class="docutils literal notranslate"><span class="pre">BaseMessage.data</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#dsns.message.BaseMessage.time"><code class="docutils literal notranslate"><span class="pre">BaseMessage.time</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#dsns.message.BaseMessage.hops"><code class="docutils literal notranslate"><span class="pre">BaseMessage.hops</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#dsns.message.BaseMessage.dropped"><code class="docutils literal notranslate"><span class="pre">BaseMessage.dropped</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#dsns.message.BaseMessage.size"><code class="docutils literal notranslate"><span class="pre">BaseMessage.size</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#dsns.message.BaseMessage.uid"><code class="docutils literal notranslate"><span class="pre">BaseMessage.uid</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#dsns.message.BaseMessage.copy"><code class="docutils literal notranslate"><span class="pre">BaseMessage.copy()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#dsns.message.BaseMessage.__init__"><code class="docutils literal notranslate"><span class="pre">BaseMessage.__init__()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#dsns.message.DirectMessage"><code class="docutils literal notranslate"><span class="pre">DirectMessage</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#dsns.message.DirectMessage.destination"><code class="docutils literal notranslate"><span class="pre">DirectMessage.destination</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#dsns.message.DirectMessage.__init__"><code class="docutils literal notranslate"><span class="pre">DirectMessage.__init__()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#dsns.message.BroadcastMessage"><code class="docutils literal notranslate"><span class="pre">BroadcastMessage</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#dsns.message.BroadcastMessage.__init__"><code class="docutils literal notranslate"><span class="pre">BroadcastMessage.__init__()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#dsns.message.LinkLossProbability"><code class="docutils literal notranslate"><span class="pre">LinkLossProbability</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#dsns.message.LinkLossProbability.source"><code class="docutils literal notranslate"><span class="pre">LinkLossProbability.source</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#dsns.message.LinkLossProbability.destination"><code class="docutils literal notranslate"><span class="pre">LinkLossProbability.destination</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#dsns.message.LinkLossProbability.reset_loss_probability"><code class="docutils literal notranslate"><span class="pre">LinkLossProbability.reset_loss_probability</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#dsns.message.LinkLossProbability.loss_probability"><code class="docutils literal notranslate"><span class="pre">LinkLossProbability.loss_probability</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#dsns.message.LinkLossProbability.__init__"><code class="docutils literal notranslate"><span class="pre">LinkLossProbability.__init__()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#dsns.message.LinkLossProbabilityUpdateEvent"><code class="docutils literal notranslate"><span class="pre">LinkLossProbabilityUpdateEvent</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#dsns.message.LinkLossProbabilityUpdateEvent.__init__"><code class="docutils literal notranslate"><span class="pre">LinkLossProbabilityUpdateEvent.__init__()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#dsns.message.LinkLossProbabilityUpdateEvent.updates"><code class="docutils literal notranslate"><span class="pre">LinkLossProbabilityUpdateEvent.updates</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#dsns.message.HybridDirectMessage"><code class="docutils literal notranslate"><span class="pre">HybridDirectMessage</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#dsns.message.HybridDirectMessage.reliable_data_size"><code class="docutils literal notranslate"><span class="pre">HybridDirectMessage.reliable_data_size</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#dsns.message.HybridDirectMessage.unreliable_data_size"><code class="docutils literal notranslate"><span class="pre">HybridDirectMessage.unreliable_data_size</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#dsns.message.HybridDirectMessage.__init__"><code class="docutils literal notranslate"><span class="pre">HybridDirectMessage.__init__()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#dsns.message.LTPSegment"><code class="docutils literal notranslate"><span class="pre">LTPSegment</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#dsns.message.LTPSegment.underlying_message"><code class="docutils literal notranslate"><span class="pre">LTPSegment.underlying_message</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#dsns.message.LTPSegment.session"><code class="docutils literal notranslate"><span class="pre">LTPSegment.session</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#dsns.message.LTPSegment.__init__"><code class="docutils literal notranslate"><span class="pre">LTPSegment.__init__()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#dsns.message.LTPDataType"><code class="docutils literal notranslate"><span class="pre">LTPDataType</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#dsns.message.LTPDataType.RED"><code class="docutils literal notranslate"><span class="pre">LTPDataType.RED</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#dsns.message.LTPDataType.GREEN"><code class="docutils literal notranslate"><span class="pre">LTPDataType.GREEN</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#dsns.message.LTPCheckpointData"><code class="docutils literal notranslate"><span class="pre">LTPCheckpointData</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#dsns.message.LTPCheckpointData.expected_uids"><code class="docutils literal notranslate"><span class="pre">LTPCheckpointData.expected_uids</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#dsns.message.LTPCheckpointData.__init__"><code class="docutils literal notranslate"><span class="pre">LTPCheckpointData.__init__()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#dsns.message.LTPDataSegment"><code class="docutils literal notranslate"><span class="pre">LTPDataSegment</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#dsns.message.LTPDataSegment.data_type"><code class="docutils literal notranslate"><span class="pre">LTPDataSegment.data_type</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#dsns.message.LTPDataSegment.is_checkpoint"><code class="docutils literal notranslate"><span class="pre">LTPDataSegment.is_checkpoint</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#dsns.message.LTPDataSegment.checkpoint_data"><code class="docutils literal notranslate"><span class="pre">LTPDataSegment.checkpoint_data</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#dsns.message.LTPDataSegment.is_end_of_green_only_block"><code class="docutils literal notranslate"><span class="pre">LTPDataSegment.is_end_of_green_only_block</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#dsns.message.LTPDataSegment.__init__"><code class="docutils literal notranslate"><span class="pre">LTPDataSegment.__init__()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#dsns.message.LTPReportSegment"><code class="docutils literal notranslate"><span class="pre">LTPReportSegment</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#dsns.message.LTPReportSegment.report_checkpoint_uid"><code class="docutils literal notranslate"><span class="pre">LTPReportSegment.report_checkpoint_uid</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#dsns.message.LTPReportSegment.received_segment_uids"><code class="docutils literal notranslate"><span class="pre">LTPReportSegment.received_segment_uids</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#dsns.message.LTPReportSegment.__init__"><code class="docutils literal notranslate"><span class="pre">LTPReportSegment.__init__()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#dsns.message.LTPReportAcknowledgementSegment"><code class="docutils literal notranslate"><span class="pre">LTPReportAcknowledgementSegment</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#dsns.message.LTPReportAcknowledgementSegment.acked_report_message_uid"><code class="docutils literal notranslate"><span class="pre">LTPReportAcknowledgementSegment.acked_report_message_uid</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#dsns.message.LTPReportAcknowledgementSegment.__init__"><code class="docutils literal notranslate"><span class="pre">LTPReportAcknowledgementSegment.__init__()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#dsns.message.LinkMessageID"><code class="docutils literal notranslate"><span class="pre">LinkMessageID</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#dsns.message.LinkMessageID.source"><code class="docutils literal notranslate"><span class="pre">LinkMessageID.source</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#dsns.message.LinkMessageID.destination"><code class="docutils literal notranslate"><span class="pre">LinkMessageID.destination</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#dsns.message.LinkMessageID.uid"><code class="docutils literal notranslate"><span class="pre">LinkMessageID.uid</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#dsns.message.LinkMessageID.__init__"><code class="docutils literal notranslate"><span class="pre">LinkMessageID.__init__()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#dsns.message.Link"><code class="docutils literal notranslate"><span class="pre">Link</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#dsns.message.Link.source"><code class="docutils literal notranslate"><span class="pre">Link.source</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#dsns.message.Link.destination"><code class="docutils literal notranslate"><span class="pre">Link.destination</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#dsns.message.Link.__init__"><code class="docutils literal notranslate"><span class="pre">Link.__init__()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#dsns.message.MessageLostEvent"><code class="docutils literal notranslate"><span class="pre">MessageLostEvent</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#dsns.message.MessageLostEvent.__init__"><code class="docutils literal notranslate"><span class="pre">MessageLostEvent.__init__()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#dsns.message.MessageLostEvent.source"><code class="docutils literal notranslate"><span class="pre">MessageLostEvent.source</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#dsns.message.MessageLostEvent.destination"><code class="docutils literal notranslate"><span class="pre">MessageLostEvent.destination</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#dsns.message.MessageLostEvent.message"><code class="docutils literal notranslate"><span class="pre">MessageLostEvent.message</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#dsns.message.LTPSegmentReceivedEvent"><code class="docutils literal notranslate"><span class="pre">LTPSegmentReceivedEvent</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#dsns.message.LTPSegmentReceivedEvent.__init__"><code class="docutils literal notranslate"><span class="pre">LTPSegmentReceivedEvent.__init__()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#dsns.message.LTPSegmentReceivedEvent.message"><code class="docutils literal notranslate"><span class="pre">LTPSegmentReceivedEvent.message</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#dsns.message.LossConfig"><code class="docutils literal notranslate"><span class="pre">LossConfig</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#dsns.message.LossConfig.__init__"><code class="docutils literal notranslate"><span class="pre">LossConfig.__init__()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#dsns.message.LossConfig.set_loss_probability_for_link"><code class="docutils literal notranslate"><span class="pre">LossConfig.set_loss_probability_for_link()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#dsns.message.LossConfig.reset_loss_probability_for_link"><code class="docutils literal notranslate"><span class="pre">LossConfig.reset_loss_probability_for_link()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#dsns.message.LossConfig.is_message_lost"><code class="docutils literal notranslate"><span class="pre">LossConfig.is_message_lost()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#dsns.message.MessageRerouteEvent"><code class="docutils literal notranslate"><span class="pre">MessageRerouteEvent</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#dsns.message.MessageRerouteEvent.__init__"><code class="docutils literal notranslate"><span class="pre">MessageRerouteEvent.__init__()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#dsns.message.MessageRerouteEvent.previous_destination"><code class="docutils literal notranslate"><span class="pre">MessageRerouteEvent.previous_destination</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#dsns.message.MessageRerouteEvent.message"><code class="docutils literal notranslate"><span class="pre">MessageRerouteEvent.message</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#dsns.message.MessageQueuedEvent"><code class="docutils literal notranslate"><span class="pre">MessageQueuedEvent</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#dsns.message.MessageQueuedEvent.__init__"><code class="docutils literal notranslate"><span class="pre">MessageQueuedEvent.__init__()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#dsns.message.MessageQueuedEvent.message"><code class="docutils literal notranslate"><span class="pre">MessageQueuedEvent.message</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#dsns.message.MessageSentEvent"><code class="docutils literal notranslate"><span class="pre">MessageSentEvent</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#dsns.message.MessageSentEvent.__init__"><code class="docutils literal notranslate"><span class="pre">MessageSentEvent.__init__()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#dsns.message.MessageSentEvent.message"><code class="docutils literal notranslate"><span class="pre">MessageSentEvent.message</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#dsns.message.MessageReceivedEvent"><code class="docutils literal notranslate"><span class="pre">MessageReceivedEvent</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#dsns.message.MessageReceivedEvent.__init__"><code class="docutils literal notranslate"><span class="pre">MessageReceivedEvent.__init__()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#dsns.message.MessageReceivedEvent.message"><code class="docutils literal notranslate"><span class="pre">MessageReceivedEvent.message</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#dsns.message.MessageDeliveredEvent"><code class="docutils literal notranslate"><span class="pre">MessageDeliveredEvent</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#dsns.message.MessageDeliveredEvent.__init__"><code class="docutils literal notranslate"><span class="pre">MessageDeliveredEvent.__init__()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#dsns.message.MessageDeliveredEvent.destination"><code class="docutils literal notranslate"><span class="pre">MessageDeliveredEvent.destination</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#dsns.message.MessageDeliveredEvent.message"><code class="docutils literal notranslate"><span class="pre">MessageDeliveredEvent.message</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#dsns.message.MessageBroadcastDeliveredEvent"><code class="docutils literal notranslate"><span class="pre">MessageBroadcastDeliveredEvent</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#dsns.message.MessageBroadcastDeliveredEvent.__init__"><code class="docutils literal notranslate"><span class="pre">MessageBroadcastDeliveredEvent.__init__()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#dsns.message.MessageBroadcastDeliveredEvent.message"><code class="docutils literal notranslate"><span class="pre">MessageBroadcastDeliveredEvent.message</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#dsns.message.DropReason"><code class="docutils literal notranslate"><span class="pre">DropReason</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#dsns.message.DropReason.DUPLICATE"><code class="docutils literal notranslate"><span class="pre">DropReason.DUPLICATE</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#dsns.message.DropReason.INSUFFICIENT_BUFFER"><code class="docutils literal notranslate"><span class="pre">DropReason.INSUFFICIENT_BUFFER</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#dsns.message.DropReason.MISCONFIGURED"><code class="docutils literal notranslate"><span class="pre">DropReason.MISCONFIGURED</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#dsns.message.DropReason.INDICATED"><code class="docutils literal notranslate"><span class="pre">DropReason.INDICATED</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#dsns.message.DropReason.NO_NEXT_HOP"><code class="docutils literal notranslate"><span class="pre">DropReason.NO_NEXT_HOP</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#dsns.message.DropReason.RETRANSMISSION_RETRIES_EXHAUSTED"><code class="docutils literal notranslate"><span class="pre">DropReason.RETRANSMISSION_RETRIES_EXHAUSTED</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#dsns.message.DropReason.UNKNOWN"><code class="docutils literal notranslate"><span class="pre">DropReason.UNKNOWN</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#dsns.message.MessageDroppedEvent"><code class="docutils literal notranslate"><span class="pre">MessageDroppedEvent</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#dsns.message.MessageDroppedEvent.__init__"><code class="docutils literal notranslate"><span class="pre">MessageDroppedEvent.__init__()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#dsns.message.MessageDroppedEvent.message"><code class="docutils literal notranslate"><span class="pre">MessageDroppedEvent.message</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#dsns.message.MessageCreatedEvent"><code class="docutils literal notranslate"><span class="pre">MessageCreatedEvent</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#dsns.message.MessageCreatedEvent.__init__"><code class="docutils literal notranslate"><span class="pre">MessageCreatedEvent.__init__()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#dsns.message.MessageCreatedEvent.message"><code class="docutils literal notranslate"><span class="pre">MessageCreatedEvent.message</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#dsns.message.LTPSegmentCreatedEvent"><code class="docutils literal notranslate"><span class="pre">LTPSegmentCreatedEvent</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#dsns.message.LTPSegmentCreatedEvent.__init__"><code class="docutils literal notranslate"><span class="pre">LTPSegmentCreatedEvent.__init__()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#dsns.message.LTPSegmentCreatedEvent.message"><code class="docutils literal notranslate"><span class="pre">LTPSegmentCreatedEvent.message</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#dsns.message.AttackMessageDroppedEvent"><code class="docutils literal notranslate"><span class="pre">AttackMessageDroppedEvent</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#dsns.message.LinkDownAttackStrategy"><code class="docutils literal notranslate"><span class="pre">LinkDownAttackStrategy()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#dsns.message.NodeDownAttackStrategy"><code class="docutils literal notranslate"><span class="pre">NodeDownAttackStrategy()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#dsns.message.MultipleAttackStrategy"><code class="docutils literal notranslate"><span class="pre">MultipleAttackStrategy()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#dsns.message.RELIABLE_TRANSFER_TYPE"><code class="docutils literal notranslate"><span class="pre">RELIABLE_TRANSFER_TYPE</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#dsns.message.RELIABLE_TRANSFER_TYPE.NONE"><code class="docutils literal notranslate"><span class="pre">RELIABLE_TRANSFER_TYPE.NONE</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#dsns.message.RELIABLE_TRANSFER_TYPE.LTP"><code class="docutils literal notranslate"><span class="pre">RELIABLE_TRANSFER_TYPE.LTP</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#dsns.message.ReliableTransferConfig"><code class="docutils literal notranslate"><span class="pre">ReliableTransferConfig</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#dsns.message.ReliableTransferConfig.get_messages"><code class="docutils literal notranslate"><span class="pre">ReliableTransferConfig.get_messages()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#dsns.message.UnreliableConfig"><code class="docutils literal notranslate"><span class="pre">UnreliableConfig</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#dsns.message.UnreliableConfig.get_messages"><code class="docutils literal notranslate"><span class="pre">UnreliableConfig.get_messages()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#dsns.message.LTPConfig"><code class="docutils literal notranslate"><span class="pre">LTPConfig</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#dsns.message.LTPConfig.__init__"><code class="docutils literal notranslate"><span class="pre">LTPConfig.__init__()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#dsns.message.LTPConfig.get_messages"><code class="docutils literal notranslate"><span class="pre">LTPConfig.get_messages()</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="message_actors.html">Message Actors</a></li>
+<li class="toctree-l2"><a class="reference internal" href="transmission.html">Transmission</a></li>
+<li class="toctree-l2"><a class="reference internal" href="traffic_sim.html">Traffic Simulation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="helpers.html">Helpers</a></li>
+<li class="toctree-l2"><a class="reference internal" href="presets.html">Presets</a></li>
+<li class="toctree-l2"><a class="reference internal" href="reference_scenarios.html">Reference Scenarios</a></li>
+<li class="toctree-l2"><a class="reference internal" href="logging.html">Logging</a></li>
+<li class="toctree-l2"><a class="reference internal" href="visualizer.html">Visualizer</a></li>
+</ul>
+</li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../index.html">DSNS</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="../api.html">API</a></li>
+      <li class="breadcrumb-item active">Message</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="../_sources/api/message.rst.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="module-dsns.message">
+<span id="message"></span><h1>Message<a class="headerlink" href="#module-dsns.message" title="Link to this heading"></a></h1>
+<dl class="py function">
+<dt class="sig sig-object py" id="dsns.message.hashable">
+<span class="sig-prename descclassname"><span class="pre">dsns.message.</span></span><span class="sig-name descname"><span class="pre">hashable</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">cls</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#dsns.message.hashable" title="Link to this definition"></a></dt>
+<dd><p>Decorator for Message dataclasses that makes them hashable.
+This uses the source, data, and time fields for hashing.
+The type is also used to distinguish between different message types.
+It also implements __eq__ for comparison.</p>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="dsns.message.broadcast">
+<span class="sig-prename descclassname"><span class="pre">dsns.message.</span></span><span class="sig-name descname"><span class="pre">broadcast</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">cls</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#dsns.message.broadcast" title="Link to this definition"></a></dt>
+<dd><p>Decorator for BroadcastMessage dataclasses that makes them hashable, and adds the necessary dataclass decorator.</p>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="dsns.message.lcg_id_generator">
+<span class="sig-prename descclassname"><span class="pre">dsns.message.</span></span><span class="sig-name descname"><span class="pre">lcg_id_generator</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">seed</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">Iterator</span><span class="p"><span class="pre">[</span></span><span class="pre">int</span><span class="p"><span class="pre">]</span></span></span></span><a class="headerlink" href="#dsns.message.lcg_id_generator" title="Link to this definition"></a></dt>
+<dd><p>a: LCG Multiplier
+c: LCG Increment
+m: Modulo, currently 2^32 but TODO consider increasing to 2^64 if you see repetitions in UIDs!</p>
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="dsns.message.BaseMessage">
+<em class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">dsns.message.</span></span><span class="sig-name descname"><span class="pre">BaseMessage</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="keyword-only-separator o"><abbr title="Keyword-only parameters separator (PEP 3102)"><span class="pre">*</span></abbr></span></em>, <em class="sig-param"><span class="n"><span class="pre">source</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">data</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">object</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">time</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">0.0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">hops</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">dropped</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">size</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">0</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#dsns.message.BaseMessage" title="Link to this definition"></a></dt>
+<dd><p>Base class for messages. This class should not be used directly.</p>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="dsns.message.BaseMessage.source">
+<span class="sig-name descname"><span class="pre">source</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">int</span></em><a class="headerlink" href="#dsns.message.BaseMessage.source" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="dsns.message.BaseMessage.data">
+<span class="sig-name descname"><span class="pre">data</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">object</span></em><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">None</span></em><a class="headerlink" href="#dsns.message.BaseMessage.data" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="dsns.message.BaseMessage.time">
+<span class="sig-name descname"><span class="pre">time</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">float</span></em><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">0.0</span></em><a class="headerlink" href="#dsns.message.BaseMessage.time" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="dsns.message.BaseMessage.hops">
+<span class="sig-name descname"><span class="pre">hops</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">int</span></em><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">0</span></em><a class="headerlink" href="#dsns.message.BaseMessage.hops" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="dsns.message.BaseMessage.dropped">
+<span class="sig-name descname"><span class="pre">dropped</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">float</span></em><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">False</span></em><a class="headerlink" href="#dsns.message.BaseMessage.dropped" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="dsns.message.BaseMessage.size">
+<span class="sig-name descname"><span class="pre">size</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">int</span></em><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">0</span></em><a class="headerlink" href="#dsns.message.BaseMessage.size" title="Link to this definition"></a></dt>
+<dd><p>I run into edge case where two different messages have same UID. These can be two checkpoints
+which give race conditions in my LTP transmission functionality. A fix could be
+to store reported checkpoints and other fields as LinkMessageIDs. However, if the same message has the same UID on the same
+link we get to same race. So fix is to cycle periodically through UID.
+Fix: Use LCG Psuedorandom generator</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="dsns.message.BaseMessage.uid">
+<span class="sig-name descname"><span class="pre">uid</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">int</span></em><a class="headerlink" href="#dsns.message.BaseMessage.uid" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="dsns.message.BaseMessage.copy">
+<span class="sig-name descname"><span class="pre">copy</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">keep_uid</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bool</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">True</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#dsns.message.BaseMessage.copy" title="Link to this definition"></a></dt>
+<dd><p>Copy the message.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>Copy of the message.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="dsns.message.BaseMessage.__init__">
+<span class="sig-name descname"><span class="pre">__init__</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="keyword-only-separator o"><abbr title="Keyword-only parameters separator (PEP 3102)"><span class="pre">*</span></abbr></span></em>, <em class="sig-param"><span class="n"><span class="pre">source</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">data</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">object</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">time</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">0.0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">hops</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">dropped</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">size</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">0</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="headerlink" href="#dsns.message.BaseMessage.__init__" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="dsns.message.DirectMessage">
+<em class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">dsns.message.</span></span><span class="sig-name descname"><span class="pre">DirectMessage</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="keyword-only-separator o"><abbr title="Keyword-only parameters separator (PEP 3102)"><span class="pre">*</span></abbr></span></em>, <em class="sig-param"><span class="n"><span class="pre">source</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">data</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">object</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">time</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">0.0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">hops</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">dropped</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">size</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">destination</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#dsns.message.DirectMessage" title="Link to this definition"></a></dt>
+<dd><p>Message to be sent between nodes.</p>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="dsns.message.DirectMessage.destination">
+<span class="sig-name descname"><span class="pre">destination</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">int</span></em><a class="headerlink" href="#dsns.message.DirectMessage.destination" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="dsns.message.DirectMessage.__init__">
+<span class="sig-name descname"><span class="pre">__init__</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="keyword-only-separator o"><abbr title="Keyword-only parameters separator (PEP 3102)"><span class="pre">*</span></abbr></span></em>, <em class="sig-param"><span class="n"><span class="pre">source</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">data</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">object</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">time</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">0.0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">hops</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">dropped</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">size</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">destination</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="headerlink" href="#dsns.message.DirectMessage.__init__" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="dsns.message.BroadcastMessage">
+<em class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">dsns.message.</span></span><span class="sig-name descname"><span class="pre">BroadcastMessage</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="keyword-only-separator o"><abbr title="Keyword-only parameters separator (PEP 3102)"><span class="pre">*</span></abbr></span></em>, <em class="sig-param"><span class="n"><span class="pre">source</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">data</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">object</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">time</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">0.0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">hops</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">dropped</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">size</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">0</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#dsns.message.BroadcastMessage" title="Link to this definition"></a></dt>
+<dd><p>Message to be broadcast between nodes.</p>
+<dl class="py method">
+<dt class="sig sig-object py" id="dsns.message.BroadcastMessage.__init__">
+<span class="sig-name descname"><span class="pre">__init__</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="keyword-only-separator o"><abbr title="Keyword-only parameters separator (PEP 3102)"><span class="pre">*</span></abbr></span></em>, <em class="sig-param"><span class="n"><span class="pre">source</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">data</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">object</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">time</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">0.0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">hops</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">dropped</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">size</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">0</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="headerlink" href="#dsns.message.BroadcastMessage.__init__" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="dsns.message.LinkLossProbability">
+<em class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">dsns.message.</span></span><span class="sig-name descname"><span class="pre">LinkLossProbability</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">source</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">destination</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">reset_loss_probability</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bool</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">loss_probability</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">0.0</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#dsns.message.LinkLossProbability" title="Link to this definition"></a></dt>
+<dd><dl class="py attribute">
+<dt class="sig sig-object py" id="dsns.message.LinkLossProbability.source">
+<span class="sig-name descname"><span class="pre">source</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">int</span></em><a class="headerlink" href="#dsns.message.LinkLossProbability.source" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="dsns.message.LinkLossProbability.destination">
+<span class="sig-name descname"><span class="pre">destination</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">int</span></em><a class="headerlink" href="#dsns.message.LinkLossProbability.destination" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="dsns.message.LinkLossProbability.reset_loss_probability">
+<span class="sig-name descname"><span class="pre">reset_loss_probability</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">bool</span></em><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">False</span></em><a class="headerlink" href="#dsns.message.LinkLossProbability.reset_loss_probability" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="dsns.message.LinkLossProbability.loss_probability">
+<span class="sig-name descname"><span class="pre">loss_probability</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">float</span></em><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">0.0</span></em><a class="headerlink" href="#dsns.message.LinkLossProbability.loss_probability" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="dsns.message.LinkLossProbability.__init__">
+<span class="sig-name descname"><span class="pre">__init__</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">source</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">destination</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">reset_loss_probability</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bool</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">loss_probability</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">0.0</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="headerlink" href="#dsns.message.LinkLossProbability.__init__" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="dsns.message.LinkLossProbabilityUpdateEvent">
+<em class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">dsns.message.</span></span><span class="sig-name descname"><span class="pre">LinkLossProbabilityUpdateEvent</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">time</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">updates</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">list</span><span class="p"><span class="pre">[</span></span><a class="reference internal" href="#dsns.message.LinkLossProbability" title="dsns.message.LinkLossProbability"><span class="pre">LinkLossProbability</span></a><span class="p"><span class="pre">]</span></span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#dsns.message.LinkLossProbabilityUpdateEvent" title="Link to this definition"></a></dt>
+<dd><p>Event to update the probability of message loss on given links</p>
+<dl class="py method">
+<dt class="sig sig-object py" id="dsns.message.LinkLossProbabilityUpdateEvent.__init__">
+<span class="sig-name descname"><span class="pre">__init__</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">time</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">updates</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">list</span><span class="p"><span class="pre">[</span></span><a class="reference internal" href="#dsns.message.LinkLossProbability" title="dsns.message.LinkLossProbability"><span class="pre">LinkLossProbability</span></a><span class="p"><span class="pre">]</span></span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#dsns.message.LinkLossProbabilityUpdateEvent.__init__" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="dsns.message.LinkLossProbabilityUpdateEvent.updates">
+<span class="sig-name descname"><span class="pre">updates</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">list</span><span class="p"><span class="pre">[</span></span><a class="reference internal" href="#dsns.message.LinkLossProbability" title="dsns.message.LinkLossProbability"><span class="pre">LinkLossProbability</span></a><span class="p"><span class="pre">]</span></span></em><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">[]</span></em><a class="headerlink" href="#dsns.message.LinkLossProbabilityUpdateEvent.updates" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="dsns.message.HybridDirectMessage">
+<em class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">dsns.message.</span></span><span class="sig-name descname"><span class="pre">HybridDirectMessage</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="keyword-only-separator o"><abbr title="Keyword-only parameters separator (PEP 3102)"><span class="pre">*</span></abbr></span></em>, <em class="sig-param"><span class="n"><span class="pre">source</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">data</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">object</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">time</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">0.0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">hops</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">dropped</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">size</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">destination</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">reliable_data_size</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">unreliable_data_size</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#dsns.message.HybridDirectMessage" title="Link to this definition"></a></dt>
+<dd><dl class="py attribute">
+<dt class="sig sig-object py" id="dsns.message.HybridDirectMessage.reliable_data_size">
+<span class="sig-name descname"><span class="pre">reliable_data_size</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">int</span></em><a class="headerlink" href="#dsns.message.HybridDirectMessage.reliable_data_size" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="dsns.message.HybridDirectMessage.unreliable_data_size">
+<span class="sig-name descname"><span class="pre">unreliable_data_size</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">int</span></em><a class="headerlink" href="#dsns.message.HybridDirectMessage.unreliable_data_size" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="dsns.message.HybridDirectMessage.__init__">
+<span class="sig-name descname"><span class="pre">__init__</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="keyword-only-separator o"><abbr title="Keyword-only parameters separator (PEP 3102)"><span class="pre">*</span></abbr></span></em>, <em class="sig-param"><span class="n"><span class="pre">source</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">data</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">object</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">time</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">0.0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">hops</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">dropped</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">size</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">destination</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">reliable_data_size</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">unreliable_data_size</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="headerlink" href="#dsns.message.HybridDirectMessage.__init__" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="dsns.message.LTPSegment">
+<em class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">dsns.message.</span></span><span class="sig-name descname"><span class="pre">LTPSegment</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="keyword-only-separator o"><abbr title="Keyword-only parameters separator (PEP 3102)"><span class="pre">*</span></abbr></span></em>, <em class="sig-param"><span class="n"><span class="pre">source</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">data</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">object</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">time</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">0.0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">hops</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">dropped</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">size</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">destination</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">underlying_message</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#dsns.message.HybridDirectMessage" title="dsns.message.HybridDirectMessage"><span class="pre">dsns.message.HybridDirectMessage</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">session</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#dsns.message.LTPSegment" title="Link to this definition"></a></dt>
+<dd><dl class="py attribute">
+<dt class="sig sig-object py" id="dsns.message.LTPSegment.underlying_message">
+<span class="sig-name descname"><span class="pre">underlying_message</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference internal" href="#dsns.message.HybridDirectMessage" title="dsns.message.HybridDirectMessage"><span class="pre">HybridDirectMessage</span></a></em><a class="headerlink" href="#dsns.message.LTPSegment.underlying_message" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="dsns.message.LTPSegment.session">
+<span class="sig-name descname"><span class="pre">session</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">int</span></em><a class="headerlink" href="#dsns.message.LTPSegment.session" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="dsns.message.LTPSegment.__init__">
+<span class="sig-name descname"><span class="pre">__init__</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="keyword-only-separator o"><abbr title="Keyword-only parameters separator (PEP 3102)"><span class="pre">*</span></abbr></span></em>, <em class="sig-param"><span class="n"><span class="pre">source</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">data</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">object</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">time</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">0.0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">hops</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">dropped</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">size</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">destination</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">underlying_message</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#dsns.message.HybridDirectMessage" title="dsns.message.HybridDirectMessage"><span class="pre">HybridDirectMessage</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">session</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="headerlink" href="#dsns.message.LTPSegment.__init__" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="dsns.message.LTPDataType">
+<em class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">dsns.message.</span></span><span class="sig-name descname"><span class="pre">LTPDataType</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">values</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#dsns.message.LTPDataType" title="Link to this definition"></a></dt>
+<dd><dl class="py attribute">
+<dt class="sig sig-object py" id="dsns.message.LTPDataType.RED">
+<span class="sig-name descname"><span class="pre">RED</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'RED'</span></em><a class="headerlink" href="#dsns.message.LTPDataType.RED" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="dsns.message.LTPDataType.GREEN">
+<span class="sig-name descname"><span class="pre">GREEN</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'GREEN'</span></em><a class="headerlink" href="#dsns.message.LTPDataType.GREEN" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="dsns.message.LTPCheckpointData">
+<em class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">dsns.message.</span></span><span class="sig-name descname"><span class="pre">LTPCheckpointData</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="keyword-only-separator o"><abbr title="Keyword-only parameters separator (PEP 3102)"><span class="pre">*</span></abbr></span></em>, <em class="sig-param"><span class="n"><span class="pre">expected_uids</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">list</span><span class="p"><span class="pre">[</span></span><span class="pre">int</span><span class="p"><span class="pre">]</span></span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#dsns.message.LTPCheckpointData" title="Link to this definition"></a></dt>
+<dd><dl class="py attribute">
+<dt class="sig sig-object py" id="dsns.message.LTPCheckpointData.expected_uids">
+<span class="sig-name descname"><span class="pre">expected_uids</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">list</span><span class="p"><span class="pre">[</span></span><span class="pre">int</span><span class="p"><span class="pre">]</span></span></em><a class="headerlink" href="#dsns.message.LTPCheckpointData.expected_uids" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="dsns.message.LTPCheckpointData.__init__">
+<span class="sig-name descname"><span class="pre">__init__</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="keyword-only-separator o"><abbr title="Keyword-only parameters separator (PEP 3102)"><span class="pre">*</span></abbr></span></em>, <em class="sig-param"><span class="n"><span class="pre">expected_uids</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">list</span><span class="p"><span class="pre">[</span></span><span class="pre">int</span><span class="p"><span class="pre">]</span></span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="headerlink" href="#dsns.message.LTPCheckpointData.__init__" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="dsns.message.LTPDataSegment">
+<em class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">dsns.message.</span></span><span class="sig-name descname"><span class="pre">LTPDataSegment</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="keyword-only-separator o"><abbr title="Keyword-only parameters separator (PEP 3102)"><span class="pre">*</span></abbr></span></em>, <em class="sig-param"><span class="n"><span class="pre">source</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">data</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">object</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">time</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">0.0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">hops</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">dropped</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">size</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">destination</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">underlying_message</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#dsns.message.HybridDirectMessage" title="dsns.message.HybridDirectMessage"><span class="pre">dsns.message.HybridDirectMessage</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">session</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">data_type</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#dsns.message.LTPDataType" title="dsns.message.LTPDataType"><span class="pre">dsns.message.LTPDataType</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">is_checkpoint</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bool</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">checkpoint_data</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#dsns.message.LTPCheckpointData" title="dsns.message.LTPCheckpointData"><span class="pre">dsns.message.LTPCheckpointData</span></a></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">is_end_of_green_only_block</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bool</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#dsns.message.LTPDataSegment" title="Link to this definition"></a></dt>
+<dd><dl class="py attribute">
+<dt class="sig sig-object py" id="dsns.message.LTPDataSegment.data_type">
+<span class="sig-name descname"><span class="pre">data_type</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference internal" href="#dsns.message.LTPDataType" title="dsns.message.LTPDataType"><span class="pre">LTPDataType</span></a></em><a class="headerlink" href="#dsns.message.LTPDataSegment.data_type" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="dsns.message.LTPDataSegment.is_checkpoint">
+<span class="sig-name descname"><span class="pre">is_checkpoint</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">bool</span></em><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">False</span></em><a class="headerlink" href="#dsns.message.LTPDataSegment.is_checkpoint" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="dsns.message.LTPDataSegment.checkpoint_data">
+<span class="sig-name descname"><span class="pre">checkpoint_data</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference internal" href="#dsns.message.LTPCheckpointData" title="dsns.message.LTPCheckpointData"><span class="pre">LTPCheckpointData</span></a></em><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">None</span></em><a class="headerlink" href="#dsns.message.LTPDataSegment.checkpoint_data" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="dsns.message.LTPDataSegment.is_end_of_green_only_block">
+<span class="sig-name descname"><span class="pre">is_end_of_green_only_block</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">bool</span></em><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">False</span></em><a class="headerlink" href="#dsns.message.LTPDataSegment.is_end_of_green_only_block" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="dsns.message.LTPDataSegment.__init__">
+<span class="sig-name descname"><span class="pre">__init__</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="keyword-only-separator o"><abbr title="Keyword-only parameters separator (PEP 3102)"><span class="pre">*</span></abbr></span></em>, <em class="sig-param"><span class="n"><span class="pre">source</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">data</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">object</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">time</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">0.0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">hops</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">dropped</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">size</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">destination</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">underlying_message</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#dsns.message.HybridDirectMessage" title="dsns.message.HybridDirectMessage"><span class="pre">HybridDirectMessage</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">session</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">data_type</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#dsns.message.LTPDataType" title="dsns.message.LTPDataType"><span class="pre">LTPDataType</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">is_checkpoint</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bool</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">checkpoint_data</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#dsns.message.LTPCheckpointData" title="dsns.message.LTPCheckpointData"><span class="pre">LTPCheckpointData</span></a></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">is_end_of_green_only_block</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bool</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="headerlink" href="#dsns.message.LTPDataSegment.__init__" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="dsns.message.LTPReportSegment">
+<em class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">dsns.message.</span></span><span class="sig-name descname"><span class="pre">LTPReportSegment</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="keyword-only-separator o"><abbr title="Keyword-only parameters separator (PEP 3102)"><span class="pre">*</span></abbr></span></em>, <em class="sig-param"><span class="n"><span class="pre">source</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">data</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">object</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">time</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">0.0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">hops</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">dropped</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">size</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">destination</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">underlying_message</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#dsns.message.HybridDirectMessage" title="dsns.message.HybridDirectMessage"><span class="pre">dsns.message.HybridDirectMessage</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">session</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">report_checkpoint_uid</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">received_segment_uids</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">list</span><span class="p"><span class="pre">[</span></span><span class="pre">int</span><span class="p"><span class="pre">]</span></span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#dsns.message.LTPReportSegment" title="Link to this definition"></a></dt>
+<dd><dl class="py attribute">
+<dt class="sig sig-object py" id="dsns.message.LTPReportSegment.report_checkpoint_uid">
+<span class="sig-name descname"><span class="pre">report_checkpoint_uid</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">int</span></em><a class="headerlink" href="#dsns.message.LTPReportSegment.report_checkpoint_uid" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="dsns.message.LTPReportSegment.received_segment_uids">
+<span class="sig-name descname"><span class="pre">received_segment_uids</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">list</span><span class="p"><span class="pre">[</span></span><span class="pre">int</span><span class="p"><span class="pre">]</span></span></em><a class="headerlink" href="#dsns.message.LTPReportSegment.received_segment_uids" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="dsns.message.LTPReportSegment.__init__">
+<span class="sig-name descname"><span class="pre">__init__</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="keyword-only-separator o"><abbr title="Keyword-only parameters separator (PEP 3102)"><span class="pre">*</span></abbr></span></em>, <em class="sig-param"><span class="n"><span class="pre">source</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">data</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">object</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">time</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">0.0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">hops</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">dropped</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">size</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">destination</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">underlying_message</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#dsns.message.HybridDirectMessage" title="dsns.message.HybridDirectMessage"><span class="pre">HybridDirectMessage</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">session</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">report_checkpoint_uid</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">received_segment_uids</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">list</span><span class="p"><span class="pre">[</span></span><span class="pre">int</span><span class="p"><span class="pre">]</span></span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="headerlink" href="#dsns.message.LTPReportSegment.__init__" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="dsns.message.LTPReportAcknowledgementSegment">
+<em class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">dsns.message.</span></span><span class="sig-name descname"><span class="pre">LTPReportAcknowledgementSegment</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="keyword-only-separator o"><abbr title="Keyword-only parameters separator (PEP 3102)"><span class="pre">*</span></abbr></span></em>, <em class="sig-param"><span class="n"><span class="pre">source</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">data</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">object</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">time</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">0.0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">hops</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">dropped</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">size</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">destination</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">underlying_message</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#dsns.message.HybridDirectMessage" title="dsns.message.HybridDirectMessage"><span class="pre">dsns.message.HybridDirectMessage</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">session</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">acked_report_message_uid</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#dsns.message.LTPReportAcknowledgementSegment" title="Link to this definition"></a></dt>
+<dd><dl class="py attribute">
+<dt class="sig sig-object py" id="dsns.message.LTPReportAcknowledgementSegment.acked_report_message_uid">
+<span class="sig-name descname"><span class="pre">acked_report_message_uid</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">int</span></em><a class="headerlink" href="#dsns.message.LTPReportAcknowledgementSegment.acked_report_message_uid" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="dsns.message.LTPReportAcknowledgementSegment.__init__">
+<span class="sig-name descname"><span class="pre">__init__</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="keyword-only-separator o"><abbr title="Keyword-only parameters separator (PEP 3102)"><span class="pre">*</span></abbr></span></em>, <em class="sig-param"><span class="n"><span class="pre">source</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">data</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">object</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">time</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">0.0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">hops</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">dropped</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">size</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">destination</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">underlying_message</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#dsns.message.HybridDirectMessage" title="dsns.message.HybridDirectMessage"><span class="pre">HybridDirectMessage</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">session</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">acked_report_message_uid</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="headerlink" href="#dsns.message.LTPReportAcknowledgementSegment.__init__" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="dsns.message.LinkMessageID">
+<em class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">dsns.message.</span></span><span class="sig-name descname"><span class="pre">LinkMessageID</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">source</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">destination</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">uid</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#dsns.message.LinkMessageID" title="Link to this definition"></a></dt>
+<dd><dl class="py attribute">
+<dt class="sig sig-object py" id="dsns.message.LinkMessageID.source">
+<span class="sig-name descname"><span class="pre">source</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">int</span></em><a class="headerlink" href="#dsns.message.LinkMessageID.source" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="dsns.message.LinkMessageID.destination">
+<span class="sig-name descname"><span class="pre">destination</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">int</span></em><a class="headerlink" href="#dsns.message.LinkMessageID.destination" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="dsns.message.LinkMessageID.uid">
+<span class="sig-name descname"><span class="pre">uid</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">int</span></em><a class="headerlink" href="#dsns.message.LinkMessageID.uid" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="dsns.message.LinkMessageID.__init__">
+<span class="sig-name descname"><span class="pre">__init__</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">source</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">destination</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">uid</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="headerlink" href="#dsns.message.LinkMessageID.__init__" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="dsns.message.Link">
+<em class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">dsns.message.</span></span><span class="sig-name descname"><span class="pre">Link</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">source</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">destination</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#dsns.message.Link" title="Link to this definition"></a></dt>
+<dd><dl class="py attribute">
+<dt class="sig sig-object py" id="dsns.message.Link.source">
+<span class="sig-name descname"><span class="pre">source</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">int</span></em><a class="headerlink" href="#dsns.message.Link.source" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="dsns.message.Link.destination">
+<span class="sig-name descname"><span class="pre">destination</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">int</span></em><a class="headerlink" href="#dsns.message.Link.destination" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="dsns.message.Link.__init__">
+<span class="sig-name descname"><span class="pre">__init__</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">source</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">destination</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="headerlink" href="#dsns.message.Link.__init__" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="dsns.message.MessageLostEvent">
+<em class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">dsns.message.</span></span><span class="sig-name descname"><span class="pre">MessageLostEvent</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">time</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">source</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">destination</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">message</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#dsns.message.BaseMessage" title="dsns.message.BaseMessage"><span class="pre">BaseMessage</span></a></span></em><span class="sig-paren">)</span><a class="headerlink" href="#dsns.message.MessageLostEvent" title="Link to this definition"></a></dt>
+<dd><dl class="py method">
+<dt class="sig sig-object py" id="dsns.message.MessageLostEvent.__init__">
+<span class="sig-name descname"><span class="pre">__init__</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">time</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">source</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">destination</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">message</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#dsns.message.BaseMessage" title="dsns.message.BaseMessage"><span class="pre">BaseMessage</span></a></span></em><span class="sig-paren">)</span><a class="headerlink" href="#dsns.message.MessageLostEvent.__init__" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="dsns.message.MessageLostEvent.source">
+<span class="sig-name descname"><span class="pre">source</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">int</span></em><a class="headerlink" href="#dsns.message.MessageLostEvent.source" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="dsns.message.MessageLostEvent.destination">
+<span class="sig-name descname"><span class="pre">destination</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">int</span></em><a class="headerlink" href="#dsns.message.MessageLostEvent.destination" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="dsns.message.MessageLostEvent.message">
+<span class="sig-name descname"><span class="pre">message</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference internal" href="#dsns.message.LTPSegment" title="dsns.message.LTPSegment"><span class="pre">LTPSegment</span></a></em><a class="headerlink" href="#dsns.message.MessageLostEvent.message" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="dsns.message.LTPSegmentReceivedEvent">
+<em class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">dsns.message.</span></span><span class="sig-name descname"><span class="pre">LTPSegmentReceivedEvent</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">time</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">source</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">destination</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">message</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#dsns.message.LTPSegment" title="dsns.message.LTPSegment"><span class="pre">LTPSegment</span></a></span></em><span class="sig-paren">)</span><a class="headerlink" href="#dsns.message.LTPSegmentReceivedEvent" title="Link to this definition"></a></dt>
+<dd><p>Event for when LTP segments are received.
+Source and destination refer to the satellites that sent and received the message, respectively.
+Once all LTP messages are received and processed, a MessageReceivedEvent is issued for underlying message</p>
+<dl class="py method">
+<dt class="sig sig-object py" id="dsns.message.LTPSegmentReceivedEvent.__init__">
+<span class="sig-name descname"><span class="pre">__init__</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">time</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">source</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">destination</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">message</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#dsns.message.LTPSegment" title="dsns.message.LTPSegment"><span class="pre">LTPSegment</span></a></span></em><span class="sig-paren">)</span><a class="headerlink" href="#dsns.message.LTPSegmentReceivedEvent.__init__" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="dsns.message.LTPSegmentReceivedEvent.message">
+<span class="sig-name descname"><span class="pre">message</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference internal" href="#dsns.message.LTPSegment" title="dsns.message.LTPSegment"><span class="pre">LTPSegment</span></a></em><a class="headerlink" href="#dsns.message.LTPSegmentReceivedEvent.message" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="dsns.message.LossConfig">
+<em class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">dsns.message.</span></span><span class="sig-name descname"><span class="pre">LossConfig</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">seed</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">default_loss_probability</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">0</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#dsns.message.LossConfig" title="Link to this definition"></a></dt>
+<dd><dl class="py method">
+<dt class="sig sig-object py" id="dsns.message.LossConfig.__init__">
+<span class="sig-name descname"><span class="pre">__init__</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">seed</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">default_loss_probability</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">0</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#dsns.message.LossConfig.__init__" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="dsns.message.LossConfig.set_loss_probability_for_link">
+<span class="sig-name descname"><span class="pre">set_loss_probability_for_link</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">source</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">destination</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">loss_probability</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="headerlink" href="#dsns.message.LossConfig.set_loss_probability_for_link" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="dsns.message.LossConfig.reset_loss_probability_for_link">
+<span class="sig-name descname"><span class="pre">reset_loss_probability_for_link</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">source</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">destination</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="headerlink" href="#dsns.message.LossConfig.reset_loss_probability_for_link" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="dsns.message.LossConfig.is_message_lost">
+<span class="sig-name descname"><span class="pre">is_message_lost</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">source</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">destination</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">size</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">bool</span></span></span><a class="headerlink" href="#dsns.message.LossConfig.is_message_lost" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="dsns.message.MessageRerouteEvent">
+<em class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">dsns.message.</span></span><span class="sig-name descname"><span class="pre">MessageRerouteEvent</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">time</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">source</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">previous_destination</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">message</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#dsns.message.BaseMessage" title="dsns.message.BaseMessage"><span class="pre">BaseMessage</span></a></span></em><span class="sig-paren">)</span><a class="headerlink" href="#dsns.message.MessageRerouteEvent" title="Link to this definition"></a></dt>
+<dd><p>Event for when a message has been queued on the link,
+but the link went down so now we want to reroute it
+by passing it up from link level to network level</p>
+<dl class="py method">
+<dt class="sig sig-object py" id="dsns.message.MessageRerouteEvent.__init__">
+<span class="sig-name descname"><span class="pre">__init__</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">time</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">source</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">previous_destination</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">message</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#dsns.message.BaseMessage" title="dsns.message.BaseMessage"><span class="pre">BaseMessage</span></a></span></em><span class="sig-paren">)</span><a class="headerlink" href="#dsns.message.MessageRerouteEvent.__init__" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="dsns.message.MessageRerouteEvent.previous_destination">
+<span class="sig-name descname"><span class="pre">previous_destination</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">int</span></em><a class="headerlink" href="#dsns.message.MessageRerouteEvent.previous_destination" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="dsns.message.MessageRerouteEvent.message">
+<span class="sig-name descname"><span class="pre">message</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference internal" href="#dsns.message.BaseMessage" title="dsns.message.BaseMessage"><span class="pre">BaseMessage</span></a></em><a class="headerlink" href="#dsns.message.MessageRerouteEvent.message" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="dsns.message.MessageQueuedEvent">
+<em class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">dsns.message.</span></span><span class="sig-name descname"><span class="pre">MessageQueuedEvent</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">time</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">source</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">destination</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">message</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#dsns.message.BaseMessage" title="dsns.message.BaseMessage"><span class="pre">BaseMessage</span></a></span></em><span class="sig-paren">)</span><a class="headerlink" href="#dsns.message.MessageQueuedEvent" title="Link to this definition"></a></dt>
+<dd><p>Event for when a message has been queued on the link,
+waiting to be transmitted with respect to bandwidth capacity</p>
+<dl class="py method">
+<dt class="sig sig-object py" id="dsns.message.MessageQueuedEvent.__init__">
+<span class="sig-name descname"><span class="pre">__init__</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">time</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">source</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">destination</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">message</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#dsns.message.BaseMessage" title="dsns.message.BaseMessage"><span class="pre">BaseMessage</span></a></span></em><span class="sig-paren">)</span><a class="headerlink" href="#dsns.message.MessageQueuedEvent.__init__" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="dsns.message.MessageQueuedEvent.message">
+<span class="sig-name descname"><span class="pre">message</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference internal" href="#dsns.message.BaseMessage" title="dsns.message.BaseMessage"><span class="pre">BaseMessage</span></a></em><a class="headerlink" href="#dsns.message.MessageQueuedEvent.message" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="dsns.message.MessageSentEvent">
+<em class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">dsns.message.</span></span><span class="sig-name descname"><span class="pre">MessageSentEvent</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">time</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">source</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">destination</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">message</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#dsns.message.BaseMessage" title="dsns.message.BaseMessage"><span class="pre">BaseMessage</span></a></span></em><span class="sig-paren">)</span><a class="headerlink" href="#dsns.message.MessageSentEvent" title="Link to this definition"></a></dt>
+<dd><p>Event for when a message is sent.
+Source and destination refer to the satellites that sent and received the message, respectively.</p>
+<dl class="py method">
+<dt class="sig sig-object py" id="dsns.message.MessageSentEvent.__init__">
+<span class="sig-name descname"><span class="pre">__init__</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">time</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">source</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">destination</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">message</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#dsns.message.BaseMessage" title="dsns.message.BaseMessage"><span class="pre">BaseMessage</span></a></span></em><span class="sig-paren">)</span><a class="headerlink" href="#dsns.message.MessageSentEvent.__init__" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="dsns.message.MessageSentEvent.message">
+<span class="sig-name descname"><span class="pre">message</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference internal" href="#dsns.message.BaseMessage" title="dsns.message.BaseMessage"><span class="pre">BaseMessage</span></a></em><a class="headerlink" href="#dsns.message.MessageSentEvent.message" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="dsns.message.MessageReceivedEvent">
+<em class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">dsns.message.</span></span><span class="sig-name descname"><span class="pre">MessageReceivedEvent</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">time</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">source</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">destination</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">message</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#dsns.message.BaseMessage" title="dsns.message.BaseMessage"><span class="pre">BaseMessage</span></a></span></em><span class="sig-paren">)</span><a class="headerlink" href="#dsns.message.MessageReceivedEvent" title="Link to this definition"></a></dt>
+<dd><p>Event for when a message is received.
+Source and destination refer to the satellites that sent and received the message, respectively.</p>
+<dl class="py method">
+<dt class="sig sig-object py" id="dsns.message.MessageReceivedEvent.__init__">
+<span class="sig-name descname"><span class="pre">__init__</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">time</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">source</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">destination</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">message</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#dsns.message.BaseMessage" title="dsns.message.BaseMessage"><span class="pre">BaseMessage</span></a></span></em><span class="sig-paren">)</span><a class="headerlink" href="#dsns.message.MessageReceivedEvent.__init__" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="dsns.message.MessageReceivedEvent.message">
+<span class="sig-name descname"><span class="pre">message</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference internal" href="#dsns.message.BaseMessage" title="dsns.message.BaseMessage"><span class="pre">BaseMessage</span></a></em><a class="headerlink" href="#dsns.message.MessageReceivedEvent.message" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="dsns.message.MessageDeliveredEvent">
+<em class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">dsns.message.</span></span><span class="sig-name descname"><span class="pre">MessageDeliveredEvent</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">time</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">destination</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">message</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#dsns.message.BaseMessage" title="dsns.message.BaseMessage"><span class="pre">BaseMessage</span></a></span></em><span class="sig-paren">)</span><a class="headerlink" href="#dsns.message.MessageDeliveredEvent" title="Link to this definition"></a></dt>
+<dd><p>Event for when a message is delivered.</p>
+<dl class="py method">
+<dt class="sig sig-object py" id="dsns.message.MessageDeliveredEvent.__init__">
+<span class="sig-name descname"><span class="pre">__init__</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">time</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">destination</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">message</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#dsns.message.BaseMessage" title="dsns.message.BaseMessage"><span class="pre">BaseMessage</span></a></span></em><span class="sig-paren">)</span><a class="headerlink" href="#dsns.message.MessageDeliveredEvent.__init__" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="dsns.message.MessageDeliveredEvent.destination">
+<span class="sig-name descname"><span class="pre">destination</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">int</span></em><a class="headerlink" href="#dsns.message.MessageDeliveredEvent.destination" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="dsns.message.MessageDeliveredEvent.message">
+<span class="sig-name descname"><span class="pre">message</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference internal" href="#dsns.message.BaseMessage" title="dsns.message.BaseMessage"><span class="pre">BaseMessage</span></a></em><a class="headerlink" href="#dsns.message.MessageDeliveredEvent.message" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="dsns.message.MessageBroadcastDeliveredEvent">
+<em class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">dsns.message.</span></span><span class="sig-name descname"><span class="pre">MessageBroadcastDeliveredEvent</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">time</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">message</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#dsns.message.BroadcastMessage" title="dsns.message.BroadcastMessage"><span class="pre">BroadcastMessage</span></a></span></em><span class="sig-paren">)</span><a class="headerlink" href="#dsns.message.MessageBroadcastDeliveredEvent" title="Link to this definition"></a></dt>
+<dd><p>Event for when a message broadcast has been delivered to all nodes in the network.</p>
+<dl class="py method">
+<dt class="sig sig-object py" id="dsns.message.MessageBroadcastDeliveredEvent.__init__">
+<span class="sig-name descname"><span class="pre">__init__</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">time</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">message</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#dsns.message.BroadcastMessage" title="dsns.message.BroadcastMessage"><span class="pre">BroadcastMessage</span></a></span></em><span class="sig-paren">)</span><a class="headerlink" href="#dsns.message.MessageBroadcastDeliveredEvent.__init__" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="dsns.message.MessageBroadcastDeliveredEvent.message">
+<span class="sig-name descname"><span class="pre">message</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference internal" href="#dsns.message.BroadcastMessage" title="dsns.message.BroadcastMessage"><span class="pre">BroadcastMessage</span></a></em><a class="headerlink" href="#dsns.message.MessageBroadcastDeliveredEvent.message" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="dsns.message.DropReason">
+<em class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">dsns.message.</span></span><span class="sig-name descname"><span class="pre">DropReason</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">values</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#dsns.message.DropReason" title="Link to this definition"></a></dt>
+<dd><dl class="py attribute">
+<dt class="sig sig-object py" id="dsns.message.DropReason.DUPLICATE">
+<span class="sig-name descname"><span class="pre">DUPLICATE</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'DUPLICATE'</span></em><a class="headerlink" href="#dsns.message.DropReason.DUPLICATE" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="dsns.message.DropReason.INSUFFICIENT_BUFFER">
+<span class="sig-name descname"><span class="pre">INSUFFICIENT_BUFFER</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'INSUFFICIENT_BUFFER'</span></em><a class="headerlink" href="#dsns.message.DropReason.INSUFFICIENT_BUFFER" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="dsns.message.DropReason.MISCONFIGURED">
+<span class="sig-name descname"><span class="pre">MISCONFIGURED</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'MISCONFIGURED'</span></em><a class="headerlink" href="#dsns.message.DropReason.MISCONFIGURED" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="dsns.message.DropReason.INDICATED">
+<span class="sig-name descname"><span class="pre">INDICATED</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'INDICATED'</span></em><a class="headerlink" href="#dsns.message.DropReason.INDICATED" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="dsns.message.DropReason.NO_NEXT_HOP">
+<span class="sig-name descname"><span class="pre">NO_NEXT_HOP</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'NO_NEXT_HOP'</span></em><a class="headerlink" href="#dsns.message.DropReason.NO_NEXT_HOP" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="dsns.message.DropReason.RETRANSMISSION_RETRIES_EXHAUSTED">
+<span class="sig-name descname"><span class="pre">RETRANSMISSION_RETRIES_EXHAUSTED</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'RETRANSMISSION_RETRIES_EXHAUSTED'</span></em><a class="headerlink" href="#dsns.message.DropReason.RETRANSMISSION_RETRIES_EXHAUSTED" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="dsns.message.DropReason.UNKNOWN">
+<span class="sig-name descname"><span class="pre">UNKNOWN</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'UNKNOWN'</span></em><a class="headerlink" href="#dsns.message.DropReason.UNKNOWN" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="dsns.message.MessageDroppedEvent">
+<em class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">dsns.message.</span></span><span class="sig-name descname"><span class="pre">MessageDroppedEvent</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">time</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">source</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">message</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#dsns.message.BaseMessage" title="dsns.message.BaseMessage"><span class="pre">BaseMessage</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">reason</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#dsns.message.DropReason" title="dsns.message.DropReason"><span class="pre">DropReason</span></a></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">DropReason.UNKNOWN</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#dsns.message.MessageDroppedEvent" title="Link to this definition"></a></dt>
+<dd><p>Event for when a message is dropped.
+Source refers to the satellite that dropped the message.</p>
+<dl class="py method">
+<dt class="sig sig-object py" id="dsns.message.MessageDroppedEvent.__init__">
+<span class="sig-name descname"><span class="pre">__init__</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">time</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">source</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">message</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#dsns.message.BaseMessage" title="dsns.message.BaseMessage"><span class="pre">BaseMessage</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">reason</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#dsns.message.DropReason" title="dsns.message.DropReason"><span class="pre">DropReason</span></a></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">DropReason.UNKNOWN</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#dsns.message.MessageDroppedEvent.__init__" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="dsns.message.MessageDroppedEvent.message">
+<span class="sig-name descname"><span class="pre">message</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference internal" href="#dsns.message.BaseMessage" title="dsns.message.BaseMessage"><span class="pre">BaseMessage</span></a></em><a class="headerlink" href="#dsns.message.MessageDroppedEvent.message" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="dsns.message.MessageCreatedEvent">
+<em class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">dsns.message.</span></span><span class="sig-name descname"><span class="pre">MessageCreatedEvent</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">time</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">message</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#dsns.message.BaseMessage" title="dsns.message.BaseMessage"><span class="pre">BaseMessage</span></a></span></em><span class="sig-paren">)</span><a class="headerlink" href="#dsns.message.MessageCreatedEvent" title="Link to this definition"></a></dt>
+<dd><p>Event for when a message is created.</p>
+<dl class="py method">
+<dt class="sig sig-object py" id="dsns.message.MessageCreatedEvent.__init__">
+<span class="sig-name descname"><span class="pre">__init__</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">time</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">message</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#dsns.message.BaseMessage" title="dsns.message.BaseMessage"><span class="pre">BaseMessage</span></a></span></em><span class="sig-paren">)</span><a class="headerlink" href="#dsns.message.MessageCreatedEvent.__init__" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="dsns.message.MessageCreatedEvent.message">
+<span class="sig-name descname"><span class="pre">message</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference internal" href="#dsns.message.BaseMessage" title="dsns.message.BaseMessage"><span class="pre">BaseMessage</span></a></em><a class="headerlink" href="#dsns.message.MessageCreatedEvent.message" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="dsns.message.LTPSegmentCreatedEvent">
+<em class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">dsns.message.</span></span><span class="sig-name descname"><span class="pre">LTPSegmentCreatedEvent</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">time</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">message</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#dsns.message.LTPSegment" title="dsns.message.LTPSegment"><span class="pre">LTPSegment</span></a></span></em><span class="sig-paren">)</span><a class="headerlink" href="#dsns.message.LTPSegmentCreatedEvent" title="Link to this definition"></a></dt>
+<dd><p>Event for when a LTP Segment is created.</p>
+<dl class="py method">
+<dt class="sig sig-object py" id="dsns.message.LTPSegmentCreatedEvent.__init__">
+<span class="sig-name descname"><span class="pre">__init__</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">time</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">message</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#dsns.message.LTPSegment" title="dsns.message.LTPSegment"><span class="pre">LTPSegment</span></a></span></em><span class="sig-paren">)</span><a class="headerlink" href="#dsns.message.LTPSegmentCreatedEvent.__init__" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="dsns.message.LTPSegmentCreatedEvent.message">
+<span class="sig-name descname"><span class="pre">message</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference internal" href="#dsns.message.LTPSegment" title="dsns.message.LTPSegment"><span class="pre">LTPSegment</span></a></em><a class="headerlink" href="#dsns.message.LTPSegmentCreatedEvent.message" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="dsns.message.AttackMessageDroppedEvent">
+<em class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">dsns.message.</span></span><span class="sig-name descname"><span class="pre">AttackMessageDroppedEvent</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">time</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">source</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">message</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#dsns.message.BaseMessage" title="dsns.message.BaseMessage"><span class="pre">BaseMessage</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">reason</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#dsns.message.DropReason" title="dsns.message.DropReason"><span class="pre">DropReason</span></a></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">DropReason.UNKNOWN</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#dsns.message.AttackMessageDroppedEvent" title="Link to this definition"></a></dt>
+<dd><p>Event for when a message is dropped because of an attack.</p>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="dsns.message.LinkDownAttackStrategy">
+<span class="sig-prename descclassname"><span class="pre">dsns.message.</span></span><span class="sig-name descname"><span class="pre">LinkDownAttackStrategy</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">links</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">set</span><span class="p"><span class="pre">[</span></span><span class="pre">tuple</span><span class="p"><span class="pre">[</span></span><span class="pre">int</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">int</span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span></span></em>, <em class="sig-param"><span class="n"><span class="pre">start_time</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">0.0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">probability</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">1.0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">seed</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">message_filter</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Callable</span><span class="p"><span class="pre">[</span></span><span class="p"><span class="pre">[</span></span><a class="reference internal" href="#dsns.message.BaseMessage" title="dsns.message.BaseMessage"><span class="pre">BaseMessage</span></a><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">bool</span><span class="p"><span class="pre">]</span></span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">Callable</span><span class="p"><span class="pre">[</span></span><span class="p"><span class="pre">[</span></span><a class="reference internal" href="#dsns.message.MessageSentEvent" title="dsns.message.MessageSentEvent"><span class="pre">MessageSentEvent</span></a><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">bool</span><span class="p"><span class="pre">]</span></span></span></span><a class="headerlink" href="#dsns.message.LinkDownAttackStrategy" title="Link to this definition"></a></dt>
+<dd><p>Create an attack strategy that takes down links after a given time.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>links</strong> – Set of links to drop messages for.</p></li>
+<li><p><strong>start_time</strong> – Time to start dropping messages from.</p></li>
+<li><p><strong>probability</strong> – Probability of dropping a message.</p></li>
+<li><p><strong>seed</strong> – Seed to use for the random number generator.</p></li>
+<li><p><strong>message_filter</strong> – Optional filter function.
+If provided, only messages that pass the filter will be dropped.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>Attack strategy.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="dsns.message.NodeDownAttackStrategy">
+<span class="sig-prename descclassname"><span class="pre">dsns.message.</span></span><span class="sig-name descname"><span class="pre">NodeDownAttackStrategy</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">nodes</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">set</span><span class="p"><span class="pre">[</span></span><span class="pre">int</span><span class="p"><span class="pre">]</span></span></span></em>, <em class="sig-param"><span class="n"><span class="pre">start_time</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">0.0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">probability</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">1.0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">seed</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">message_filter</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Callable</span><span class="p"><span class="pre">[</span></span><span class="p"><span class="pre">[</span></span><a class="reference internal" href="#dsns.message.BaseMessage" title="dsns.message.BaseMessage"><span class="pre">BaseMessage</span></a><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">bool</span><span class="p"><span class="pre">]</span></span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">Callable</span><span class="p"><span class="pre">[</span></span><span class="p"><span class="pre">[</span></span><a class="reference internal" href="#dsns.message.MessageSentEvent" title="dsns.message.MessageSentEvent"><span class="pre">MessageSentEvent</span></a><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">bool</span><span class="p"><span class="pre">]</span></span></span></span><a class="headerlink" href="#dsns.message.NodeDownAttackStrategy" title="Link to this definition"></a></dt>
+<dd><p>Create an attack strategy that takes down nodes after a given time.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>nodes</strong> – Set of nodes to drop messages for.</p></li>
+<li><p><strong>start_time</strong> – Time to start dropping messages from.</p></li>
+<li><p><strong>probability</strong> – Probability of dropping a message.</p></li>
+<li><p><strong>seed</strong> – Seed to use for the random number generator.</p></li>
+<li><p><strong>message_filter</strong> – Optional filter function.
+If provided, only messages that pass the filter will be dropped.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>Attack strategy.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="dsns.message.MultipleAttackStrategy">
+<span class="sig-prename descclassname"><span class="pre">dsns.message.</span></span><span class="sig-name descname"><span class="pre">MultipleAttackStrategy</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">strategies</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">list</span><span class="p"><span class="pre">[</span></span><span class="pre">Callable</span><span class="p"><span class="pre">[</span></span><span class="p"><span class="pre">[</span></span><a class="reference internal" href="#dsns.message.MessageSentEvent" title="dsns.message.MessageSentEvent"><span class="pre">MessageSentEvent</span></a><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">bool</span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">Callable</span><span class="p"><span class="pre">[</span></span><span class="p"><span class="pre">[</span></span><a class="reference internal" href="#dsns.message.MessageSentEvent" title="dsns.message.MessageSentEvent"><span class="pre">MessageSentEvent</span></a><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">bool</span><span class="p"><span class="pre">]</span></span></span></span><a class="headerlink" href="#dsns.message.MultipleAttackStrategy" title="Link to this definition"></a></dt>
+<dd><p>Create an attack strategy that combines multiple attack strategies.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>strategies</strong> – List of attack strategies to combine.</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>Combined attack strategy.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="dsns.message.RELIABLE_TRANSFER_TYPE">
+<em class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">dsns.message.</span></span><span class="sig-name descname"><span class="pre">RELIABLE_TRANSFER_TYPE</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">values</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#dsns.message.RELIABLE_TRANSFER_TYPE" title="Link to this definition"></a></dt>
+<dd><dl class="py attribute">
+<dt class="sig sig-object py" id="dsns.message.RELIABLE_TRANSFER_TYPE.NONE">
+<span class="sig-name descname"><span class="pre">NONE</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'NONE'</span></em><a class="headerlink" href="#dsns.message.RELIABLE_TRANSFER_TYPE.NONE" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="dsns.message.RELIABLE_TRANSFER_TYPE.LTP">
+<span class="sig-name descname"><span class="pre">LTP</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'LTP'</span></em><a class="headerlink" href="#dsns.message.RELIABLE_TRANSFER_TYPE.LTP" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="dsns.message.ReliableTransferConfig">
+<em class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">dsns.message.</span></span><span class="sig-name descname"><span class="pre">ReliableTransferConfig</span></span><a class="headerlink" href="#dsns.message.ReliableTransferConfig" title="Link to this definition"></a></dt>
+<dd><p>Abstract base class for configurations on how routing actor should send messages
+Either break them down into LTP segments or send the entire message unreliably</p>
+<dl class="py method">
+<dt class="sig sig-object py" id="dsns.message.ReliableTransferConfig.get_messages">
+<em class="property"><span class="k"><span class="pre">abstractmethod</span></span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">get_messages</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">time</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">source</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">destination</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">message</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#dsns.message.HybridDirectMessage" title="dsns.message.HybridDirectMessage"><span class="pre">HybridDirectMessage</span></a></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">list</span><span class="p"><span class="pre">[</span></span><a class="reference internal" href="#dsns.message.DirectMessage" title="dsns.message.DirectMessage"><span class="pre">DirectMessage</span></a><span class="p"><span class="pre">]</span></span></span></span><a class="headerlink" href="#dsns.message.ReliableTransferConfig.get_messages" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="dsns.message.UnreliableConfig">
+<em class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">dsns.message.</span></span><span class="sig-name descname"><span class="pre">UnreliableConfig</span></span><a class="headerlink" href="#dsns.message.UnreliableConfig" title="Link to this definition"></a></dt>
+<dd><p>Specific transfer config for unreliable transfer</p>
+<dl class="py method">
+<dt class="sig sig-object py" id="dsns.message.UnreliableConfig.get_messages">
+<span class="sig-name descname"><span class="pre">get_messages</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">time</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">source</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">destination</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">message</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#dsns.message.HybridDirectMessage" title="dsns.message.HybridDirectMessage"><span class="pre">HybridDirectMessage</span></a></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">list</span><span class="p"><span class="pre">[</span></span><a class="reference internal" href="#dsns.message.DirectMessage" title="dsns.message.DirectMessage"><span class="pre">DirectMessage</span></a><span class="p"><span class="pre">]</span></span></span></span><a class="headerlink" href="#dsns.message.UnreliableConfig.get_messages" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="dsns.message.LTPConfig">
+<em class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">dsns.message.</span></span><span class="sig-name descname"><span class="pre">LTPConfig</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">max_segment_size</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">8192</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#dsns.message.LTPConfig" title="Link to this definition"></a></dt>
+<dd><p><a class="reference external" href="https://ntrs.nasa.gov/api/citations/20240015952/downloads/IEEE_Aeroconf_2025%20final.pdf">https://ntrs.nasa.gov/api/citations/20240015952/downloads/IEEE_Aeroconf_2025%20final.pdf</a>
+Says performance increases sharply until 8KB Segment Size and then marginally until 64KB.
+But 64KB is more on the unrealistic side (IP fragmentation and otherwise that we don’t have).
+Whereas 9KB Jumbo Frames are possible. So we will stick to performance maximising Segment Size for
+regular DTNs at 8KB.
+Suggests 8KB-64KB Segment Size (especially on HDTNs like relay links).
+- Uses high bandwidth link with different MTU (we don’t model MTU here)
+- Uses unrealistically high bandwidth though (not the goal of that paper) so need to find other more realistic source for this</p>
+<dl class="py method">
+<dt class="sig sig-object py" id="dsns.message.LTPConfig.__init__">
+<span class="sig-name descname"><span class="pre">__init__</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">max_segment_size</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">8192</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#dsns.message.LTPConfig.__init__" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="dsns.message.LTPConfig.get_messages">
+<span class="sig-name descname"><span class="pre">get_messages</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">time</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">source</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">destination</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">message</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#dsns.message.HybridDirectMessage" title="dsns.message.HybridDirectMessage"><span class="pre">HybridDirectMessage</span></a></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">list</span><span class="p"><span class="pre">[</span></span><a class="reference internal" href="#dsns.message.DirectMessage" title="dsns.message.DirectMessage"><span class="pre">DirectMessage</span></a><span class="p"><span class="pre">]</span></span></span></span><a class="headerlink" href="#dsns.message.LTPConfig.get_messages" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="multiconstellation.html" class="btn btn-neutral float-left" title="Multiconstellation" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="message_actors.html" class="btn btn-neutral float-right" title="Message Actors" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2025, Joshua Smailes.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

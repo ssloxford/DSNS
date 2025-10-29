@@ -1,0 +1,517 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="../">
+<head>
+  <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Traffic Simulation &mdash; DSNS  documentation</title>
+      <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=80d5e7a1" />
+      <link rel="stylesheet" type="text/css" href="../_static/css/theme.css?v=e59714d7" />
+
+  
+      <script src="../_static/jquery.js?v=5d32c60e"></script>
+      <script src="../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="../_static/documentation_options.js?v=5929fcd5"></script>
+      <script src="../_static/doctools.js?v=9bcbadda"></script>
+      <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="Helpers" href="helpers.html" />
+    <link rel="prev" title="Transmission" href="transmission.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../index.html" class="icon icon-home">
+            DSNS
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../installation.html">Installation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../examples.html">Examples</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="../api.html">API</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="simulation.html">Simulation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="events.html">Events</a></li>
+<li class="toctree-l2"><a class="reference internal" href="constellation.html">Constellation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="multiconstellation.html">Multiconstellation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="message.html">Message</a></li>
+<li class="toctree-l2"><a class="reference internal" href="message_actors.html">Message Actors</a></li>
+<li class="toctree-l2"><a class="reference internal" href="transmission.html">Transmission</a></li>
+<li class="toctree-l2 current"><a class="current reference internal" href="#">Traffic Simulation</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#dsns.traffic_sim.GenerateMessagesEvent"><code class="docutils literal notranslate"><span class="pre">GenerateMessagesEvent</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#dsns.traffic_sim.GenerateMessagesEvent.__init__"><code class="docutils literal notranslate"><span class="pre">GenerateMessagesEvent.__init__()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#dsns.traffic_sim.Sampler"><code class="docutils literal notranslate"><span class="pre">Sampler</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#dsns.traffic_sim.Sampler.sample_float"><code class="docutils literal notranslate"><span class="pre">Sampler.sample_float()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#dsns.traffic_sim.Sampler.sample_int"><code class="docutils literal notranslate"><span class="pre">Sampler.sample_int()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#dsns.traffic_sim.ConstantSampler"><code class="docutils literal notranslate"><span class="pre">ConstantSampler</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#dsns.traffic_sim.ConstantSampler.__init__"><code class="docutils literal notranslate"><span class="pre">ConstantSampler.__init__()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#dsns.traffic_sim.UniformSampler"><code class="docutils literal notranslate"><span class="pre">UniformSampler</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#dsns.traffic_sim.UniformSampler.__init__"><code class="docutils literal notranslate"><span class="pre">UniformSampler.__init__()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#dsns.traffic_sim.NormalSampler"><code class="docutils literal notranslate"><span class="pre">NormalSampler</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#dsns.traffic_sim.NormalSampler.__init__"><code class="docutils literal notranslate"><span class="pre">NormalSampler.__init__()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#dsns.traffic_sim.ParetoSampler"><code class="docutils literal notranslate"><span class="pre">ParetoSampler</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#dsns.traffic_sim.ParetoSampler.__init__"><code class="docutils literal notranslate"><span class="pre">ParetoSampler.__init__()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#dsns.traffic_sim.MultiPointToPointTrafficActor"><code class="docutils literal notranslate"><span class="pre">MultiPointToPointTrafficActor</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#dsns.traffic_sim.MultiPointToPointTrafficActor.__init__"><code class="docutils literal notranslate"><span class="pre">MultiPointToPointTrafficActor.__init__()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#dsns.traffic_sim.MultiPointToPointTrafficActor.generate_events"><code class="docutils literal notranslate"><span class="pre">MultiPointToPointTrafficActor.generate_events()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#dsns.traffic_sim.MultiPointToPointTrafficActor.initialize"><code class="docutils literal notranslate"><span class="pre">MultiPointToPointTrafficActor.initialize()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#dsns.traffic_sim.MultiPointToPointTrafficActor.handle_event"><code class="docutils literal notranslate"><span class="pre">MultiPointToPointTrafficActor.handle_event()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#dsns.traffic_sim.RandomTrafficActor"><code class="docutils literal notranslate"><span class="pre">RandomTrafficActor</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#dsns.traffic_sim.RandomTrafficActor.__init__"><code class="docutils literal notranslate"><span class="pre">RandomTrafficActor.__init__()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#dsns.traffic_sim.RandomTrafficActor.generate_events"><code class="docutils literal notranslate"><span class="pre">RandomTrafficActor.generate_events()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#dsns.traffic_sim.RandomTrafficActor.initialize"><code class="docutils literal notranslate"><span class="pre">RandomTrafficActor.initialize()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#dsns.traffic_sim.RandomTrafficActor.handle_event"><code class="docutils literal notranslate"><span class="pre">RandomTrafficActor.handle_event()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#dsns.traffic_sim.PointToPointTrafficActor"><code class="docutils literal notranslate"><span class="pre">PointToPointTrafficActor</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#dsns.traffic_sim.PointToPointTrafficActor.__init__"><code class="docutils literal notranslate"><span class="pre">PointToPointTrafficActor.__init__()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#dsns.traffic_sim.PointToPointTrafficActor.generate_events"><code class="docutils literal notranslate"><span class="pre">PointToPointTrafficActor.generate_events()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#dsns.traffic_sim.PointToPointTrafficActor.initialize"><code class="docutils literal notranslate"><span class="pre">PointToPointTrafficActor.initialize()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#dsns.traffic_sim.PointToPointTrafficActor.handle_event"><code class="docutils literal notranslate"><span class="pre">PointToPointTrafficActor.handle_event()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#dsns.traffic_sim.TrafficFloodEvent"><code class="docutils literal notranslate"><span class="pre">TrafficFloodEvent</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#dsns.traffic_sim.TrafficFloodEvent.__init__"><code class="docutils literal notranslate"><span class="pre">TrafficFloodEvent.__init__()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#dsns.traffic_sim.TrafficFloodActor"><code class="docutils literal notranslate"><span class="pre">TrafficFloodActor</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#dsns.traffic_sim.TrafficFloodActor.__init__"><code class="docutils literal notranslate"><span class="pre">TrafficFloodActor.__init__()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#dsns.traffic_sim.TrafficFloodActor.links"><code class="docutils literal notranslate"><span class="pre">TrafficFloodActor.links</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#dsns.traffic_sim.TrafficFloodActor.period"><code class="docutils literal notranslate"><span class="pre">TrafficFloodActor.period</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#dsns.traffic_sim.TrafficFloodActor.size"><code class="docutils literal notranslate"><span class="pre">TrafficFloodActor.size</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#dsns.traffic_sim.TrafficFloodActor.start_time"><code class="docutils literal notranslate"><span class="pre">TrafficFloodActor.start_time</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#dsns.traffic_sim.TrafficFloodActor.end_time"><code class="docutils literal notranslate"><span class="pre">TrafficFloodActor.end_time</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#dsns.traffic_sim.TrafficFloodActor.initialize"><code class="docutils literal notranslate"><span class="pre">TrafficFloodActor.initialize()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#dsns.traffic_sim.TrafficFloodActor.handle_event"><code class="docutils literal notranslate"><span class="pre">TrafficFloodActor.handle_event()</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="helpers.html">Helpers</a></li>
+<li class="toctree-l2"><a class="reference internal" href="presets.html">Presets</a></li>
+<li class="toctree-l2"><a class="reference internal" href="reference_scenarios.html">Reference Scenarios</a></li>
+<li class="toctree-l2"><a class="reference internal" href="logging.html">Logging</a></li>
+<li class="toctree-l2"><a class="reference internal" href="visualizer.html">Visualizer</a></li>
+</ul>
+</li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../index.html">DSNS</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="../api.html">API</a></li>
+      <li class="breadcrumb-item active">Traffic Simulation</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="../_sources/api/traffic_sim.rst.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="module-dsns.traffic_sim">
+<span id="traffic-simulation"></span><h1>Traffic Simulation<a class="headerlink" href="#module-dsns.traffic_sim" title="Link to this heading"></a></h1>
+<dl class="py class">
+<dt class="sig sig-object py" id="dsns.traffic_sim.GenerateMessagesEvent">
+<em class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">dsns.traffic_sim.</span></span><span class="sig-name descname"><span class="pre">GenerateMessagesEvent</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">time</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#dsns.traffic_sim.GenerateMessagesEvent" title="Link to this definition"></a></dt>
+<dd><p>Event to add more messages to the simulation queue.</p>
+<dl class="py method">
+<dt class="sig sig-object py" id="dsns.traffic_sim.GenerateMessagesEvent.__init__">
+<span class="sig-name descname"><span class="pre">__init__</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">time</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#dsns.traffic_sim.GenerateMessagesEvent.__init__" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="dsns.traffic_sim.Sampler">
+<em class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">dsns.traffic_sim.</span></span><span class="sig-name descname"><span class="pre">Sampler</span></span><a class="headerlink" href="#dsns.traffic_sim.Sampler" title="Link to this definition"></a></dt>
+<dd><p>Base class for sampling strategies.</p>
+<dl class="py method">
+<dt class="sig sig-object py" id="dsns.traffic_sim.Sampler.sample_float">
+<span class="sig-name descname"><span class="pre">sample_float</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">min</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">max</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">float</span></span></span><a class="headerlink" href="#dsns.traffic_sim.Sampler.sample_float" title="Link to this definition"></a></dt>
+<dd><p>Sample a value from the distribution.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="dsns.traffic_sim.Sampler.sample_int">
+<span class="sig-name descname"><span class="pre">sample_int</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">min</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">max</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">int</span></span></span><a class="headerlink" href="#dsns.traffic_sim.Sampler.sample_int" title="Link to this definition"></a></dt>
+<dd><p>Sample a value from the distribution and convert it to an integer.</p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="dsns.traffic_sim.ConstantSampler">
+<em class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">dsns.traffic_sim.</span></span><span class="sig-name descname"><span class="pre">ConstantSampler</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">value</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#dsns.traffic_sim.ConstantSampler" title="Link to this definition"></a></dt>
+<dd><p>A simple constant sampler that returns a fixed value.</p>
+<dl class="py method">
+<dt class="sig sig-object py" id="dsns.traffic_sim.ConstantSampler.__init__">
+<span class="sig-name descname"><span class="pre">__init__</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">value</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#dsns.traffic_sim.ConstantSampler.__init__" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="dsns.traffic_sim.UniformSampler">
+<em class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">dsns.traffic_sim.</span></span><span class="sig-name descname"><span class="pre">UniformSampler</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">min</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">max</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#dsns.traffic_sim.UniformSampler" title="Link to this definition"></a></dt>
+<dd><p>A simple uniform sampler that generates random numbers within a specified range.</p>
+<dl class="py method">
+<dt class="sig sig-object py" id="dsns.traffic_sim.UniformSampler.__init__">
+<span class="sig-name descname"><span class="pre">__init__</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">min</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">max</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#dsns.traffic_sim.UniformSampler.__init__" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="dsns.traffic_sim.NormalSampler">
+<em class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">dsns.traffic_sim.</span></span><span class="sig-name descname"><span class="pre">NormalSampler</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">mean</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">std</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#dsns.traffic_sim.NormalSampler" title="Link to this definition"></a></dt>
+<dd><p>A simple normal sampler that generates random numbers from a normal distribution.</p>
+<dl class="py method">
+<dt class="sig sig-object py" id="dsns.traffic_sim.NormalSampler.__init__">
+<span class="sig-name descname"><span class="pre">__init__</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">mean</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">std</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#dsns.traffic_sim.NormalSampler.__init__" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="dsns.traffic_sim.ParetoSampler">
+<em class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">dsns.traffic_sim.</span></span><span class="sig-name descname"><span class="pre">ParetoSampler</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">scale</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">shape</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#dsns.traffic_sim.ParetoSampler" title="Link to this definition"></a></dt>
+<dd><p>A simple Pareto sampler that generates random numbers from a Pareto distribution.</p>
+<dl class="py method">
+<dt class="sig sig-object py" id="dsns.traffic_sim.ParetoSampler.__init__">
+<span class="sig-name descname"><span class="pre">__init__</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">scale</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">shape</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#dsns.traffic_sim.ParetoSampler.__init__" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="dsns.traffic_sim.MultiPointToPointTrafficActor">
+<em class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">dsns.traffic_sim.</span></span><span class="sig-name descname"><span class="pre">MultiPointToPointTrafficActor</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">message_config</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">list</span><span class="p"><span class="pre">[</span></span><span class="pre">tuple</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">int</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">int</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">int</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">float</span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span></span></em>, <em class="sig-param"><span class="n"><span class="pre">update_interval</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">60</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">reliable_messages</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bool</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">cutoff</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#dsns.traffic_sim.MultiPointToPointTrafficActor" title="Link to this definition"></a></dt>
+<dd><p>Actor that simulates point-to-point traffic between multiple pairs of nodes.</p>
+<dl class="py method">
+<dt class="sig sig-object py" id="dsns.traffic_sim.MultiPointToPointTrafficActor.__init__">
+<span class="sig-name descname"><span class="pre">__init__</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">message_config</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">list</span><span class="p"><span class="pre">[</span></span><span class="pre">tuple</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">int</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">int</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">int</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">float</span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span></span></em>, <em class="sig-param"><span class="n"><span class="pre">update_interval</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">60</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">reliable_messages</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bool</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">cutoff</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#dsns.traffic_sim.MultiPointToPointTrafficActor.__init__" title="Link to this definition"></a></dt>
+<dd><dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>message_config</strong> – List of tuples containing (name, source, destination, message_size, message_interval).</p></li>
+<li><p><strong>update_interval</strong> – Time interval to generate new messages in seconds.</p></li>
+<li><p><strong>reliable_messages</strong> – Whether to use reliable message delivery (i.e. generate HybridDirectMessages).</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="dsns.traffic_sim.MultiPointToPointTrafficActor.generate_events">
+<span class="sig-name descname"><span class="pre">generate_events</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">list</span><span class="p"><span class="pre">[</span></span><a class="reference internal" href="events.html#dsns.events.Event" title="dsns.events.Event"><span class="pre">Event</span></a><span class="p"><span class="pre">]</span></span></span></span><a class="headerlink" href="#dsns.traffic_sim.MultiPointToPointTrafficActor.generate_events" title="Link to this definition"></a></dt>
+<dd><p>Generate the events for the current time interval.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="dsns.traffic_sim.MultiPointToPointTrafficActor.initialize">
+<span class="sig-name descname"><span class="pre">initialize</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">list</span><span class="p"><span class="pre">[</span></span><a class="reference internal" href="events.html#dsns.events.Event" title="dsns.events.Event"><span class="pre">Event</span></a><span class="p"><span class="pre">]</span></span></span></span><a class="headerlink" href="#dsns.traffic_sim.MultiPointToPointTrafficActor.initialize" title="Link to this definition"></a></dt>
+<dd><p>Initialize the actor.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>List of events to add to the event queue.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="dsns.traffic_sim.MultiPointToPointTrafficActor.handle_event">
+<span class="sig-name descname"><span class="pre">handle_event</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">_</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">event</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="events.html#dsns.events.Event" title="dsns.events.Event"><span class="pre">Event</span></a></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">list</span><span class="p"><span class="pre">[</span></span><a class="reference internal" href="events.html#dsns.events.Event" title="dsns.events.Event"><span class="pre">Event</span></a><span class="p"><span class="pre">]</span></span></span></span><a class="headerlink" href="#dsns.traffic_sim.MultiPointToPointTrafficActor.handle_event" title="Link to this definition"></a></dt>
+<dd><p>Handle an event.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>mobility</strong> – The mobility model to handle the event with.</p></li>
+<li><p><strong>event</strong> – The event to handle.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>List of events to add to the event queue.</p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="dsns.traffic_sim.RandomTrafficActor">
+<em class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">dsns.traffic_sim.</span></span><span class="sig-name descname"><span class="pre">RandomTrafficActor</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="pre">satellites:</span> <span class="pre">list[int],</span> <span class="pre">message_interval:</span> <span class="pre">float</span> <span class="pre">=</span> <span class="pre">1,</span> <span class="pre">message_size:</span> <span class="pre">~dsns.traffic_sim.Sampler</span> <span class="pre">=</span> <span class="pre">&lt;dsns.traffic_sim.ConstantSampler</span> <span class="pre">object&gt;,</span> <span class="pre">message_source:</span> <span class="pre">~dsns.traffic_sim.Sampler</span> <span class="pre">=</span> <span class="pre">&lt;dsns.traffic_sim.UniformSampler</span> <span class="pre">object&gt;,</span> <span class="pre">message_destination:</span> <span class="pre">~dsns.traffic_sim.Sampler</span> <span class="pre">=</span> <span class="pre">&lt;dsns.traffic_sim.UniformSampler</span> <span class="pre">object&gt;,</span> <span class="pre">update_interval:</span> <span class="pre">float</span> <span class="pre">=</span> <span class="pre">60,</span> <span class="pre">reliable_messages:</span> <span class="pre">bool</span> <span class="pre">=</span> <span class="pre">False</span></em><span class="sig-paren">)</span><a class="headerlink" href="#dsns.traffic_sim.RandomTrafficActor" title="Link to this definition"></a></dt>
+<dd><p>Actor that simulates random traffic across the network.</p>
+<dl class="py method">
+<dt class="sig sig-object py" id="dsns.traffic_sim.RandomTrafficActor.__init__">
+<span class="sig-name descname"><span class="pre">__init__</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="pre">satellites:</span> <span class="pre">list[int],</span> <span class="pre">message_interval:</span> <span class="pre">float</span> <span class="pre">=</span> <span class="pre">1,</span> <span class="pre">message_size:</span> <span class="pre">~dsns.traffic_sim.Sampler</span> <span class="pre">=</span> <span class="pre">&lt;dsns.traffic_sim.ConstantSampler</span> <span class="pre">object&gt;,</span> <span class="pre">message_source:</span> <span class="pre">~dsns.traffic_sim.Sampler</span> <span class="pre">=</span> <span class="pre">&lt;dsns.traffic_sim.UniformSampler</span> <span class="pre">object&gt;,</span> <span class="pre">message_destination:</span> <span class="pre">~dsns.traffic_sim.Sampler</span> <span class="pre">=</span> <span class="pre">&lt;dsns.traffic_sim.UniformSampler</span> <span class="pre">object&gt;,</span> <span class="pre">update_interval:</span> <span class="pre">float</span> <span class="pre">=</span> <span class="pre">60,</span> <span class="pre">reliable_messages:</span> <span class="pre">bool</span> <span class="pre">=</span> <span class="pre">False</span></em><span class="sig-paren">)</span><a class="headerlink" href="#dsns.traffic_sim.RandomTrafficActor.__init__" title="Link to this definition"></a></dt>
+<dd><dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>satellites</strong> – List of satellite IDs to use as sources and destinations.</p></li>
+<li><p><strong>message_interval</strong> – Time interval between messages in seconds.</p></li>
+<li><p><strong>message_size</strong> – Sampler for the size of the messages in bytes.</p></li>
+<li><p><strong>message_source</strong> – Sampler for the source of the messages (e.g. satellite ID).</p></li>
+<li><p><strong>message_destination</strong> – Sampler for the destination of the messages (e.g. satellite ID).</p></li>
+<li><p><strong>update_interval</strong> – Time interval to generate new messages in seconds.</p></li>
+<li><p><strong>reliable_messages</strong> – Whether to use reliable message delivery (i.e. generate HybridDirectMessages).</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="dsns.traffic_sim.RandomTrafficActor.generate_events">
+<span class="sig-name descname"><span class="pre">generate_events</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">list</span><span class="p"><span class="pre">[</span></span><a class="reference internal" href="events.html#dsns.events.Event" title="dsns.events.Event"><span class="pre">Event</span></a><span class="p"><span class="pre">]</span></span></span></span><a class="headerlink" href="#dsns.traffic_sim.RandomTrafficActor.generate_events" title="Link to this definition"></a></dt>
+<dd><p>Generate the events for the current time interval.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="dsns.traffic_sim.RandomTrafficActor.initialize">
+<span class="sig-name descname"><span class="pre">initialize</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">list</span><span class="p"><span class="pre">[</span></span><a class="reference internal" href="events.html#dsns.events.Event" title="dsns.events.Event"><span class="pre">Event</span></a><span class="p"><span class="pre">]</span></span></span></span><a class="headerlink" href="#dsns.traffic_sim.RandomTrafficActor.initialize" title="Link to this definition"></a></dt>
+<dd><p>Initialize the actor.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>List of events to add to the event queue.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="dsns.traffic_sim.RandomTrafficActor.handle_event">
+<span class="sig-name descname"><span class="pre">handle_event</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">_</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">event</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="events.html#dsns.events.Event" title="dsns.events.Event"><span class="pre">Event</span></a></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">list</span><span class="p"><span class="pre">[</span></span><a class="reference internal" href="events.html#dsns.events.Event" title="dsns.events.Event"><span class="pre">Event</span></a><span class="p"><span class="pre">]</span></span></span></span><a class="headerlink" href="#dsns.traffic_sim.RandomTrafficActor.handle_event" title="Link to this definition"></a></dt>
+<dd><p>Handle an event.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>mobility</strong> – The mobility model to handle the event with.</p></li>
+<li><p><strong>event</strong> – The event to handle.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>List of events to add to the event queue.</p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="dsns.traffic_sim.PointToPointTrafficActor">
+<em class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">dsns.traffic_sim.</span></span><span class="sig-name descname"><span class="pre">PointToPointTrafficActor</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">source</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">destination</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">message_interval</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">update_interval</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">60</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#dsns.traffic_sim.PointToPointTrafficActor" title="Link to this definition"></a></dt>
+<dd><p>Actor that simulates point-to-point traffic between two satellites.</p>
+<dl class="py method">
+<dt class="sig sig-object py" id="dsns.traffic_sim.PointToPointTrafficActor.__init__">
+<span class="sig-name descname"><span class="pre">__init__</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">source</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">destination</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">message_interval</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">update_interval</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">60</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#dsns.traffic_sim.PointToPointTrafficActor.__init__" title="Link to this definition"></a></dt>
+<dd><dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>source</strong> – The satellite sending the messages.</p></li>
+<li><p><strong>destination</strong> – The satellite receiving the messages.</p></li>
+<li><p><strong>message_interval</strong> – Time interval between messages in seconds.</p></li>
+<li><p><strong>update_interval</strong> – Time interval to generate new messages in seconds.</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="dsns.traffic_sim.PointToPointTrafficActor.generate_events">
+<span class="sig-name descname"><span class="pre">generate_events</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">list</span><span class="p"><span class="pre">[</span></span><a class="reference internal" href="events.html#dsns.events.Event" title="dsns.events.Event"><span class="pre">Event</span></a><span class="p"><span class="pre">]</span></span></span></span><a class="headerlink" href="#dsns.traffic_sim.PointToPointTrafficActor.generate_events" title="Link to this definition"></a></dt>
+<dd><p>Generate the events for the current time interval.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="dsns.traffic_sim.PointToPointTrafficActor.initialize">
+<span class="sig-name descname"><span class="pre">initialize</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">list</span><span class="p"><span class="pre">[</span></span><a class="reference internal" href="events.html#dsns.events.Event" title="dsns.events.Event"><span class="pre">Event</span></a><span class="p"><span class="pre">]</span></span></span></span><a class="headerlink" href="#dsns.traffic_sim.PointToPointTrafficActor.initialize" title="Link to this definition"></a></dt>
+<dd><p>Initialize the actor.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>List of events to add to the event queue.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="dsns.traffic_sim.PointToPointTrafficActor.handle_event">
+<span class="sig-name descname"><span class="pre">handle_event</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">_</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">event</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="events.html#dsns.events.Event" title="dsns.events.Event"><span class="pre">Event</span></a></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">list</span><span class="p"><span class="pre">[</span></span><a class="reference internal" href="events.html#dsns.events.Event" title="dsns.events.Event"><span class="pre">Event</span></a><span class="p"><span class="pre">]</span></span></span></span><a class="headerlink" href="#dsns.traffic_sim.PointToPointTrafficActor.handle_event" title="Link to this definition"></a></dt>
+<dd><p>Handle an event.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>mobility</strong> – The mobility model to handle the event with.</p></li>
+<li><p><strong>event</strong> – The event to handle.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>List of events to add to the event queue.</p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="dsns.traffic_sim.TrafficFloodEvent">
+<em class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">dsns.traffic_sim.</span></span><span class="sig-name descname"><span class="pre">TrafficFloodEvent</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">time</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#dsns.traffic_sim.TrafficFloodEvent" title="Link to this definition"></a></dt>
+<dd><p>Event to start or update the traffic flooding attack.</p>
+<dl class="py method">
+<dt class="sig sig-object py" id="dsns.traffic_sim.TrafficFloodEvent.__init__">
+<span class="sig-name descname"><span class="pre">__init__</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">time</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#dsns.traffic_sim.TrafficFloodEvent.__init__" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="dsns.traffic_sim.TrafficFloodActor">
+<em class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">dsns.traffic_sim.</span></span><span class="sig-name descname"><span class="pre">TrafficFloodActor</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">links</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">list</span><span class="p"><span class="pre">[</span></span><span class="pre">tuple</span><span class="p"><span class="pre">[</span></span><span class="pre">int</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">int</span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span></span></em>, <em class="sig-param"><span class="n"><span class="pre">period</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">1</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">size</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">start_time</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">end_time</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">inf</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#dsns.traffic_sim.TrafficFloodActor" title="Link to this definition"></a></dt>
+<dd><p>Actor that simulates a flooding attack on a configured set of links.</p>
+<dl class="py method">
+<dt class="sig sig-object py" id="dsns.traffic_sim.TrafficFloodActor.__init__">
+<span class="sig-name descname"><span class="pre">__init__</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">links</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">list</span><span class="p"><span class="pre">[</span></span><span class="pre">tuple</span><span class="p"><span class="pre">[</span></span><span class="pre">int</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">int</span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span></span></em>, <em class="sig-param"><span class="n"><span class="pre">period</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">1</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">size</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">start_time</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">end_time</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">inf</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#dsns.traffic_sim.TrafficFloodActor.__init__" title="Link to this definition"></a></dt>
+<dd><p>Set up the actor.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>links</strong> – List of source-destination pairs to flood.</p></li>
+<li><p><strong>period</strong> – Delay between messages on each link, in seconds.</p></li>
+<li><p><strong>size</strong> – Size of the messages.</p></li>
+<li><p><strong>start_time</strong> – Time to start the flooding attack.</p></li>
+<li><p><strong>end_time</strong> – Time to end the flooding attack.</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="dsns.traffic_sim.TrafficFloodActor.links">
+<span class="sig-name descname"><span class="pre">links</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">list</span><span class="p"><span class="pre">[</span></span><span class="pre">tuple</span><span class="p"><span class="pre">[</span></span><span class="pre">int</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">int</span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span></em><a class="headerlink" href="#dsns.traffic_sim.TrafficFloodActor.links" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="dsns.traffic_sim.TrafficFloodActor.period">
+<span class="sig-name descname"><span class="pre">period</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">int</span></em><a class="headerlink" href="#dsns.traffic_sim.TrafficFloodActor.period" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="dsns.traffic_sim.TrafficFloodActor.size">
+<span class="sig-name descname"><span class="pre">size</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">int</span></em><a class="headerlink" href="#dsns.traffic_sim.TrafficFloodActor.size" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="dsns.traffic_sim.TrafficFloodActor.start_time">
+<span class="sig-name descname"><span class="pre">start_time</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">float</span></em><a class="headerlink" href="#dsns.traffic_sim.TrafficFloodActor.start_time" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="dsns.traffic_sim.TrafficFloodActor.end_time">
+<span class="sig-name descname"><span class="pre">end_time</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">float</span></em><a class="headerlink" href="#dsns.traffic_sim.TrafficFloodActor.end_time" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="dsns.traffic_sim.TrafficFloodActor.initialize">
+<span class="sig-name descname"><span class="pre">initialize</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">list</span><span class="p"><span class="pre">[</span></span><a class="reference internal" href="events.html#dsns.events.Event" title="dsns.events.Event"><span class="pre">Event</span></a><span class="p"><span class="pre">]</span></span></span></span><a class="headerlink" href="#dsns.traffic_sim.TrafficFloodActor.initialize" title="Link to this definition"></a></dt>
+<dd><p>Initialize the actor.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>List of events to add to the event queue.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="dsns.traffic_sim.TrafficFloodActor.handle_event">
+<span class="sig-name descname"><span class="pre">handle_event</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">_</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">event</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="events.html#dsns.events.Event" title="dsns.events.Event"><span class="pre">Event</span></a></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">list</span><span class="p"><span class="pre">[</span></span><a class="reference internal" href="events.html#dsns.events.Event" title="dsns.events.Event"><span class="pre">Event</span></a><span class="p"><span class="pre">]</span></span></span></span><a class="headerlink" href="#dsns.traffic_sim.TrafficFloodActor.handle_event" title="Link to this definition"></a></dt>
+<dd><p>Handle an event.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>mobility</strong> – The mobility model to handle the event with.</p></li>
+<li><p><strong>event</strong> – The event to handle.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>List of events to add to the event queue.</p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="transmission.html" class="btn btn-neutral float-left" title="Transmission" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="helpers.html" class="btn btn-neutral float-right" title="Helpers" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2025, Joshua Smailes.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

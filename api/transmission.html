@@ -1,0 +1,614 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="../">
+<head>
+  <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Transmission &mdash; DSNS  documentation</title>
+      <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=80d5e7a1" />
+      <link rel="stylesheet" type="text/css" href="../_static/css/theme.css?v=e59714d7" />
+
+  
+      <script src="../_static/jquery.js?v=5d32c60e"></script>
+      <script src="../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="../_static/documentation_options.js?v=5929fcd5"></script>
+      <script src="../_static/doctools.js?v=9bcbadda"></script>
+      <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="Traffic Simulation" href="traffic_sim.html" />
+    <link rel="prev" title="Message Actors" href="message_actors.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../index.html" class="icon icon-home">
+            DSNS
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../installation.html">Installation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../examples.html">Examples</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="../api.html">API</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="simulation.html">Simulation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="events.html">Events</a></li>
+<li class="toctree-l2"><a class="reference internal" href="constellation.html">Constellation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="multiconstellation.html">Multiconstellation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="message.html">Message</a></li>
+<li class="toctree-l2"><a class="reference internal" href="message_actors.html">Message Actors</a></li>
+<li class="toctree-l2 current"><a class="current reference internal" href="#">Transmission</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#dsns.transmission.MessageLocationTracker"><code class="docutils literal notranslate"><span class="pre">MessageLocationTracker</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#dsns.transmission.MessageLocationTracker.__init__"><code class="docutils literal notranslate"><span class="pre">MessageLocationTracker.__init__()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#dsns.transmission.MessageLocationTracker.remove_message_from_location"><code class="docutils literal notranslate"><span class="pre">MessageLocationTracker.remove_message_from_location()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#dsns.transmission.MessageLocationTracker.add_message_to_location"><code class="docutils literal notranslate"><span class="pre">MessageLocationTracker.add_message_to_location()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#dsns.transmission.MessageLocationTracker.get_messages_in_location"><code class="docutils literal notranslate"><span class="pre">MessageLocationTracker.get_messages_in_location()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#dsns.transmission.MessageLocationTracker.is_message_at_location"><code class="docutils literal notranslate"><span class="pre">MessageLocationTracker.is_message_at_location()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#dsns.transmission.MessageScheduledSendCompletedEvent"><code class="docutils literal notranslate"><span class="pre">MessageScheduledSendCompletedEvent</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#dsns.transmission.MessageScheduledSendCompletedEvent.__init__"><code class="docutils literal notranslate"><span class="pre">MessageScheduledSendCompletedEvent.__init__()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#dsns.transmission.MessageScheduledSendCompletedEvent.message"><code class="docutils literal notranslate"><span class="pre">MessageScheduledSendCompletedEvent.message</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#dsns.transmission.BandwidthUpdateEvent"><code class="docutils literal notranslate"><span class="pre">BandwidthUpdateEvent</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#dsns.transmission.BandwidthUpdateEvent.__init__"><code class="docutils literal notranslate"><span class="pre">BandwidthUpdateEvent.__init__()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#dsns.transmission.TransmissionInterval"><code class="docutils literal notranslate"><span class="pre">TransmissionInterval</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#dsns.transmission.TransmissionInterval.start_time"><code class="docutils literal notranslate"><span class="pre">TransmissionInterval.start_time</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#dsns.transmission.TransmissionInterval.end_time"><code class="docutils literal notranslate"><span class="pre">TransmissionInterval.end_time</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#dsns.transmission.TransmissionInterval.__init__"><code class="docutils literal notranslate"><span class="pre">TransmissionInterval.__init__()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#dsns.transmission.LinkTransmissionActor"><code class="docutils literal notranslate"><span class="pre">LinkTransmissionActor</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#dsns.transmission.LinkTransmissionActor.__init__"><code class="docutils literal notranslate"><span class="pre">LinkTransmissionActor.__init__()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#dsns.transmission.LinkTransmissionActor.initialize"><code class="docutils literal notranslate"><span class="pre">LinkTransmissionActor.initialize()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#dsns.transmission.LinkTransmissionActor.handle_message_queued_event"><code class="docutils literal notranslate"><span class="pre">LinkTransmissionActor.handle_message_queued_event()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#dsns.transmission.LinkTransmissionActor.handle_message_scheduled_send_completed_event"><code class="docutils literal notranslate"><span class="pre">LinkTransmissionActor.handle_message_scheduled_send_completed_event()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#dsns.transmission.LinkTransmissionActor.handle_link_down_event"><code class="docutils literal notranslate"><span class="pre">LinkTransmissionActor.handle_link_down_event()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#dsns.transmission.LinkTransmissionActor.handle_message_sent_event"><code class="docutils literal notranslate"><span class="pre">LinkTransmissionActor.handle_message_sent_event()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#dsns.transmission.LinkTransmissionActor.handle_link_up_event"><code class="docutils literal notranslate"><span class="pre">LinkTransmissionActor.handle_link_up_event()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#dsns.transmission.LinkTransmissionActor.handle_bandwidth_update_event"><code class="docutils literal notranslate"><span class="pre">LinkTransmissionActor.handle_bandwidth_update_event()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#dsns.transmission.LinkTransmissionActor.handle_event"><code class="docutils literal notranslate"><span class="pre">LinkTransmissionActor.handle_event()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#dsns.transmission.MessageTransmissionTimeoutEvent"><code class="docutils literal notranslate"><span class="pre">MessageTransmissionTimeoutEvent</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#dsns.transmission.MessageTransmissionTimeoutEvent.__init__"><code class="docutils literal notranslate"><span class="pre">MessageTransmissionTimeoutEvent.__init__()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#dsns.transmission.MessageTransmissionTimeoutEvent.message"><code class="docutils literal notranslate"><span class="pre">MessageTransmissionTimeoutEvent.message</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#dsns.transmission.MessageTransmissionTimeoutEvent.source"><code class="docutils literal notranslate"><span class="pre">MessageTransmissionTimeoutEvent.source</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#dsns.transmission.MessageTransmissionTimeoutEvent.destination"><code class="docutils literal notranslate"><span class="pre">MessageTransmissionTimeoutEvent.destination</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#dsns.transmission.LTPSegmentDroppedEvent"><code class="docutils literal notranslate"><span class="pre">LTPSegmentDroppedEvent</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#dsns.transmission.LTPSegmentDroppedEvent.__init__"><code class="docutils literal notranslate"><span class="pre">LTPSegmentDroppedEvent.__init__()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#dsns.transmission.LTPSegmentDroppedEvent.message"><code class="docutils literal notranslate"><span class="pre">LTPSegmentDroppedEvent.message</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#dsns.transmission.AbortReason"><code class="docutils literal notranslate"><span class="pre">AbortReason</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#dsns.transmission.AbortReason.LTP_SESSION_CANCELATION"><code class="docutils literal notranslate"><span class="pre">AbortReason.LTP_SESSION_CANCELATION</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#dsns.transmission.AbortReason.UNKNOWN"><code class="docutils literal notranslate"><span class="pre">AbortReason.UNKNOWN</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#dsns.transmission.MessageReceptionCanceledEvent"><code class="docutils literal notranslate"><span class="pre">MessageReceptionCanceledEvent</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#dsns.transmission.MessageReceptionCanceledEvent.__init__"><code class="docutils literal notranslate"><span class="pre">MessageReceptionCanceledEvent.__init__()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#dsns.transmission.MessageReceptionCanceledEvent.message"><code class="docutils literal notranslate"><span class="pre">MessageReceptionCanceledEvent.message</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#dsns.transmission.RetransmissionConfig"><code class="docutils literal notranslate"><span class="pre">RetransmissionConfig</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#dsns.transmission.RetransmissionConfig.timeout"><code class="docutils literal notranslate"><span class="pre">RetransmissionConfig.timeout()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#dsns.transmission.RetransmissionConfig.max_retries"><code class="docutils literal notranslate"><span class="pre">RetransmissionConfig.max_retries</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#dsns.transmission.RetransmissionConfig.__init__"><code class="docutils literal notranslate"><span class="pre">RetransmissionConfig.__init__()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#dsns.transmission.LTPSessionID"><code class="docutils literal notranslate"><span class="pre">LTPSessionID</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#dsns.transmission.LTPSessionID.source"><code class="docutils literal notranslate"><span class="pre">LTPSessionID.source</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#dsns.transmission.LTPSessionID.destination"><code class="docutils literal notranslate"><span class="pre">LTPSessionID.destination</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#dsns.transmission.LTPSessionID.underlying_message_uid"><code class="docutils literal notranslate"><span class="pre">LTPSessionID.underlying_message_uid</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#dsns.transmission.LTPSessionID.session"><code class="docutils literal notranslate"><span class="pre">LTPSessionID.session</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#dsns.transmission.LTPSessionID.__init__"><code class="docutils literal notranslate"><span class="pre">LTPSessionID.__init__()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#dsns.transmission.LTPMessageRetransmissionActor"><code class="docutils literal notranslate"><span class="pre">LTPMessageRetransmissionActor</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#dsns.transmission.LTPMessageRetransmissionActor.__init__"><code class="docutils literal notranslate"><span class="pre">LTPMessageRetransmissionActor.__init__()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#dsns.transmission.LTPMessageRetransmissionActor.initialize"><code class="docutils literal notranslate"><span class="pre">LTPMessageRetransmissionActor.initialize()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#dsns.transmission.LTPMessageRetransmissionActor.handle_message_sent_event"><code class="docutils literal notranslate"><span class="pre">LTPMessageRetransmissionActor.handle_message_sent_event()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#dsns.transmission.LTPMessageRetransmissionActor.handle_data_segment_received_event"><code class="docutils literal notranslate"><span class="pre">LTPMessageRetransmissionActor.handle_data_segment_received_event()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#dsns.transmission.LTPMessageRetransmissionActor.handle_report_segment_received_event"><code class="docutils literal notranslate"><span class="pre">LTPMessageRetransmissionActor.handle_report_segment_received_event()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#dsns.transmission.LTPMessageRetransmissionActor.handle_report_ack_received_event"><code class="docutils literal notranslate"><span class="pre">LTPMessageRetransmissionActor.handle_report_ack_received_event()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#dsns.transmission.LTPMessageRetransmissionActor.handle_message_dropped_event"><code class="docutils literal notranslate"><span class="pre">LTPMessageRetransmissionActor.handle_message_dropped_event()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#dsns.transmission.LTPMessageRetransmissionActor.handle_message_transmission_timeout_event"><code class="docutils literal notranslate"><span class="pre">LTPMessageRetransmissionActor.handle_message_transmission_timeout_event()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#dsns.transmission.LTPMessageRetransmissionActor.handle_ltp_segment_created_event"><code class="docutils literal notranslate"><span class="pre">LTPMessageRetransmissionActor.handle_ltp_segment_created_event()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#dsns.transmission.LTPMessageRetransmissionActor.handle_message_reroute_event"><code class="docutils literal notranslate"><span class="pre">LTPMessageRetransmissionActor.handle_message_reroute_event()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#dsns.transmission.LTPMessageRetransmissionActor.handle_event"><code class="docutils literal notranslate"><span class="pre">LTPMessageRetransmissionActor.handle_event()</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="traffic_sim.html">Traffic Simulation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="helpers.html">Helpers</a></li>
+<li class="toctree-l2"><a class="reference internal" href="presets.html">Presets</a></li>
+<li class="toctree-l2"><a class="reference internal" href="reference_scenarios.html">Reference Scenarios</a></li>
+<li class="toctree-l2"><a class="reference internal" href="logging.html">Logging</a></li>
+<li class="toctree-l2"><a class="reference internal" href="visualizer.html">Visualizer</a></li>
+</ul>
+</li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../index.html">DSNS</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="../api.html">API</a></li>
+      <li class="breadcrumb-item active">Transmission</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="../_sources/api/transmission.rst.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="module-dsns.transmission">
+<span id="transmission"></span><h1>Transmission<a class="headerlink" href="#module-dsns.transmission" title="Link to this heading"></a></h1>
+<dl class="py class">
+<dt class="sig sig-object py" id="dsns.transmission.MessageLocationTracker">
+<em class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">dsns.transmission.</span></span><span class="sig-name descname"><span class="pre">MessageLocationTracker</span></span><a class="headerlink" href="#dsns.transmission.MessageLocationTracker" title="Link to this definition"></a></dt>
+<dd><dl class="py method">
+<dt class="sig sig-object py" id="dsns.transmission.MessageLocationTracker.__init__">
+<span class="sig-name descname"><span class="pre">__init__</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#dsns.transmission.MessageLocationTracker.__init__" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="dsns.transmission.MessageLocationTracker.remove_message_from_location">
+<span class="sig-name descname"><span class="pre">remove_message_from_location</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">message</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="message.html#dsns.message.DirectMessage" title="dsns.message.DirectMessage"><span class="pre">DirectMessage</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">link</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="message.html#dsns.message.Link" title="dsns.message.Link"><span class="pre">Link</span></a></span></em><span class="sig-paren">)</span><a class="headerlink" href="#dsns.transmission.MessageLocationTracker.remove_message_from_location" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="dsns.transmission.MessageLocationTracker.add_message_to_location">
+<span class="sig-name descname"><span class="pre">add_message_to_location</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">message</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="message.html#dsns.message.DirectMessage" title="dsns.message.DirectMessage"><span class="pre">DirectMessage</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">link</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="message.html#dsns.message.Link" title="dsns.message.Link"><span class="pre">Link</span></a></span></em><span class="sig-paren">)</span><a class="headerlink" href="#dsns.transmission.MessageLocationTracker.add_message_to_location" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="dsns.transmission.MessageLocationTracker.get_messages_in_location">
+<span class="sig-name descname"><span class="pre">get_messages_in_location</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">link</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="message.html#dsns.message.Link" title="dsns.message.Link"><span class="pre">Link</span></a></span></em><span class="sig-paren">)</span><a class="headerlink" href="#dsns.transmission.MessageLocationTracker.get_messages_in_location" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="dsns.transmission.MessageLocationTracker.is_message_at_location">
+<span class="sig-name descname"><span class="pre">is_message_at_location</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">message</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="message.html#dsns.message.DirectMessage" title="dsns.message.DirectMessage"><span class="pre">DirectMessage</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">link</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="message.html#dsns.message.Link" title="dsns.message.Link"><span class="pre">Link</span></a></span></em><span class="sig-paren">)</span><a class="headerlink" href="#dsns.transmission.MessageLocationTracker.is_message_at_location" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="dsns.transmission.MessageScheduledSendCompletedEvent">
+<em class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">dsns.transmission.</span></span><span class="sig-name descname"><span class="pre">MessageScheduledSendCompletedEvent</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">time</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">send_start_time</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">source</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">destination</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">message</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="message.html#dsns.message.BaseMessage" title="dsns.message.BaseMessage"><span class="pre">BaseMessage</span></a></span></em><span class="sig-paren">)</span><a class="headerlink" href="#dsns.transmission.MessageScheduledSendCompletedEvent" title="Link to this definition"></a></dt>
+<dd><p>Event for when a message was scheduled to
+have been fully transmitted onto the link.</p>
+<dl class="py method">
+<dt class="sig sig-object py" id="dsns.transmission.MessageScheduledSendCompletedEvent.__init__">
+<span class="sig-name descname"><span class="pre">__init__</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">time</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">send_start_time</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">source</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">destination</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">message</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="message.html#dsns.message.BaseMessage" title="dsns.message.BaseMessage"><span class="pre">BaseMessage</span></a></span></em><span class="sig-paren">)</span><a class="headerlink" href="#dsns.transmission.MessageScheduledSendCompletedEvent.__init__" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="dsns.transmission.MessageScheduledSendCompletedEvent.message">
+<span class="sig-name descname"><span class="pre">message</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference internal" href="message.html#dsns.message.BaseMessage" title="dsns.message.BaseMessage"><span class="pre">BaseMessage</span></a></em><a class="headerlink" href="#dsns.transmission.MessageScheduledSendCompletedEvent.message" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="dsns.transmission.BandwidthUpdateEvent">
+<em class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">dsns.transmission.</span></span><span class="sig-name descname"><span class="pre">BandwidthUpdateEvent</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">time</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">source</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">destination</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">bandwidth</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#dsns.transmission.BandwidthUpdateEvent" title="Link to this definition"></a></dt>
+<dd><p>Event to update the bandwidth of a link.</p>
+<dl class="py method">
+<dt class="sig sig-object py" id="dsns.transmission.BandwidthUpdateEvent.__init__">
+<span class="sig-name descname"><span class="pre">__init__</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">time</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">source</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">destination</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">bandwidth</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#dsns.transmission.BandwidthUpdateEvent.__init__" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="dsns.transmission.TransmissionInterval">
+<em class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">dsns.transmission.</span></span><span class="sig-name descname"><span class="pre">TransmissionInterval</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">start_time</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">end_time</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#dsns.transmission.TransmissionInterval" title="Link to this definition"></a></dt>
+<dd><dl class="py attribute">
+<dt class="sig sig-object py" id="dsns.transmission.TransmissionInterval.start_time">
+<span class="sig-name descname"><span class="pre">start_time</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">float</span></em><a class="headerlink" href="#dsns.transmission.TransmissionInterval.start_time" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="dsns.transmission.TransmissionInterval.end_time">
+<span class="sig-name descname"><span class="pre">end_time</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">float</span></em><a class="headerlink" href="#dsns.transmission.TransmissionInterval.end_time" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="dsns.transmission.TransmissionInterval.__init__">
+<span class="sig-name descname"><span class="pre">__init__</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">start_time</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">end_time</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="headerlink" href="#dsns.transmission.TransmissionInterval.__init__" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="dsns.transmission.LinkTransmissionActor">
+<em class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">dsns.transmission.</span></span><span class="sig-name descname"><span class="pre">LinkTransmissionActor</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">default_bandwidth:</span> <span class="pre">float</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">per_link_bandwidth:</span> <span class="pre">dict</span> <span class="pre">|</span> <span class="pre">None</span> <span class="pre">=</span> <span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">buffer_if_link_busy:</span> <span class="pre">bool</span> <span class="pre">=</span> <span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">reroute_on_link_down:</span> <span class="pre">bool</span> <span class="pre">=</span> <span class="pre">True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">message_location_tracker:</span> <span class="pre">~dsns.transmission.MessageLocationTracker</span> <span class="pre">=</span> <span class="pre">&lt;dsns.transmission.MessageLocationTracker</span> <span class="pre">object&gt;</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#dsns.transmission.LinkTransmissionActor" title="Link to this definition"></a></dt>
+<dd><p>Models bandwidth to schedule when messages are sent
+This actor schedules one message at a time</p>
+<dl class="py method">
+<dt class="sig sig-object py" id="dsns.transmission.LinkTransmissionActor.__init__">
+<span class="sig-name descname"><span class="pre">__init__</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">default_bandwidth:</span> <span class="pre">float</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">per_link_bandwidth:</span> <span class="pre">dict</span> <span class="pre">|</span> <span class="pre">None</span> <span class="pre">=</span> <span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">buffer_if_link_busy:</span> <span class="pre">bool</span> <span class="pre">=</span> <span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">reroute_on_link_down:</span> <span class="pre">bool</span> <span class="pre">=</span> <span class="pre">True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">message_location_tracker:</span> <span class="pre">~dsns.transmission.MessageLocationTracker</span> <span class="pre">=</span> <span class="pre">&lt;dsns.transmission.MessageLocationTracker</span> <span class="pre">object&gt;</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#dsns.transmission.LinkTransmissionActor.__init__" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="dsns.transmission.LinkTransmissionActor.initialize">
+<span class="sig-name descname"><span class="pre">initialize</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">list</span><span class="p"><span class="pre">[</span></span><a class="reference internal" href="events.html#dsns.events.Event" title="dsns.events.Event"><span class="pre">Event</span></a><span class="p"><span class="pre">]</span></span></span></span><a class="headerlink" href="#dsns.transmission.LinkTransmissionActor.initialize" title="Link to this definition"></a></dt>
+<dd><p>Initialize the actor.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>List of events to add to the event queue.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="dsns.transmission.LinkTransmissionActor.handle_message_queued_event">
+<span class="sig-name descname"><span class="pre">handle_message_queued_event</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">mobility</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="multiconstellation.html#dsns.multiconstellation.MultiConstellation" title="dsns.multiconstellation.MultiConstellation"><span class="pre">MultiConstellation</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">event</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="message.html#dsns.message.MessageQueuedEvent" title="dsns.message.MessageQueuedEvent"><span class="pre">MessageQueuedEvent</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">message</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="message.html#dsns.message.BaseMessage" title="dsns.message.BaseMessage"><span class="pre">BaseMessage</span></a></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">list</span><span class="p"><span class="pre">[</span></span><a class="reference internal" href="events.html#dsns.events.Event" title="dsns.events.Event"><span class="pre">Event</span></a><span class="p"><span class="pre">]</span></span></span></span><a class="headerlink" href="#dsns.transmission.LinkTransmissionActor.handle_message_queued_event" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="dsns.transmission.LinkTransmissionActor.handle_message_scheduled_send_completed_event">
+<span class="sig-name descname"><span class="pre">handle_message_scheduled_send_completed_event</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">mobility</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="multiconstellation.html#dsns.multiconstellation.MultiConstellation" title="dsns.multiconstellation.MultiConstellation"><span class="pre">MultiConstellation</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">event</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#dsns.transmission.MessageScheduledSendCompletedEvent" title="dsns.transmission.MessageScheduledSendCompletedEvent"><span class="pre">MessageScheduledSendCompletedEvent</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">message</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="message.html#dsns.message.BaseMessage" title="dsns.message.BaseMessage"><span class="pre">BaseMessage</span></a></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">list</span><span class="p"><span class="pre">[</span></span><a class="reference internal" href="events.html#dsns.events.Event" title="dsns.events.Event"><span class="pre">Event</span></a><span class="p"><span class="pre">]</span></span></span></span><a class="headerlink" href="#dsns.transmission.LinkTransmissionActor.handle_message_scheduled_send_completed_event" title="Link to this definition"></a></dt>
+<dd><p>Check if this scheduled send completion is stale. If not raise the corresponding MessageSentEvent
+to signal that the entire message was successfully transmitted onto the link.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="dsns.transmission.LinkTransmissionActor.handle_link_down_event">
+<span class="sig-name descname"><span class="pre">handle_link_down_event</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">mobility</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="multiconstellation.html#dsns.multiconstellation.MultiConstellation" title="dsns.multiconstellation.MultiConstellation"><span class="pre">MultiConstellation</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">event</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="events.html#dsns.events.LinkDownEvent" title="dsns.events.LinkDownEvent"><span class="pre">LinkDownEvent</span></a></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">list</span><span class="p"><span class="pre">[</span></span><a class="reference internal" href="events.html#dsns.events.Event" title="dsns.events.Event"><span class="pre">Event</span></a><span class="p"><span class="pre">]</span></span></span></span><a class="headerlink" href="#dsns.transmission.LinkTransmissionActor.handle_link_down_event" title="Link to this definition"></a></dt>
+<dd><p>Assume for now that if buffering is enabled
+a message is buffered (not sent) until it
+can and is successfully sent
+TODO: expand this later for specific behavior depending on what goes down</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="dsns.transmission.LinkTransmissionActor.handle_message_sent_event">
+<span class="sig-name descname"><span class="pre">handle_message_sent_event</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">mobility</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="multiconstellation.html#dsns.multiconstellation.MultiConstellation" title="dsns.multiconstellation.MultiConstellation"><span class="pre">MultiConstellation</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">event</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="message.html#dsns.message.MessageSentEvent" title="dsns.message.MessageSentEvent"><span class="pre">MessageSentEvent</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">message</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="message.html#dsns.message.BaseMessage" title="dsns.message.BaseMessage"><span class="pre">BaseMessage</span></a></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">list</span><span class="p"><span class="pre">[</span></span><a class="reference internal" href="events.html#dsns.events.Event" title="dsns.events.Event"><span class="pre">Event</span></a><span class="p"><span class="pre">]</span></span></span></span><a class="headerlink" href="#dsns.transmission.LinkTransmissionActor.handle_message_sent_event" title="Link to this definition"></a></dt>
+<dd><p>MessageSentEvent signifies the entire message was transmitted onto the link successfully.
+If there is a next message waiting to be sent on that link, schedule it.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="dsns.transmission.LinkTransmissionActor.handle_link_up_event">
+<span class="sig-name descname"><span class="pre">handle_link_up_event</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">mobility</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="multiconstellation.html#dsns.multiconstellation.MultiConstellation" title="dsns.multiconstellation.MultiConstellation"><span class="pre">MultiConstellation</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">event</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="events.html#dsns.events.LinkUpEvent" title="dsns.events.LinkUpEvent"><span class="pre">LinkUpEvent</span></a></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">list</span><span class="p"><span class="pre">[</span></span><a class="reference internal" href="events.html#dsns.events.Event" title="dsns.events.Event"><span class="pre">Event</span></a><span class="p"><span class="pre">]</span></span></span></span><a class="headerlink" href="#dsns.transmission.LinkTransmissionActor.handle_link_up_event" title="Link to this definition"></a></dt>
+<dd><p>Recomputes scheduled send completion events for buffered messages
+Note these must be scheduled before any new store and forward messages are queued and scheduled for</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="dsns.transmission.LinkTransmissionActor.handle_bandwidth_update_event">
+<span class="sig-name descname"><span class="pre">handle_bandwidth_update_event</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">mobility</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="multiconstellation.html#dsns.multiconstellation.MultiConstellation" title="dsns.multiconstellation.MultiConstellation"><span class="pre">MultiConstellation</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">event</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#dsns.transmission.BandwidthUpdateEvent" title="dsns.transmission.BandwidthUpdateEvent"><span class="pre">BandwidthUpdateEvent</span></a></span></em><span class="sig-paren">)</span><a class="headerlink" href="#dsns.transmission.LinkTransmissionActor.handle_bandwidth_update_event" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="dsns.transmission.LinkTransmissionActor.handle_event">
+<span class="sig-name descname"><span class="pre">handle_event</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">mobility</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="multiconstellation.html#dsns.multiconstellation.MultiConstellation" title="dsns.multiconstellation.MultiConstellation"><span class="pre">MultiConstellation</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">event</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">list</span><span class="p"><span class="pre">[</span></span><a class="reference internal" href="events.html#dsns.events.Event" title="dsns.events.Event"><span class="pre">Event</span></a><span class="p"><span class="pre">]</span></span></span></span><a class="headerlink" href="#dsns.transmission.LinkTransmissionActor.handle_event" title="Link to this definition"></a></dt>
+<dd><p>Handle an event.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>mobility</strong> – The mobility model to handle the event with.</p></li>
+<li><p><strong>event</strong> – The event to handle.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>List of events to add to the event queue.</p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="dsns.transmission.MessageTransmissionTimeoutEvent">
+<em class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">dsns.transmission.</span></span><span class="sig-name descname"><span class="pre">MessageTransmissionTimeoutEvent</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">time</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">message</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="message.html#dsns.message.BaseMessage" title="dsns.message.BaseMessage"><span class="pre">BaseMessage</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">source</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">destination</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#dsns.transmission.MessageTransmissionTimeoutEvent" title="Link to this definition"></a></dt>
+<dd><dl class="py method">
+<dt class="sig sig-object py" id="dsns.transmission.MessageTransmissionTimeoutEvent.__init__">
+<span class="sig-name descname"><span class="pre">__init__</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">time</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">message</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="message.html#dsns.message.BaseMessage" title="dsns.message.BaseMessage"><span class="pre">BaseMessage</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">source</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">destination</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#dsns.transmission.MessageTransmissionTimeoutEvent.__init__" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="dsns.transmission.MessageTransmissionTimeoutEvent.message">
+<span class="sig-name descname"><span class="pre">message</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">int</span></em><a class="headerlink" href="#dsns.transmission.MessageTransmissionTimeoutEvent.message" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="dsns.transmission.MessageTransmissionTimeoutEvent.source">
+<span class="sig-name descname"><span class="pre">source</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">int</span></em><a class="headerlink" href="#dsns.transmission.MessageTransmissionTimeoutEvent.source" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="dsns.transmission.MessageTransmissionTimeoutEvent.destination">
+<span class="sig-name descname"><span class="pre">destination</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">int</span></em><a class="headerlink" href="#dsns.transmission.MessageTransmissionTimeoutEvent.destination" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="dsns.transmission.LTPSegmentDroppedEvent">
+<em class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">dsns.transmission.</span></span><span class="sig-name descname"><span class="pre">LTPSegmentDroppedEvent</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">time</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">source</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">message</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="message.html#dsns.message.LTPSegment" title="dsns.message.LTPSegment"><span class="pre">LTPSegment</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">reason</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="message.html#dsns.message.DropReason" title="dsns.message.DropReason"><span class="pre">DropReason</span></a></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">DropReason.UNKNOWN</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#dsns.transmission.LTPSegmentDroppedEvent" title="Link to this definition"></a></dt>
+<dd><p>Event for when an LTP Segment is dropped.
+Source refers to the satellite that dropped the message.</p>
+<dl class="py method">
+<dt class="sig sig-object py" id="dsns.transmission.LTPSegmentDroppedEvent.__init__">
+<span class="sig-name descname"><span class="pre">__init__</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">time</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">source</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">message</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="message.html#dsns.message.LTPSegment" title="dsns.message.LTPSegment"><span class="pre">LTPSegment</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">reason</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="message.html#dsns.message.DropReason" title="dsns.message.DropReason"><span class="pre">DropReason</span></a></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">DropReason.UNKNOWN</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#dsns.transmission.LTPSegmentDroppedEvent.__init__" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="dsns.transmission.LTPSegmentDroppedEvent.message">
+<span class="sig-name descname"><span class="pre">message</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference internal" href="message.html#dsns.message.LTPSegment" title="dsns.message.LTPSegment"><span class="pre">LTPSegment</span></a></em><a class="headerlink" href="#dsns.transmission.LTPSegmentDroppedEvent.message" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="dsns.transmission.AbortReason">
+<em class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">dsns.transmission.</span></span><span class="sig-name descname"><span class="pre">AbortReason</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">values</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#dsns.transmission.AbortReason" title="Link to this definition"></a></dt>
+<dd><dl class="py attribute">
+<dt class="sig sig-object py" id="dsns.transmission.AbortReason.LTP_SESSION_CANCELATION">
+<span class="sig-name descname"><span class="pre">LTP_SESSION_CANCELATION</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'LTP_SESSION_CANCELATION'</span></em><a class="headerlink" href="#dsns.transmission.AbortReason.LTP_SESSION_CANCELATION" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="dsns.transmission.AbortReason.UNKNOWN">
+<span class="sig-name descname"><span class="pre">UNKNOWN</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'UNKNWON'</span></em><a class="headerlink" href="#dsns.transmission.AbortReason.UNKNOWN" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="dsns.transmission.MessageReceptionCanceledEvent">
+<em class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">dsns.transmission.</span></span><span class="sig-name descname"><span class="pre">MessageReceptionCanceledEvent</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">time</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">source</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">message</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="message.html#dsns.message.BaseMessage" title="dsns.message.BaseMessage"><span class="pre">BaseMessage</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">destination</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">reason</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#dsns.transmission.AbortReason" title="dsns.transmission.AbortReason"><span class="pre">AbortReason</span></a></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">AbortReason.UNKNOWN</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#dsns.transmission.MessageReceptionCanceledEvent" title="Link to this definition"></a></dt>
+<dd><p>Event for when a receiver aborts receiving a message from a sender.
+Note sender can drop the message, but receiver cannot drop something they don’t have yet.
+They can only abort its reception.</p>
+<dl class="py method">
+<dt class="sig sig-object py" id="dsns.transmission.MessageReceptionCanceledEvent.__init__">
+<span class="sig-name descname"><span class="pre">__init__</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">time</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">source</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">message</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="message.html#dsns.message.BaseMessage" title="dsns.message.BaseMessage"><span class="pre">BaseMessage</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">destination</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">reason</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#dsns.transmission.AbortReason" title="dsns.transmission.AbortReason"><span class="pre">AbortReason</span></a></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">AbortReason.UNKNOWN</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#dsns.transmission.MessageReceptionCanceledEvent.__init__" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="dsns.transmission.MessageReceptionCanceledEvent.message">
+<span class="sig-name descname"><span class="pre">message</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference internal" href="message.html#dsns.message.BaseMessage" title="dsns.message.BaseMessage"><span class="pre">BaseMessage</span></a></em><a class="headerlink" href="#dsns.transmission.MessageReceptionCanceledEvent.message" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="dsns.transmission.RetransmissionConfig">
+<em class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">dsns.transmission.</span></span><span class="sig-name descname"><span class="pre">RetransmissionConfig</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="pre">timeout:</span> <span class="pre">~typing.Callable[[float],</span> <span class="pre">float]</span> <span class="pre">=</span> <span class="pre">&lt;function</span> <span class="pre">RetransmissionConfig.&lt;lambda&gt;&gt;,</span> <span class="pre">max_retries:</span> <span class="pre">int</span> <span class="pre">=</span> <span class="pre">10</span></em><span class="sig-paren">)</span><a class="headerlink" href="#dsns.transmission.RetransmissionConfig" title="Link to this definition"></a></dt>
+<dd><p>Configuration for retransmission timeouts.</p>
+<dl class="simple">
+<dt>“Then, to account for the additional delay imposed by interrupted</dt><dd><p>connectivity, we dynamically suspend timers during periods when
+the relevant remote LTP engines are known to be unable to
+transmit responses.” - Not a concern as we start timers when message fully transmitted.</p>
+</dd>
+</dl>
+<p>LTP RFC 5325 - Read Section ‘3.1.3.  Timers’ for Justification
+“So the initial expected arrival time for each acknowledging segment
+is typically computed as simply the current time at the moment that
+radiation of the original segment begins, plus twice the one-way
+light time, plus 2*N seconds of margin to account for processing and
+queuing delays and for radiation time at both ends.  N is a parameter
+set by network management for which 2 seconds seem to be a reasonable
+default value.”</p>
+<p>We simplify this by starting timers when the message is fully transmitted into the link
+(but since message size &lt;&lt;&lt; bandwidth this is negligible).</p>
+<p>Then compute timeout by default as recommende in the RFC as RTT + 2*N, where N=2 as recommended</p>
+<dl class="py method">
+<dt class="sig sig-object py" id="dsns.transmission.RetransmissionConfig.timeout">
+<span class="sig-name descname"><span class="pre">timeout</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#dsns.transmission.RetransmissionConfig.timeout" title="Link to this definition"></a></dt>
+<dd><p>No real optimal value. Based on RFC this is a limit dependent on the network config.
+Given the loose retransmission timeout (extra 4 seconds on RTT), 10 retries should be sufficient.</p>
+<p><a class="reference external" href="https://support.microsoft.com/en-gb/topic/how-to-modify-the-tcp-ip-maximum-retransmission-time-out-7ae0982a-4963-fa7e-ee79-ff6d0da73db8">https://support.microsoft.com/en-gb/topic/how-to-modify-the-tcp-ip-maximum-retransmission-time-out-7ae0982a-4963-fa7e-ee79-ff6d0da73db8</a>
+TCP default value for TcpMaxDataRetransmissions is 5. Standard value I would argue. So this is more than enough.</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="dsns.transmission.RetransmissionConfig.max_retries">
+<span class="sig-name descname"><span class="pre">max_retries</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">int</span></em><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">10</span></em><a class="headerlink" href="#dsns.transmission.RetransmissionConfig.max_retries" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="dsns.transmission.RetransmissionConfig.__init__">
+<span class="sig-name descname"><span class="pre">__init__</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="pre">timeout:</span> <span class="pre">~typing.Callable[[float],</span> <span class="pre">float]</span> <span class="pre">=</span> <span class="pre">&lt;function</span> <span class="pre">RetransmissionConfig.&lt;lambda&gt;&gt;,</span> <span class="pre">max_retries:</span> <span class="pre">int</span> <span class="pre">=</span> <span class="pre">10</span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="headerlink" href="#dsns.transmission.RetransmissionConfig.__init__" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="dsns.transmission.LTPSessionID">
+<em class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">dsns.transmission.</span></span><span class="sig-name descname"><span class="pre">LTPSessionID</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">source</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">destination</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">underlying_message_uid</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">session</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#dsns.transmission.LTPSessionID" title="Link to this definition"></a></dt>
+<dd><dl class="py attribute">
+<dt class="sig sig-object py" id="dsns.transmission.LTPSessionID.source">
+<span class="sig-name descname"><span class="pre">source</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">int</span></em><a class="headerlink" href="#dsns.transmission.LTPSessionID.source" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="dsns.transmission.LTPSessionID.destination">
+<span class="sig-name descname"><span class="pre">destination</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">int</span></em><a class="headerlink" href="#dsns.transmission.LTPSessionID.destination" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="dsns.transmission.LTPSessionID.underlying_message_uid">
+<span class="sig-name descname"><span class="pre">underlying_message_uid</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">int</span></em><a class="headerlink" href="#dsns.transmission.LTPSessionID.underlying_message_uid" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="dsns.transmission.LTPSessionID.session">
+<span class="sig-name descname"><span class="pre">session</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">int</span></em><a class="headerlink" href="#dsns.transmission.LTPSessionID.session" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="dsns.transmission.LTPSessionID.__init__">
+<span class="sig-name descname"><span class="pre">__init__</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">source</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">destination</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">underlying_message_uid</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">session</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="headerlink" href="#dsns.transmission.LTPSessionID.__init__" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="dsns.transmission.LTPMessageRetransmissionActor">
+<em class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">dsns.transmission.</span></span><span class="sig-name descname"><span class="pre">LTPMessageRetransmissionActor</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">config:</span> <span class="pre">~dsns.transmission.RetransmissionConfig</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">report_segment_base_size:</span> <span class="pre">int</span> <span class="pre">=</span> <span class="pre">9</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">report_ack_size:</span> <span class="pre">int</span> <span class="pre">=</span> <span class="pre">5</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">model_bandwidth=False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">message_location_tracker:</span> <span class="pre">~dsns.transmission.MessageLocationTracker</span> <span class="pre">=</span> <span class="pre">&lt;dsns.transmission.MessageLocationTracker</span> <span class="pre">object&gt;</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#dsns.transmission.LTPMessageRetransmissionActor" title="Link to this definition"></a></dt>
+<dd><p><a class="reference external" href="https://www.rfc-editor.org/rfc/pdfrfc/rfc5326.txt.pdf">https://www.rfc-editor.org/rfc/pdfrfc/rfc5326.txt.pdf</a>
+RFC 5326
+Implements LTP based retransmission for satelite communication.
+Each original direct message is now encapsulated as a series of LTP segments in an LTPBlock.
+The remaining LTPMessage’s are control messages for sending a checkpoint, report segment and report ack.</p>
+<p>Each LTPBlock has a red part for reliable transfer and green part for unreliable transfer.
+Each LTPBlock must be followed by a checkpoint segment at the end.
+Checkpoints require sender to reply with a report segment of missing data
+When a sender gets a report segment they acknowledge it and retransmit missing data.</p>
+<p>Checkpoints and report segments have timeouts.</p>
+<p>Retransmission timers for timeouts are started when the message is sent
+and not when it’s queued. This is so that we don’t retransmit messages that are waiting for
+transmission because of bandwidth availability.</p>
+<dl class="py method">
+<dt class="sig sig-object py" id="dsns.transmission.LTPMessageRetransmissionActor.__init__">
+<span class="sig-name descname"><span class="pre">__init__</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">config:</span> <span class="pre">~dsns.transmission.RetransmissionConfig</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">report_segment_base_size:</span> <span class="pre">int</span> <span class="pre">=</span> <span class="pre">9</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">report_ack_size:</span> <span class="pre">int</span> <span class="pre">=</span> <span class="pre">5</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">model_bandwidth=False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">message_location_tracker:</span> <span class="pre">~dsns.transmission.MessageLocationTracker</span> <span class="pre">=</span> <span class="pre">&lt;dsns.transmission.MessageLocationTracker</span> <span class="pre">object&gt;</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#dsns.transmission.LTPMessageRetransmissionActor.__init__" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="dsns.transmission.LTPMessageRetransmissionActor.initialize">
+<span class="sig-name descname"><span class="pre">initialize</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">list</span><span class="p"><span class="pre">[</span></span><a class="reference internal" href="events.html#dsns.events.Event" title="dsns.events.Event"><span class="pre">Event</span></a><span class="p"><span class="pre">]</span></span></span></span><a class="headerlink" href="#dsns.transmission.LTPMessageRetransmissionActor.initialize" title="Link to this definition"></a></dt>
+<dd><p>Initialize the actor.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>List of events to add to the event queue.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="dsns.transmission.LTPMessageRetransmissionActor.handle_message_sent_event">
+<span class="sig-name descname"><span class="pre">handle_message_sent_event</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">mobility</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="multiconstellation.html#dsns.multiconstellation.MultiConstellation" title="dsns.multiconstellation.MultiConstellation"><span class="pre">MultiConstellation</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">event</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="message.html#dsns.message.MessageSentEvent" title="dsns.message.MessageSentEvent"><span class="pre">MessageSentEvent</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">message</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="message.html#dsns.message.LTPSegment" title="dsns.message.LTPSegment"><span class="pre">LTPSegment</span></a></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">list</span><span class="p"><span class="pre">[</span></span><a class="reference internal" href="events.html#dsns.events.Event" title="dsns.events.Event"><span class="pre">Event</span></a><span class="p"><span class="pre">]</span></span></span></span><a class="headerlink" href="#dsns.transmission.LTPMessageRetransmissionActor.handle_message_sent_event" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="dsns.transmission.LTPMessageRetransmissionActor.handle_data_segment_received_event">
+<span class="sig-name descname"><span class="pre">handle_data_segment_received_event</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">mobility</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="multiconstellation.html#dsns.multiconstellation.MultiConstellation" title="dsns.multiconstellation.MultiConstellation"><span class="pre">MultiConstellation</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">event</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="message.html#dsns.message.LTPSegmentReceivedEvent" title="dsns.message.LTPSegmentReceivedEvent"><span class="pre">LTPSegmentReceivedEvent</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">message</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="message.html#dsns.message.LTPDataSegment" title="dsns.message.LTPDataSegment"><span class="pre">LTPDataSegment</span></a></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">list</span><span class="p"><span class="pre">[</span></span><a class="reference internal" href="events.html#dsns.events.Event" title="dsns.events.Event"><span class="pre">Event</span></a><span class="p"><span class="pre">]</span></span></span></span><a class="headerlink" href="#dsns.transmission.LTPMessageRetransmissionActor.handle_data_segment_received_event" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="dsns.transmission.LTPMessageRetransmissionActor.handle_report_segment_received_event">
+<span class="sig-name descname"><span class="pre">handle_report_segment_received_event</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">mobility</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="multiconstellation.html#dsns.multiconstellation.MultiConstellation" title="dsns.multiconstellation.MultiConstellation"><span class="pre">MultiConstellation</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">event</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="message.html#dsns.message.LTPSegmentReceivedEvent" title="dsns.message.LTPSegmentReceivedEvent"><span class="pre">LTPSegmentReceivedEvent</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">message</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="message.html#dsns.message.LTPReportSegment" title="dsns.message.LTPReportSegment"><span class="pre">LTPReportSegment</span></a></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">list</span><span class="p"><span class="pre">[</span></span><a class="reference internal" href="events.html#dsns.events.Event" title="dsns.events.Event"><span class="pre">Event</span></a><span class="p"><span class="pre">]</span></span></span></span><a class="headerlink" href="#dsns.transmission.LTPMessageRetransmissionActor.handle_report_segment_received_event" title="Link to this definition"></a></dt>
+<dd><p>If its a duplicate report segment
+We only ack it but don’t retransmit missing data again
+As per 6.13 in <a class="reference external" href="https://www.rfc-editor.org/rfc/pdfrfc/rfc5326.txt.pdf">https://www.rfc-editor.org/rfc/pdfrfc/rfc5326.txt.pdf</a></p>
+<p>As per 6.13 if the session is canceled (underlying message or corresponding checkpoint is dropped) we only ack.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="dsns.transmission.LTPMessageRetransmissionActor.handle_report_ack_received_event">
+<span class="sig-name descname"><span class="pre">handle_report_ack_received_event</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">mobility</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="multiconstellation.html#dsns.multiconstellation.MultiConstellation" title="dsns.multiconstellation.MultiConstellation"><span class="pre">MultiConstellation</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">event</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="message.html#dsns.message.LTPSegmentReceivedEvent" title="dsns.message.LTPSegmentReceivedEvent"><span class="pre">LTPSegmentReceivedEvent</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">message</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="message.html#dsns.message.LTPReportAcknowledgementSegment" title="dsns.message.LTPReportAcknowledgementSegment"><span class="pre">LTPReportAcknowledgementSegment</span></a></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">list</span><span class="p"><span class="pre">[</span></span><a class="reference internal" href="events.html#dsns.events.Event" title="dsns.events.Event"><span class="pre">Event</span></a><span class="p"><span class="pre">]</span></span></span></span><a class="headerlink" href="#dsns.transmission.LTPMessageRetransmissionActor.handle_report_ack_received_event" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="dsns.transmission.LTPMessageRetransmissionActor.handle_message_dropped_event">
+<span class="sig-name descname"><span class="pre">handle_message_dropped_event</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">mobility</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="multiconstellation.html#dsns.multiconstellation.MultiConstellation" title="dsns.multiconstellation.MultiConstellation"><span class="pre">MultiConstellation</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">event</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#dsns.transmission.LTPSegmentDroppedEvent" title="dsns.transmission.LTPSegmentDroppedEvent"><span class="pre">LTPSegmentDroppedEvent</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">message</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="message.html#dsns.message.LTPSegment" title="dsns.message.LTPSegment"><span class="pre">LTPSegment</span></a></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">list</span><span class="p"><span class="pre">[</span></span><a class="reference internal" href="events.html#dsns.events.Event" title="dsns.events.Event"><span class="pre">Event</span></a><span class="p"><span class="pre">]</span></span></span></span><a class="headerlink" href="#dsns.transmission.LTPMessageRetransmissionActor.handle_message_dropped_event" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="dsns.transmission.LTPMessageRetransmissionActor.handle_message_transmission_timeout_event">
+<span class="sig-name descname"><span class="pre">handle_message_transmission_timeout_event</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">mobility</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="multiconstellation.html#dsns.multiconstellation.MultiConstellation" title="dsns.multiconstellation.MultiConstellation"><span class="pre">MultiConstellation</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">event</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#dsns.transmission.MessageTransmissionTimeoutEvent" title="dsns.transmission.MessageTransmissionTimeoutEvent"><span class="pre">MessageTransmissionTimeoutEvent</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">message</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="message.html#dsns.message.LTPSegment" title="dsns.message.LTPSegment"><span class="pre">LTPSegment</span></a></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">list</span><span class="p"><span class="pre">[</span></span><a class="reference internal" href="events.html#dsns.events.Event" title="dsns.events.Event"><span class="pre">Event</span></a><span class="p"><span class="pre">]</span></span></span></span><a class="headerlink" href="#dsns.transmission.LTPMessageRetransmissionActor.handle_message_transmission_timeout_event" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="dsns.transmission.LTPMessageRetransmissionActor.handle_ltp_segment_created_event">
+<span class="sig-name descname"><span class="pre">handle_ltp_segment_created_event</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">mobility</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="multiconstellation.html#dsns.multiconstellation.MultiConstellation" title="dsns.multiconstellation.MultiConstellation"><span class="pre">MultiConstellation</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">event</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="message.html#dsns.message.LTPSegmentCreatedEvent" title="dsns.message.LTPSegmentCreatedEvent"><span class="pre">LTPSegmentCreatedEvent</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">message</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="message.html#dsns.message.LTPSegment" title="dsns.message.LTPSegment"><span class="pre">LTPSegment</span></a></span></em><span class="sig-paren">)</span><a class="headerlink" href="#dsns.transmission.LTPMessageRetransmissionActor.handle_ltp_segment_created_event" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="dsns.transmission.LTPMessageRetransmissionActor.handle_message_reroute_event">
+<span class="sig-name descname"><span class="pre">handle_message_reroute_event</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">mobility</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="multiconstellation.html#dsns.multiconstellation.MultiConstellation" title="dsns.multiconstellation.MultiConstellation"><span class="pre">MultiConstellation</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">event</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="message.html#dsns.message.MessageRerouteEvent" title="dsns.message.MessageRerouteEvent"><span class="pre">MessageRerouteEvent</span></a></span></em><span class="sig-paren">)</span><a class="headerlink" href="#dsns.transmission.LTPMessageRetransmissionActor.handle_message_reroute_event" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="dsns.transmission.LTPMessageRetransmissionActor.handle_event">
+<span class="sig-name descname"><span class="pre">handle_event</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">mobility</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="multiconstellation.html#dsns.multiconstellation.MultiConstellation" title="dsns.multiconstellation.MultiConstellation"><span class="pre">MultiConstellation</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">event</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="events.html#dsns.events.Event" title="dsns.events.Event"><span class="pre">Event</span></a></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">list</span><span class="p"><span class="pre">[</span></span><a class="reference internal" href="events.html#dsns.events.Event" title="dsns.events.Event"><span class="pre">Event</span></a><span class="p"><span class="pre">]</span></span></span></span><a class="headerlink" href="#dsns.transmission.LTPMessageRetransmissionActor.handle_event" title="Link to this definition"></a></dt>
+<dd><p>Handle an event.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>mobility</strong> – The mobility model to handle the event with.</p></li>
+<li><p><strong>event</strong> – The event to handle.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>List of events to add to the event queue.</p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="message_actors.html" class="btn btn-neutral float-left" title="Message Actors" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="traffic_sim.html" class="btn btn-neutral float-right" title="Traffic Simulation" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2025, Joshua Smailes.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

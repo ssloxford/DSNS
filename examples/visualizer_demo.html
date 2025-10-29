@@ -1,0 +1,162 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="../">
+<head>
+  <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Visualizer Demo &mdash; DSNS  documentation</title>
+      <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=80d5e7a1" />
+      <link rel="stylesheet" type="text/css" href="../_static/css/theme.css?v=e59714d7" />
+
+  
+      <script src="../_static/jquery.js?v=5d32c60e"></script>
+      <script src="../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="../_static/documentation_options.js?v=5929fcd5"></script>
+      <script src="../_static/doctools.js?v=9bcbadda"></script>
+      <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="Visualizer Demo: Walker Constellation" href="visualizer_walker.html" />
+    <link rel="prev" title="Reference Scenarios: Custom" href="custom_reference.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../index.html" class="icon icon-home">
+            DSNS
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../installation.html">Installation</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="../examples.html">Examples</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="ccsds_reference.html">Reference Scenarios: CCSDS</a></li>
+<li class="toctree-l2"><a class="reference internal" href="custom_reference.html">Reference Scenarios: Custom</a></li>
+<li class="toctree-l2 current"><a class="current reference internal" href="#">Visualizer Demo</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#get_parser-named-arguments">Named Arguments</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="visualizer_walker.html">Visualizer Demo: Walker Constellation</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../api.html">API</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../index.html">DSNS</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="../examples.html">Examples</a></li>
+      <li class="breadcrumb-item active">Visualizer Demo</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="../_sources/examples/visualizer_demo.rst.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="visualizer-demo">
+<h1>Visualizer Demo<a class="headerlink" href="#visualizer-demo" title="Link to this heading"></a></h1>
+<p>The <cite>examples/visualizer_demo.py</cite> script demonstrates usage of the <a class="reference internal" href="../api/visualizer.html"><span class="doc">Visualizer</span></a> provided with DSNS, and can be used to run a number of example constellations.</p>
+<p><p>Demo script for the constellation visualizer, with a range of configurable presets.</p>
+</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">usage</span><span class="p">:</span> <span class="n">visualizer_demo</span><span class="o">.</span><span class="n">py</span> <span class="p">[</span><span class="o">-</span><span class="n">h</span><span class="p">]</span>
+                          <span class="p">[</span><span class="o">--</span><span class="n">preset</span> <span class="p">{</span><span class="n">ground</span><span class="p">,</span><span class="n">gps</span><span class="p">,</span><span class="n">iridium</span><span class="p">,</span><span class="n">starlink</span><span class="p">,</span><span class="n">starlink</span><span class="o">-</span><span class="n">tle</span><span class="p">,</span><span class="n">cubesat</span><span class="o">-</span><span class="n">tle</span><span class="p">,</span><span class="n">multi</span><span class="o">-</span><span class="n">layer</span><span class="p">,</span><span class="n">leo</span><span class="o">-</span><span class="n">leo</span><span class="p">,</span><span class="n">leo</span><span class="o">-</span><span class="n">meo</span><span class="p">,</span><span class="n">leo</span><span class="o">-</span><span class="n">geo</span><span class="p">,</span><span class="n">leo</span><span class="o">-</span><span class="n">meo</span><span class="o">-</span><span class="n">geo</span><span class="p">,</span><span class="n">earth</span><span class="o">-</span><span class="n">mars</span><span class="p">,</span><span class="n">earth</span><span class="o">-</span><span class="n">moon</span><span class="p">}]</span>
+                          <span class="p">[</span><span class="o">--</span><span class="n">time</span><span class="o">-</span><span class="n">scale</span> <span class="n">TIME_SCALE</span><span class="p">]</span>
+                          <span class="p">[</span><span class="o">--</span><span class="n">space</span><span class="o">-</span><span class="n">scale</span> <span class="n">SPACE_SCALE</span><span class="p">]</span>
+                          <span class="p">[</span><span class="o">--</span><span class="n">interplanetary</span><span class="o">-</span><span class="n">scale</span> <span class="n">INTERPLANETARY_SCALE</span><span class="p">]</span>
+                          <span class="p">[</span><span class="o">--</span><span class="n">viewport</span><span class="o">-</span><span class="n">size</span> <span class="n">VIEWPORT_SIZE</span> <span class="n">VIEWPORT_SIZE</span><span class="p">]</span> <span class="p">[</span><span class="o">-</span><span class="n">w</span><span class="p">]</span>
+</pre></div>
+</div>
+<section id="get_parser-named-arguments">
+<h2>Named Arguments<a class="headerlink" href="#get_parser-named-arguments" title="Link to this heading"></a></h2>
+<dl class="option-list">
+<dt><kbd>--preset</kbd></dt>
+<dd><p>Possible choices: ground, gps, iridium, starlink, starlink-tle, cubesat-tle, multi-layer, leo-leo, leo-meo, leo-geo, leo-meo-geo, earth-mars, earth-moon</p>
+<p>The preset to use (earth-mars, starlink, etc.)</p>
+<p>Default: <code class="docutils literal notranslate"><span class="pre">'earth-mars'</span></code></p>
+</dd>
+<dt><kbd>--time-scale</kbd></dt>
+<dd><p>The time scale to use (s/s)</p>
+<p>Default: <code class="docutils literal notranslate"><span class="pre">100.0</span></code></p>
+</dd>
+<dt><kbd>--space-scale</kbd></dt>
+<dd><p>The space scale to use (m/m)</p>
+<p>Default: <code class="docutils literal notranslate"><span class="pre">1e-06</span></code></p>
+</dd>
+<dt><kbd>--interplanetary-scale</kbd></dt>
+<dd><p>The interplanetary scale to use (m/m)</p>
+<p>Default: <code class="docutils literal notranslate"><span class="pre">1e-10</span></code></p>
+</dd>
+<dt><kbd>--viewport-size</kbd></dt>
+<dd><p>The viewport size to use (px, px)</p>
+<p>Default: <code class="docutils literal notranslate"><span class="pre">(800,</span> <span class="pre">600)</span></code></p>
+</dd>
+<dt><kbd>-w, --white-bg</kbd></dt>
+<dd><p>Use a white background instead of the default black</p>
+<p>Default: <code class="docutils literal notranslate"><span class="pre">False</span></code></p>
+</dd>
+</dl>
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="custom_reference.html" class="btn btn-neutral float-left" title="Reference Scenarios: Custom" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="visualizer_walker.html" class="btn btn-neutral float-right" title="Visualizer Demo: Walker Constellation" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2025, Joshua Smailes.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>
