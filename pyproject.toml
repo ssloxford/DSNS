@@ -1,6 +1,6 @@
 [project]
 name = "dsns"
-version = "1.0.0"
+version = "1.0.1"
 authors = [
     {name = "Joshua Smailes", email = "joshua.smailes@cs.ox.ac.uk"},
 ]

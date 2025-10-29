@@ -310,3 +310,88 @@ class PointToPointTrafficActor(Actor):
         if isinstance(event, GenerateMessagesEvent):
             return self.generate_events()
         return []
+
+
+class TrafficFloodEvent(Event):
+    """
+    Event to start or update the traffic flooding attack.
+    """
+
+    def __init__(self, time: float):
+        super().__init__(time, [])
+
+
+class TrafficFloodActor(Actor):
+    """
+    Actor that simulates a flooding attack on a configured set of links.
+    """
+
+    links: list[tuple[SatID, SatID]]
+    period: int
+    size: int
+    start_time: float
+    end_time: float
+
+    def __init__(
+            self,
+            links: list[tuple[SatID, SatID]],
+            period: int = 1,
+            size: int = None,
+            start_time: float = 0,
+            end_time: float = float("inf"),
+    ):
+        """
+        Set up the actor.
+
+        Parameters:
+            links: List of source-destination pairs to flood.
+            period: Delay between messages on each link, in seconds.
+            size: Size of the messages.
+            start_time: Time to start the flooding attack.
+            end_time: Time to end the flooding attack.
+        """
+        super().__init__()
+
+        self.links = links
+        self.period = period
+        self.size = size
+        self.start_time = start_time
+        self.end_time = end_time
+
+    def initialize(self) -> list[Event]:
+        return [ TrafficFloodEvent(self.start_time) ]
+
+    def _generate_events(self, time) -> list[Event]:
+        """
+        Generate the flooding messages, plus a new TrafficFloodEvent.
+        """
+
+        if time <= self.end_time:
+            events = [
+                MessageCreatedEvent(
+                    time=time,
+                    message=HybridDirectMessage(
+                        time=time,
+                        source=source,
+                        destination=destination,
+                        data=f"Flooding message: {source} -> {destination}",
+                        size=self.size,
+                        reliable_data_size=self.size,
+                        unreliable_data_size=0,
+                    )
+                )
+                for (source, destination) in self.links
+            ]
+            events.append(TrafficFloodEvent(
+                time=time+self.period
+            ))
+
+            return events
+        else:
+            return []
+
+    def handle_event(self, _, event: Event) -> list[Event]:
+        if isinstance(event, TrafficFloodEvent):
+            return self._generate_events(event.time)
+        else:
+            return []
