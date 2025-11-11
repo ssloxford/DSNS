@@ -16,7 +16,7 @@ dependencies = [
     'pyrender; python_version<="0.1.45"',
     "networkit",
     "pyrender",
-    "numpy",
+    "numpy < 2.0.0", # version restriction for pyrender which is no longer maintained
     "pandas",
     "tqdm",
 ]

@@ -211,7 +211,7 @@ def main(
 
     simulation.initialize(time=0)
     simulation_time = 6000 * 4 if logging else 6000
-    simulation.run(simulation_time, progress=False)
+    simulation.run(simulation_time, progress=True)
 
     if logging:
         direct_messages = preprocessed_logging_actor.direct_messages
