@@ -1,5 +1,6 @@
 from collections import defaultdict, deque
-from typing import Optional, Callable, Union
+from typing import Optional, Callable, Union, List
+import random
 
 from networkit import Graph
 from networkit.distance import Dijkstra
@@ -43,6 +44,9 @@ class MessageRoutingActor(Actor):
     _loss_config: LossConfig
     _reliable_transfer_config: ReliableTransferConfig
 
+    _failed_links: set[tuple[SatID, SatID]]
+
+
     def __init__(self, routing: RoutingDataProvider, store_and_forward: bool = False, model_bandwidth = False, attack_strategy: Optional[AttackStrategy] = None, loss_config: LossConfig = None, reliable_transfer_config: ReliableTransferConfig = UnreliableConfig()):
         """
         Build the actor.
@@ -61,6 +65,8 @@ class MessageRoutingActor(Actor):
 
         self._loss_config = loss_config if loss_config else LossConfig()
         self._reliable_transfer_config = reliable_transfer_config
+
+        self._failed_links = set()
 
     def initialize(self) -> list[Event]:
         """
@@ -81,7 +87,7 @@ class MessageRoutingActor(Actor):
             else:
                 return [MessageSentEvent(time, source, destination, message)]
 
-    def __send_message(self, mobility: MultiConstellation, time: float, source: SatID, destination: SatID, message: DirectMessage) -> list[Event]:
+    def _send_message(self, mobility: MultiConstellation, time: float, source: SatID, destination: SatID, message: DirectMessage) -> list[Event]:
         """
         Send a message along the next hop.
 
@@ -157,7 +163,7 @@ class MessageRoutingActor(Actor):
             else:
                 return [ MessageDroppedEvent(event.time, event.destination, message, DropReason.DUPLICATE) ]
         else:
-            return self.__send_message(mobility, event.time, event.destination, message.destination, message)
+            return self._send_message(mobility, event.time, event.destination, message.destination, message)
 
     def handle_message_created_event(self, mobility: MultiConstellation, event: MessageCreatedEvent, message: DirectMessage) -> list[Event]:
         """
@@ -175,7 +181,7 @@ class MessageRoutingActor(Actor):
         if event.message.source == message.destination:
             return [ MessageDeliveredEvent(event.time, message.destination, event.message) ]
         else:
-            return self.__send_message(mobility, event.time, event.message.source, message.destination, message)
+            return self._send_message(mobility, event.time, event.message.source, message.destination, message)
 
     def handle_link_up_event(self, mobility: MultiConstellation, event: LinkUpEvent) -> list[Event]:
         """
@@ -214,7 +220,7 @@ class MessageRoutingActor(Actor):
         return []
 
     def handle_message_reroute_event(self, mobility: MultiConstellation, event: MessageRerouteEvent, message: DirectMessage):
-        return self.__send_message(mobility, event.time, event.source, message.destination, message)
+        return self._send_message(mobility, event.time, event.source, message.destination, message)
 
     def handle_event(self, mobility: MultiConstellation, event: Event) -> list[Event]:
         """
@@ -236,7 +242,13 @@ class MessageRoutingActor(Actor):
         elif isinstance(event, MessageCreatedEvent):
             if isinstance(event.message, DirectMessage):
                 return self.handle_message_created_event(mobility, event, event.message)
+        elif isinstance(event, LinkDownEvent):
+            self._failed_links.add((event.sat1, event.sat2))
+            self._failed_links.add((event.sat2, event.sat1))
         elif isinstance(event, LinkUpEvent):
+            if (event.sat1, event.sat2) in self._failed_links:
+                self._failed_links.discard((event.sat1, event.sat2))
+                self._failed_links.discard((event.sat2, event.sat1))
             return self.handle_link_up_event(mobility, event)
         elif isinstance(event, LinkLossProbabilityUpdateEvent):
             return self.handle_link_loss_probability_update_event(mobility, event)
@@ -989,23 +1001,24 @@ class GlobalRoutingDataProvider(RoutingDataProvider):
                 self.solver.update(mobility)
             self._last_update_time = time
 
-            self._gs_ids = set()
-            self._gs_neighbors = defaultdict(list)
-            edges_to_remove = set()
+            # self._gs_ids = set()
+            # self._gs_neighbors = defaultdict(list)
+            # edges_to_remove = set()
 
-            for sat in mobility.satellites:
-                if sat.constellation_name == "ground":
-                    self._gs_ids.add(sat.sat_id)
+            # for sat in mobility.satellites:
+            #     if sat.constellation_name == "ground":
+            #         self._gs_ids.add(sat.sat_id)
 
-            if hasattr(self.solver, "graph"):
-                g = self.solver.graph
-                for u in self._gs_ids:
-                    if u in g:
-                        for v, w in g[u].items():
-                            self._gs_neighbors[u].append((v, w))
-                            edges_to_remove.add((u, v))
+            # if hasattr(self.solver, "graph"):
+            #     g = self.solver.graph
+            #     for u in self._gs_ids:
+            #         if u in g:
+            #             for v, w in g[u].items():
+            #                 self._gs_neighbors[u].append((v, w))
+            #                 edges_to_remove.add((u, v))
 
-            self.solver.remove_edges(self._failed_links | edges_to_remove)
+            self.solver.remove_edges(self._failed_links)
+            # self.solver.remove_edges(self._failed_links | edges_to_remove)
 
     def _get_best_neighbor(self, neighbors: list[tuple[SatID, float]], target: SatID) -> tuple[SatID, float]:
         if not neighbors:
@@ -1035,25 +1048,26 @@ class GlobalRoutingDataProvider(RoutingDataProvider):
         if source == destination:
             return None
 
-        source_new = (source, 0.0)
-        if source in self._gs_ids:
-            neighbors = self._gs_neighbors.get(source, [])
-            if len(neighbors) == 0:
-                return None
-            best = self._get_best_neighbor(neighbors, destination)
-            return best[0]
+        # source_new = (source, 0.0)
+        # if source in self._gs_ids:
+        #     neighbors = self._gs_neighbors.get(source, [])
+        #     if len(neighbors) == 0:
+        #         return None
+        #     best = self._get_best_neighbor(neighbors, destination)
+        #     return best[0]
 
-        destination_new = (destination, 0.0)
-        if destination in self._gs_ids:
-            neighbors = self._gs_neighbors.get(destination, [])
-            if len(neighbors) == 0:
-                return None
-            destination_new = self._get_best_neighbor(neighbors, source)
+        # destination_new = (destination, 0.0)
+        # if destination in self._gs_ids:
+        #     neighbors = self._gs_neighbors.get(destination, [])
+        #     if len(neighbors) == 0:
+        #         return None
+        #     destination_new = self._get_best_neighbor(neighbors, source)
 
-        if source == destination_new[0]:
-            return destination
+        # if source == destination_new[0]:
+        #     return destination
         try:
-            path = self.solver.get_path(source_new[0], destination_new[0])
+            path = self.solver.get_path(source, destination)
+            # path = self.solver.get_path(source_new[0], destination_new[0])
             if path and len(path) > 1:
                 return path[1]
             else:
@@ -1065,23 +1079,24 @@ class GlobalRoutingDataProvider(RoutingDataProvider):
         if source == destination:
             return 0
 
-        source_new = (source, 0.0)
+        # source_new = (source, 0.0)
 
-        if source in self._gs_ids:
-            neighbors = self._gs_neighbors.get(source, [])
-            if len(neighbors) == 0:
-                return None
-            source_new = self._get_best_neighbor(neighbors, destination)
+        # if source in self._gs_ids:
+        #     neighbors = self._gs_neighbors.get(source, [])
+        #     if len(neighbors) == 0:
+        #         return None
+        #     source_new = self._get_best_neighbor(neighbors, destination)
 
-        destination_new = (destination, 0.0)
-        if destination in self._gs_ids:
-            neighbors = self._gs_neighbors.get(destination, [])
-            if len(neighbors) == 0:
-                return None
-            destination_new = self._get_best_neighbor(neighbors, source)
+        # destination_new = (destination, 0.0)
+        # if destination in self._gs_ids:
+        #     neighbors = self._gs_neighbors.get(destination, [])
+        #     if len(neighbors) == 0:
+        #         return None
+        #     destination_new = self._get_best_neighbor(neighbors, source)
 
         try:
-            return self.solver.get_path_cost(source_new[0], destination_new[0]) + source_new[1] + destination_new[1]
+            return self.solver.get_path_cost(source, destination)
+            # return self.solver.get_path_cost(source_new[0], destination_new[0]) + source_new[1] + destination_new[1]
         except Exception:
             return float("inf")
         
@@ -1143,30 +1158,37 @@ class SourceRoutingDataProvider(RoutingDataProvider):
             self._last_update_time = time
 
         
-            self._gs_ids = set()
-            self._gs_neighbors = defaultdict(list)
-            edges_to_remove = set()
+            # self._gs_ids = set()
+            # self._gs_neighbors = defaultdict(list)
+            # edges_to_remove = set()
 
-            for sat in mobility.satellites:
-                if sat.constellation_name == "ground":
-                    self._gs_ids.add(sat.sat_id)
+            # for sat in mobility.satellites:
+            #     if sat.constellation_name == "ground":
+            #         self._gs_ids.add(sat.sat_id)
 
-            if hasattr(self.solver, 'graph'):
-                g = self.solver.graph
-                for u in self._gs_ids:
-                    if u in g:
-                        for v, w in g[u].items():
-                            self._gs_neighbors[u].append((v, w))
-                            edges_to_remove.add((u, v))
+            # if hasattr(self.solver, 'graph'):
+            #     g = self.solver.graph
+            #     for u in self._gs_ids:
+            #         if u in g:
+            #             for v, w in g[u].items():
+            #                 self._gs_neighbors[u].append((v, w))
+            #                 edges_to_remove.add((u, v))
             
             # self.solver.remove_edges(edges_to_remove)
 
-    def _get_best_neighbor(self, neighbors: list[tuple[SatID, float]], target: SatID) -> tuple[SatID, float]:
+    def _get_best_neighbor(self, source: SatID, target: SatID) -> tuple[SatID, float]:
+        if not self.mobility:
+            return None
+
+        neighbors = []
+        for u, v in self.mobility.links:
+            if u == source:
+                neighbors.append((v, self.mobility.get_delay(u, v)))
+            elif v == source:
+                neighbors.append((u, self.mobility.get_delay(v, u)))
+
         if not neighbors:
              return None
-        
-        if not self.mobility:
-            return neighbors[0]
 
         try:
             target_pos = self.mobility.satellites.by_id(target).position
@@ -1189,24 +1211,26 @@ class SourceRoutingDataProvider(RoutingDataProvider):
         if source == destination:
             return [source]
 
-        source_new = (source, 0.0)
-        if source in self._gs_ids:
-            neighbors = self._gs_neighbors.get(source, [])
-            if len(neighbors) == 0:
-                return []
-            source_new = self._get_best_neighbor(neighbors, destination)
+        # source_new = (source, 0.0)
+        # if source in self._gs_ids:
+        #     neighbors = self._gs_neighbors.get(source, [])
+        #     if len(neighbors) == 0:
+        #         return []
+        #     # source_new = self._get_best_neighbor(neighbors, destination)
+        #     source_new = self._get_best_neighbor(source, destination)
 
-        destination_new = (destination, 0.0)
-        if destination in self._gs_ids:
-            neighbors = self._gs_neighbors.get(destination, [])
-            if len(neighbors) == 0:
-                return []
-            destination_new = self._get_best_neighbor(neighbors, source)
+        # destination_new = (destination, 0.0)
+        # if destination in self._gs_ids:
+        #     neighbors = self._gs_neighbors.get(destination, [])
+        #     if len(neighbors) == 0:
+        #         return []
+        #     # destination_new = self._get_best_neighbor(neighbors, source)
+        #     destination_new = self._get_best_neighbor(destination, source)
 
         try:
             # path = self.solver.get_path(source_new[0], destination_new[0])
             return self.solver.get_path(source, destination)
-            return [source] + path + [destination]
+            # return [source] + path + [destination]
         except Exception:
             return []
 
@@ -1262,20 +1286,20 @@ class SourceRoutingDataProvider(RoutingDataProvider):
         if source == destination:
             return 0
 
-        source_new = (source, 0.0)
+        # source_new = (source, 0.0)
 
-        if source in self._gs_ids:
-            neighbors = self._gs_neighbors.get(source, [])
-            if len(neighbors) == 0:
-                return None
-            source_new = self._get_best_neighbor(neighbors, destination)
+        # if source in self._gs_ids:
+        #     neighbors = self._gs_neighbors.get(source, [])
+        #     if len(neighbors) == 0:
+        #         return None
+        #     source_new = self._get_best_neighbor(neighbors, destination)
 
-        destination_new = (destination, 0.0)
-        if destination in self._gs_ids:
-            neighbors = self._gs_neighbors.get(destination, [])
-            if len(neighbors) == 0:
-                return None
-            destination_new = self._get_best_neighbor(neighbors, source)
+        # destination_new = (destination, 0.0)
+        # if destination in self._gs_ids:
+        #     neighbors = self._gs_neighbors.get(destination, [])
+        #     if len(neighbors) == 0:
+        #         return None
+        #     destination_new = self._get_best_neighbor(neighbors, source)
 
         try:
             # return self.solver.get_path_cost(source_new[0], destination_new[0]) + source_new[1] + destination_new[1]
@@ -1306,3 +1330,248 @@ class SourceRoutingActor(MessageRoutingActor):
         if not provider:
             provider = SourceRoutingDataProvider(solver=solver, update_interval=update_interval)
         super().__init__(provider, store_and_forward, model_bandwidth, attack_strategy, loss_config, reliable_transfer_config)
+
+class ResilientSourceRoutingDataProvider(SourceRoutingDataProvider):
+    def __init__(self, get_next_hop_override: Optional[Callable[[BaseMessage, SatID, SatID], Optional[SatID]]] = None, solver: Union[GraphSolver, type[GraphSolver]] = BmsspSolver, update_interval: float = 15):
+        super().__init__(get_next_hop_override, solver, update_interval)
+
+class ResilientSourceRoutingActor(MessageRoutingActor):
+    _reroute_limit: int = 2
+    _local_view_depth: int = 3 # Depth for "5x5 grid" approximation
+    
+    def __init__(self, 
+                 provider: Optional[RoutingDataProvider] = None, 
+                 solver: Union[GraphSolver, type[GraphSolver]] = BmsspSolver, 
+                 update_interval: float = 15, 
+                 store_and_forward = False, 
+                 model_bandwidth=False, 
+                 attack_strategy = None, 
+                 loss_config = None, 
+                 reliable_transfer_config = None,
+                 reroute_limit: int = 2):
+        
+        if not provider:
+            provider = ResilientSourceRoutingDataProvider(solver=solver, update_interval=update_interval)
+            
+        super().__init__(provider, store_and_forward, model_bandwidth, attack_strategy, loss_config, reliable_transfer_config)
+        self._reroute_limit = reroute_limit
+
+    def _get_local_graph(self, mobility: MultiConstellation, center: SatID, depth: int) -> tuple[Graph, dict[SatID, int], dict[int, SatID]]:
+        local_graph = Graph(weighted=True, directed=False)
+        sat_to_node = {} # map SatID -> local graph node index
+        node_to_sat = {} # map local graph node index -> SatID
+        
+        queue = deque([(center, 0)])
+        visited = {center}
+        
+        nodes_in_graph = {center} 
+
+        while queue:
+            current_sat, d = queue.popleft()
+            if d >= depth:
+                continue
+
+            network_neighbors = []
+
+            for u, v in mobility.links:
+                neighbor = None
+                if u == current_sat:
+                    neighbor = v
+                elif v == current_sat:
+                    neighbor = u
+                
+                if neighbor:
+                    if (current_sat, neighbor) in self._failed_links or (neighbor, current_sat) in self._failed_links:
+                         continue                
+                    network_neighbors.append(neighbor)
+
+            for neighbor in network_neighbors:
+                nodes_in_graph.add(neighbor)
+                
+                if neighbor not in visited:
+                    visited.add(neighbor)
+                    queue.append((neighbor, d + 1))
+
+        for i, sat in enumerate(nodes_in_graph):
+            sat_to_node[sat] = i
+            node_to_sat[i] = sat
+        
+        n = len(nodes_in_graph)
+        local_graph.addNodes(n)
+
+        for u, v in mobility.links:
+            if (u, v) in self._failed_links or (v, u) in self._failed_links:
+                continue
+
+            if u in nodes_in_graph and v in nodes_in_graph:
+                u_node = sat_to_node[u]
+                v_node = sat_to_node[v]
+                if not local_graph.hasEdge(u_node, v_node):
+                    queue_u_v = len(self._stored_messages.get((u, v), []))
+                    queue_v_u = len(self._stored_messages.get((v, u), []))
+                    congestion_penalty = (queue_u_v + queue_v_u) * 0.01
+
+                    dist = mobility.get_delay(u, v)
+                    weight = (dist + congestion_penalty)
+                    local_graph.addEdge(u_node, v_node, weight)
+
+        return local_graph, sat_to_node, node_to_sat
+
+    def _attempt_reroute(self, mobility: MultiConstellation, time: float, source: SatID, destination: SatID, message: DirectMessage, failure_reason: DropReason) -> List[Event]:
+        current_reroutes = getattr(message, "reroute_count", 0)
+        if current_reroutes >= self._reroute_limit:
+            return [MessageDroppedEvent(time, source, message, DropReason.MAX_HOP_COUNT_EXCEEDED)]
+
+        original_route = getattr(message, "route", None)
+        current_index = getattr(message, "index", -1)
+        
+        if not original_route or current_index < 0:
+            return [MessageDroppedEvent(time, source, message, failure_reason)]
+
+        remaining_path = original_route[current_index+1:] 
+        if not remaining_path:
+             return [MessageDroppedEvent(time, source, message, failure_reason)]
+
+        local_graph, sat_to_node, node_to_sat = self._get_local_graph(mobility, source, depth=3)
+        
+        dijkstra = Dijkstra(local_graph, sat_to_node[source])
+        dijkstra.run()
+
+
+        distances = dijkstra.getDistances()
+        valid_distances = [d for d in distances if d != float('inf')]
+        max_local_delay = max(valid_distances) if valid_distances else 0.0
+        
+        best_target = None
+        best_path_local = None
+        max_progress_index = -1
+        
+        for i, sat_id in enumerate(remaining_path):
+            if sat_id in sat_to_node:
+                dist = dijkstra.distance(sat_to_node[sat_id])
+                if dist != float('inf'):
+                    if i > max_progress_index:
+                        max_progress_index = i
+                        best_target = sat_id
+                        path_nodes = dijkstra.getPath(sat_to_node[sat_id])
+                        best_path_local = [node_to_sat[n] for n in path_nodes]
+
+        if best_target and best_path_local:
+            message.reroute_count = current_reroutes + 1
+
+            target_idx_in_original = -1
+            target_idx_in_original = current_index + 1 + max_progress_index
+            
+            path_before = list(original_route[:current_index])
+            new_path_segment = best_path_local[1:]
+            path_after_target = list(original_route[target_idx_in_original+1:]) 
+                        
+            full_new_route = list(original_route[:current_index+1]) + new_path_segment + path_after_target
+            
+            message.route = tuple(full_new_route)
+            
+            return [MessageRerouteEvent(time + max_local_delay, source, destination, message)]
+
+        return [MessageDroppedEvent(time, source, message, failure_reason)]
+
+    def _send_message(self, mobility: MultiConstellation, time: float, source: SatID, destination: SatID, message: DirectMessage) -> list[Event]:        
+        current_index = getattr(message, "index", -1)
+        next_hop = self._routing.get_next_hop(source, destination, message)
+        
+        drop_reason = None
+        
+        if next_hop is None:
+            drop_reason = DropReason.NO_NEXT_HOP
+        else:
+            if not mobility.has_link(source, next_hop) or (source, next_hop) in self._failed_links:
+                drop_reason = DropReason.NO_ROUTE # or similar
+
+        if drop_reason:
+             return self._attempt_reroute(mobility, time, source, destination, message, drop_reason)
+
+        if current_index == -1:
+            message.index = 0
+        else:
+            message.index = current_index
+        
+        events = super()._send_message(mobility, time, source, destination, message)
+        
+        keep_events = []
+        for event in events:
+            if isinstance(event, MessageDroppedEvent):
+                r_events = self._attempt_reroute(mobility, time, source, destination, message, event.reason)
+                if any(isinstance(e, MessageDroppedEvent) for e in r_events):
+                    keep_events.append(event)
+                else:
+                    keep_events.extend(r_events)
+            else:
+                keep_events.append(event)
+                
+        return keep_events
+    
+    def handle_event(self, mobility: MultiConstellation, event: Event) -> list[Event]:
+        events = super().handle_event(mobility, event)
+
+        if isinstance(event, MessageDroppedEvent) and event.reason == DropReason.INSUFFICIENT_BUFFER:
+            if not isinstance(event.message, DirectMessage):
+                return []
+            reroute_events = self._attempt_reroute(mobility, event.time, event.source, event.message.destination, event.message, event.reason)
+            
+            for e in reroute_events:
+                if not isinstance(e, MessageDroppedEvent):
+                    events.append(e)
+
+        return events    
+
+class HardwareFailureCheckEvent(Event):
+    def __init__(self, time: float):
+        super().__init__(time)
+
+class HardwareFailureActor(Actor):
+    def __init__(self, failure_rate: float, recovery_rate: float):
+        super().__init__()
+        self.failure_rate = failure_rate
+        self.recovery_rate = recovery_rate
+        self.failed_links: set[tuple[SatID, SatID]] = set()
+
+    def initialize(self) -> list[Event]:
+        return [HardwareFailureCheckEvent(0)] 
+    
+    def handle_event(self, mobility: MultiConstellation, event: Event) -> list[Event]:
+        if not isinstance(event, HardwareFailureCheckEvent):
+            return []
+        events = []
+        current_time = event.time
+        
+        recovered = []
+        for link in self.failed_links:
+            if random.random() < self.recovery_rate: 
+                events.append(LinkUpEvent(current_time, link[0], link[1]))
+                recovered.append(link)
+        
+        for link in recovered:
+            self.failed_links.remove(link)
+
+        all_links = mobility.links 
+        for u, v in all_links:
+            sat_u = mobility.satellites.by_id(u)
+            sat_v = mobility.satellites.by_id(v)
+
+            if sat_u.constellation_name == "ground" or sat_v.constellation_name == "ground":
+                continue
+            if sat_u.constellation_name != sat_v.constellation_name:
+                continue
+
+            link_key = tuple(sorted((u, v))) 
+            
+            if link_key not in self.failed_links:
+                if random.random() < self.failure_rate:
+                    self.failed_links.add(link_key)
+                    events.append(LinkDownEvent(current_time, u, v))
+        
+        events.append(HardwareFailureCheckEvent(current_time + 1.0))
+        
+        return events
+
+
+

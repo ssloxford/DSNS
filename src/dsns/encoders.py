@@ -1,15 +1,15 @@
+# TODO
+
 from bitstring import BitStream
 
 from dsns.helpers import SatID
 from dsns.presets import MultiConstellation
 
 def source_route_encode(path: list[SatID], mobility: MultiConstellation, planes: int=72, sats_per_plane:int=22) -> BitStream:
-    intra_plane_bit = "uint:2=0"
+    intra_plane_bit = "uint:1=0"
     intra_plane_bwd = "uint:1=0"
     intra_plane_fwd = "uint:1=1"
-    inter_plane_bit = "uint:2=1"
-    ground = "uint:2=2"
-    # change to use params
+    inter_plane_bit = "uint:1=1"
     plane = "uint7:="
     plane_index = "uint5:="
 
@@ -23,18 +23,6 @@ def source_route_encode(path: list[SatID], mobility: MultiConstellation, planes:
 
         if sat_1 is None or sat_2 is None:
             raise Exception("Invalid satellites in path")
-
-        print(sat_1.name, sat_2.name)
-        # if sat_1.name.startswith('ground'):
-        #     _, plane_2, ind_2 = sat_1.name.split("_")
-        #     header.append(inter_plane_bit)
-        #     header.append(plane+plane_2)
-        #     header.append(plane_index+ind_2)
-        #     continue
-        #
-        # if sat_2.name.startswith('ground'):
-        #     header.append(ground)
-        #     header.append(plane_index+Vkk)
 
         _, plane_1, ind_1 = sat_1.name.split("_")
         _, plane_2, ind_2 = sat_2.name.split("_")
@@ -81,7 +69,7 @@ def source_route_read_next_segment(header: BitStream, curr_sat_id: SatID, mobili
         if curr_sat is None:
             raise Exception("Invalid path encoding supplied")
 
-        _, plane, ind = curr_sat.name
+        _, plane, ind = curr_sat.name.split("_")
         is_forward = header.read("bool")
         hops = int(header.read("uint:5"))
         inc = 1 if is_forward else - 1
@@ -122,7 +110,7 @@ def source_route_decode(header: BitStream, source: SatID, mobility: MultiConstel
             if curr_sat is None:
                 raise Exception("Invalid path encoding supplied")
 
-            _, plane, ind = curr_sat.name
+            _, plane, ind = curr_sat.name.split("_")
             is_forward = header.read("bool")
             hops = int(header.read("uint:5"))
             inc = 1 if is_forward else - 1
@@ -135,6 +123,7 @@ def source_route_decode(header: BitStream, source: SatID, mobility: MultiConstel
                 if curr_sat is None:
                     raise Exception("Invalid path encoding supplied")
 
+                curr_sat_id = curr_sat.sat_id
                 path.append(curr_sat.sat_id)
 
     return path

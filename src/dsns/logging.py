@@ -6,7 +6,7 @@ from dsns.transmission import Link, MessageReceptionCanceledEvent, MessageSchedu
 
 from .simulation import Actor
 from .events import Event
-from .message import BaseMessage, DirectMessage, BroadcastMessage, DropReason, LTPSegment, LinkMessageID, MessageCreatedEvent, MessageDeliveredEvent, MessageDroppedEvent, MessageBroadcastDeliveredEvent, MessageLostEvent, MessageQueuedEvent, MessageSentEvent, MessageReceivedEvent
+from .message import BaseMessage, DirectMessage, BroadcastMessage, DropReason, LTPSegment, LinkMessageID, MessageCreatedEvent, MessageDeliveredEvent, MessageDroppedEvent, MessageBroadcastDeliveredEvent, MessageLostEvent, MessageQueuedEvent, MessageSentEvent, MessageReceivedEvent, MessageRerouteEvent
 from .helpers import SatID
 try:
     from .key_management import UnsignedMessageCreatedEvent
@@ -117,6 +117,13 @@ class PreprocessedLoggingActor(Actor):
                 event.message,
                 end_time = event.time,
                 aborted = True,
+            )
+
+        elif isinstance(event, MessageRerouteEvent):
+            self.update_message(
+                event.message,
+                dropped = False,
+                drop_reason = None,
             )
 
         elif isinstance(event, MessageBroadcastDeliveredEvent):

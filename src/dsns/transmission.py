@@ -96,7 +96,9 @@ class LinkTransmissionActor(Actor):
     def __init__(self, 
                  default_bandwidth: float, 
                  per_link_bandwidth: dict | None = None, 
-                 buffer_if_link_busy: bool = False, 
+                 buffer_if_link_busy: bool = False,
+                 max_queue_size: int = None,
+                 reroute_threshold: int = None,
                  reroute_on_link_down: bool = True, 
                  message_location_tracker: MessageLocationTracker = MessageLocationTracker()):
         
@@ -104,6 +106,8 @@ class LinkTransmissionActor(Actor):
         self._default_bandwidth: float = default_bandwidth
         self._per_link_bandwidth: dict | None = per_link_bandwidth or {}
         self._buffer_if_link_busy: bool = buffer_if_link_busy
+        self._max_queue_size = max_queue_size
+        self._reroute_threshold = reroute_threshold
         self._message_location_tracker = message_location_tracker
 
         self._link_next_available_time: dict[Link, float] = {}
@@ -150,6 +154,55 @@ class LinkTransmissionActor(Actor):
                 return [MessageScheduledSendCompletedEvent(transmit_end_time, transmit_start_time, source, destination, next_message)] 
         return []
 
+    # def __queue_message_and_transmit_if_link_free(self, event_time: float, message: BaseMessage, source: SatID, destination: SatID) -> list[Event]:
+    #     """
+    #     Add message to the queue if it can be sent immediately, 
+    #     otherwise only if buffering is enabled and if not we drop it.
+    #     Then transmit next message if link is free (nothing in queue).
+    #     Otherwise we wait for the message to be sent to trigger transmission
+    #     of next message!
+    #     """
+    #     events = []
+    #     link = Link(source, destination)
+    #     if self._link_queued_messages.get(link, []):
+    #         # queue is non-empty
+    #         if self._buffer_if_link_busy:
+    #             self._link_queued_messages.get(link).append(message)
+    #         else: 
+    #             events.append( MessageDroppedEvent(event_time, source, message, DropReason.INSUFFICIENT_BUFFER) )
+    #     else:
+    #         # queue is empty  
+    #         self._link_queued_messages.setdefault(link, []).append(message) 
+    #         # only transmit message if queue is empty
+    #         events.extend( self.__transmit_next_message(event_time, source, destination) )
+
+        # return events                     
+    
+    # def __queue_message_and_transmit_if_link_free(self, event_time: float, message: BaseMessage, source: SatID, destination: SatID) -> list[Event]:
+    #     """
+    #     Add message to the queue if it can be sent immediately, 
+    #     otherwise only if buffering is enabled and if not we drop it.
+    #     Then transmit next message if link is free (nothing in queue).
+    #     Otherwise we wait for the message to be sent to trigger transmission
+    #     of next message!
+    #     """
+    #     events = []
+    #     link = Link(source, destination)
+    #     if self._link_queued_messages.get(link, []):
+    #         current_queue_size = len(self._link_queued_messages[link])
+    #         if not self._buffer_if_link_busy:
+    #         # No buffering allowed; drop/reroute immediately
+    #             events.append(MessageDroppedEvent(event_time, source, message, DropReason.INSUFFICIENT_BUFFER))
+    #         elif self._max_queue_size is not None and current_queue_size >= self._max_queue_size:
+    #             # Hard limit reached: Drop the message (will attempt reroute first via your protocol)
+    #             events.append(MessageDroppedEvent(event_time, source, message, DropReason.INSUFFICIENT_BUFFER))
+    #         elif self._reroute_threshold is not None and current_queue_size >= self._reroute_threshold:
+    #             # Soft congestion limit reached: Tell the routing layer to reroute early
+    #             events.append(MessageDroppedEvent(event_time, source, message, DropReason.INSUFFICIENT_BUFFER))
+    #         else:
+    #             # Buffer has space
+    #             self._link_queued_messages[link].append(message)
+
     def __queue_message_and_transmit_if_link_free(self, event_time: float, message: BaseMessage, source: SatID, destination: SatID) -> list[Event]:
         """
         Add message to the queue if it can be sent immediately, 
@@ -161,18 +214,29 @@ class LinkTransmissionActor(Actor):
         events = []
         link = Link(source, destination)
         if self._link_queued_messages.get(link, []):
-            # queue is non-empty
-            if self._buffer_if_link_busy:
-                self._link_queued_messages.get(link).append(message)
-            else: 
-                events.append( MessageDroppedEvent(event_time, source, message, DropReason.INSUFFICIENT_BUFFER) )
+            current_queue_size = len(self._link_queued_messages[link])
+            
+            if not self._buffer_if_link_busy:
+                # No buffering allowed; drop/reroute immediately
+                print("LINK BUSY")
+                events.append(MessageDroppedEvent(event_time, source, message, DropReason.INSUFFICIENT_BUFFER))
+            elif self._max_queue_size is not None and current_queue_size >= self._max_queue_size:
+                # Hard limit reached: Drop the message (will attempt reroute first via your protocol)
+                print("MAX QUEUE")
+                events.append(MessageDroppedEvent(event_time, source, message, DropReason.INSUFFICIENT_BUFFER))
+            elif self._reroute_threshold is not None and current_queue_size >= self._reroute_threshold:
+                # Soft congestion limit reached: Tell the routing layer to reroute early
+                events.append(MessageDroppedEvent(event_time, source, message, DropReason.INSUFFICIENT_BUFFER))
+            else:
+                # Buffer has space
+                self._link_queued_messages[link].append(message)
         else:
             # queue is empty  
             self._link_queued_messages.setdefault(link, []).append(message) 
             # only transmit message if queue is empty
             events.extend( self.__transmit_next_message(event_time, source, destination) )
 
-        return events                     
+        return events
 
     def handle_message_queued_event(self, mobility: MultiConstellation, event: MessageQueuedEvent, message: BaseMessage) -> list[Event]:
         assert message.size > 0, f"Event Queue ordering may work incorrectly when messages have size {message.size}. If we model bandwidth ensure size is positive."

@@ -1,7 +1,9 @@
-from typing import Optional, Any
+from typing import Literal, Optional, Any
 
 import numpy as np
 import datetime
+
+from numpy.typing import NDArray
 
 from dsns.constellation import Constellation, WalkerISLHelper, WalkerConstellation, GroundConstellation, NullISLHelper, PlanetOrbitalCenter, TLEConstellation, AdHocISLHelper, FixedISLHelper, FixedConstellation
 from dsns.multiconstellation import MultiConstellation, GroundILLHelper, OcclusionILLHelper, DistanceILLHelper
@@ -37,7 +39,7 @@ GROUND_STATIONS_DSN = np.array([
 ]) # From https://deepspace.jpl.nasa.gov/dsndocs/810-005/301/301K.pdf
 
 
-def ground_constellation(id_helper: IDHelper, aws: bool = False, connected: bool = False, reduced: bool = False, **kwargs) -> Constellation:
+def ground_constellation(id_helper: IDHelper, station_type: Literal["random", "aws", "custom"] = "random", connected: bool = False, reduced: bool = False, ground_station_positions: Optional[NDArray] = None, **kwargs) -> Constellation:
     """
     Build a ground constellation using the locations of AWS ground stations.
 
@@ -54,13 +56,24 @@ def ground_constellation(id_helper: IDHelper, aws: bool = False, connected: bool
 
     isl_helper = NullISLHelper()
 
-    ground_station_positions = GROUND_STATIONS_UNIFORM if not aws else GROUND_STATIONS_AWS
+    positions = np.array([])
+    if station_type == "custom":
+        if ground_station_positions is None:
+            raise ValueError("ground_station_positions must be provided when station_type is 'custom'.")
+        positions = ground_station_positions
+    elif station_type == "aws":
+        positions = GROUND_STATIONS_AWS
+    elif station_type == "random":
+        positions = GROUND_STATIONS_UNIFORM
+    else:
+        raise ValueError(f"Unsupported station_type: '{station_type}'. Use 'random', 'aws', or 'custom'.")
+
     if reduced:
-        ground_station_positions = np.array([ g for g in ground_station_positions if abs(g[0]) < 60.0 ])
+        positions = np.array([ g for g in positions if abs(g[0]) < 60.0 ])
 
     constellation_args: dict[str, Any] = dict(
         name="ground",
-        ground_station_positions = ground_station_positions,
+        ground_station_positions = positions,
         host_radius=EARTH_RADIUS,
         rotation_period=EARTH_ROTATION_PERIOD,
         isl_helper=isl_helper,
@@ -505,12 +518,12 @@ class StarlinkMultiConstellation(MultiConstellation):
     constellation.
     """
 
-    def __init__(self, starlink_kwargs: dict[str, Any] = {}):
+    def __init__(self, station_type: Literal["random", "aws", "custom"] = "aws", ground_station_positions: Optional[NDArray] = None, starlink_kwargs: dict[str, Any] = {}):
         super().__init__()
 
         self.id_helper = IDHelper()
 
-        self.ground_constellation = ground_constellation(self.id_helper, aws=True)
+        self.ground_constellation = ground_constellation(self.id_helper, station_type=station_type, ground_station_positions=ground_station_positions)
         self.starlink_constellation = starlink_constellation(self.id_helper, **starlink_kwargs)
 
         self.ground_ill_helper = ground_ill_helper(self.ground_constellation, self.starlink_constellation, min_elevation=25.0)
@@ -826,7 +839,7 @@ class EarthMoonMultiConstellation(MultiConstellation):
         self.lunar_ground_constellation = ground_constellation(
             self.id_helper,
             name="lunar_ground",
-            aws=True,
+            station_type="aws",
             orbital_center=self.moon_orbital_center,
             host_radius=MOON_RADIUS,
             rotation_period=MOON_ROTATION_PERIOD,
@@ -1072,7 +1085,7 @@ class EarthMoonMarsMultiConstellation(MultiConstellation):
             self.moon_ground = ground_constellation(
                 self.id_helper,
                 name="moon_ground",
-                aws=True,
+                station_type="aws",
                 orbital_center=self.moon_orbital_center,
                 host_radius=MOON_RADIUS,
                 rotation_period=MOON_ROTATION_PERIOD,
@@ -1108,7 +1121,7 @@ class EarthMoonMarsMultiConstellation(MultiConstellation):
             self.mars_ground = ground_constellation(
                 self.id_helper,
                 name="mars_ground",
-                aws=True,
+                station_type="aws",
                 orbital_center=self.mars_orbital_center,
                 host_radius=MARS_RADIUS,
                 rotation_period=MARS_ROTATION_PERIOD,

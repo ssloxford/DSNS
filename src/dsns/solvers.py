@@ -1,6 +1,8 @@
 from abc import ABC, abstractmethod
 from typing import Union, Optional, Dict, List, Set, Tuple
 from collections import defaultdict
+import networkit
+from networkit.distance import Dijkstra as NKDijkstra
 
 from dsns.helpers import SatID
 from dsns.multiconstellation import MultiConstellation
@@ -77,9 +79,9 @@ class GraphSolver(ABC):
 
     def remove_edges(self, edges: Set[Tuple[SatID, SatID]]) -> None:
         for u, v in edges:
-            if u in self.graph:
+            if u in self.graph and v in self.graph[u]:
                 self.graph[u].pop(v, None)
-            if v in self.graph:
+            if v in self.graph and u in self.graph[v]:
                 self.graph[v].pop(u, None)
         self.lib_graph = None
         self.cache.clear()
@@ -193,3 +195,105 @@ class DijkstraSolver(GraphSolver):
             return result[0]
         return float("inf")
 
+class NetworkItDijkstraSolver(GraphSolver):
+    __graph: Optional[networkit.Graph]
+    __sat_to_node_id: Dict[SatID, int]
+    __node_to_sat_id: Dict[int, SatID]
+
+    def __init__(self) -> None:
+        super().__init__()
+        self.__graph = None
+        self.__sat_to_node_id = {}
+        self.__node_to_sat_id = {}
+
+    def update(
+        self,
+        data: Union[MultiConstellation, int],
+        costs: Optional[Dict[Tuple[SatID, SatID], float]] = None,
+    ) -> None:
+        # Build the standard self.graph dictionary
+        super().update(data, costs)
+
+        # Build the NetworKit graph
+        # Note: self.n is populated by the super().update call
+        self.__graph = networkit.Graph(self.n, weighted=True, directed=False)
+        self.__sat_to_node_id = {}
+        self.__node_to_sat_id = {}
+
+        # Keep parity by assigning generic ID mapping
+        for i in range(self.n):
+            self.__sat_to_node_id[i] = i
+            self.__node_to_sat_id[i] = i
+
+        # Populate the networkit graph edges
+        # using `u < v` to ensure undirected edges are only added once
+        for u, neighbors in self.graph.items():
+            for v, w in neighbors.items():
+                if u < v and 0 <= u < self.n and 0 <= v < self.n:
+                    self.__graph.addEdge(self.__sat_to_node_id[u], self.__sat_to_node_id[v], w)
+
+    def remove_edges(self, edges: Set[Tuple[SatID, SatID]]) -> None:
+        # Base graph dict update and cache invalidate
+        super().remove_edges(edges)
+
+        # Remove edges from networkit internal graph
+        if self.__graph is not None:
+            for u, v in edges:
+                 if u in self.__sat_to_node_id and v in self.__sat_to_node_id:
+                     u_node = self.__sat_to_node_id[u]
+                     v_node = self.__sat_to_node_id[v]
+                     if self.__graph.hasEdge(u_node, v_node):
+                        self.__graph.removeEdge(u_node, v_node)
+
+    def _get_nk_sssp(self, source: SatID) -> NKDijkstra:
+        """Helper to get and cache a NetworkIt Dijkstra run for a given source"""
+        res = self.cache.get(source)
+        if res is None:
+            # Run Dijkstra (storePaths=True, storeNodesSortedByDistance=True)
+            res = NKDijkstra(self.__graph, self.__sat_to_node_id[source], True, True)
+            res.run()
+            self.cache[source] = res
+        return res
+
+    def get_path_cost(self, source: SatID, destination: SatID) -> float:
+        if self.__graph is None or source not in self.__sat_to_node_id or destination not in self.__sat_to_node_id:
+            return float('inf')
+
+        nk_dijkstra = self._get_nk_sssp(source)
+        
+        # NetworKit's Dijkstra sets unreachables/same nodes to 0 or large values, check properly
+        dist = nk_dijkstra.distance(self.__sat_to_node_id[destination])
+        # Very high float values might be returned for unreachable bounds depending on networkit builds 
+        if dist > 1e12 or (dist == 0 and source != destination):
+            return float('inf')
+        return dist
+
+    def get_path(self, source: SatID, destination: SatID) -> List[SatID]:
+        if self.__graph is None or source not in self.__sat_to_node_id or destination not in self.__sat_to_node_id:
+            return []
+        
+        if source == destination:
+            return [source]
+
+        nk_dijkstra = self._get_nk_sssp(source)
+        nk_path = nk_dijkstra.getPath(self.__sat_to_node_id[destination])
+
+        # NK getPath returns excluding the source node, e.g., A->B->C gets [B, C]
+        if not nk_path and source != destination:
+            return []
+
+        # Reconstruct path and map back to sat IDs
+        path = [self.__node_to_sat_id[node] for node in nk_path]
+        return [source] + path
+
+    def benchmark_solve(self, source: SatID, destination: SatID) -> float:
+        """Run Dijkstra directly without caching for accurate benchmarking."""
+        if self.__graph is None or source not in self.__sat_to_node_id or destination not in self.__sat_to_node_id:
+            return float('inf')
+
+        nk_dijkstra = NKDijkstra(self.__graph, self.__sat_to_node_id[source], True, True)
+        nk_dijkstra.run()
+        dist = nk_dijkstra.distance(self.__sat_to_node_id[destination])
+        if dist > 1e12 or (dist == 0 and source != destination):
+            return float('inf')
+        return dist
