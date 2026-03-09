@@ -218,11 +218,9 @@ class LinkTransmissionActor(Actor):
             
             if not self._buffer_if_link_busy:
                 # No buffering allowed; drop/reroute immediately
-                print("LINK BUSY")
                 events.append(MessageDroppedEvent(event_time, source, message, DropReason.INSUFFICIENT_BUFFER))
             elif self._max_queue_size is not None and current_queue_size >= self._max_queue_size:
                 # Hard limit reached: Drop the message (will attempt reroute first via your protocol)
-                print("MAX QUEUE")
                 events.append(MessageDroppedEvent(event_time, source, message, DropReason.INSUFFICIENT_BUFFER))
             elif self._reroute_threshold is not None and current_queue_size >= self._reroute_threshold:
                 # Soft congestion limit reached: Tell the routing layer to reroute early

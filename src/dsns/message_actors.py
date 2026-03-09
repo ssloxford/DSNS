@@ -107,13 +107,16 @@ class MessageRoutingActor(Actor):
             return [ MessageDroppedEvent(time, source, message, DropReason.NO_NEXT_HOP) ]
         else:
             # Check if connected
-            if not mobility.has_link(source, next_hop):
+            reroute = getattr(message, "reroute", False)
+            if (not mobility.has_link(source, next_hop) or (next_hop, source) in self._failed_links):
                 if self._store_and_forward:
                     self._stored_messages.setdefault((source, next_hop), []).append(message)
                     return []
                 else:
                     return [ MessageDroppedEvent(time, source, message, DropReason.INSUFFICIENT_BUFFER) ]
             else:
+                if reroute:
+                    message.reroute = False
                 return self.__get_message_events(time, source, next_hop, message)
 
     def handle_message_sent_event(self, mobility: MultiConstellation, event: MessageSentEvent) -> list[Event]:
@@ -1336,7 +1339,7 @@ class ResilientSourceRoutingDataProvider(SourceRoutingDataProvider):
         super().__init__(get_next_hop_override, solver, update_interval)
 
 class ResilientSourceRoutingActor(MessageRoutingActor):
-    _reroute_limit: int = 2
+    _reroute_limit: int = 3
     _local_view_depth: int = 3 # Depth for "5x5 grid" approximation
     
     def __init__(self, 
@@ -1348,7 +1351,7 @@ class ResilientSourceRoutingActor(MessageRoutingActor):
                  attack_strategy = None, 
                  loss_config = None, 
                  reliable_transfer_config = None,
-                 reroute_limit: int = 2):
+                 reroute_limit: int = 3):
         
         if not provider:
             provider = ResilientSourceRoutingDataProvider(solver=solver, update_interval=update_interval)
@@ -1417,6 +1420,7 @@ class ResilientSourceRoutingActor(MessageRoutingActor):
 
         return local_graph, sat_to_node, node_to_sat
 
+
     def _attempt_reroute(self, mobility: MultiConstellation, time: float, source: SatID, destination: SatID, message: DirectMessage, failure_reason: DropReason) -> List[Event]:
         current_reroutes = getattr(message, "reroute_count", 0)
         if current_reroutes >= self._reroute_limit:
@@ -1436,7 +1440,6 @@ class ResilientSourceRoutingActor(MessageRoutingActor):
         
         dijkstra = Dijkstra(local_graph, sat_to_node[source])
         dijkstra.run()
-
 
         distances = dijkstra.getDistances()
         valid_distances = [d for d in distances if d != float('inf')]
@@ -1459,16 +1462,15 @@ class ResilientSourceRoutingActor(MessageRoutingActor):
         if best_target and best_path_local:
             message.reroute_count = current_reroutes + 1
 
-            target_idx_in_original = -1
             target_idx_in_original = current_index + 1 + max_progress_index
             
-            path_before = list(original_route[:current_index])
             new_path_segment = best_path_local[1:]
             path_after_target = list(original_route[target_idx_in_original+1:]) 
                         
             full_new_route = list(original_route[:current_index+1]) + new_path_segment + path_after_target
             
             message.route = tuple(full_new_route)
+            message.reroute = True
             
             return [MessageRerouteEvent(time + max_local_delay, source, destination, message)]
 
@@ -1487,6 +1489,7 @@ class ResilientSourceRoutingActor(MessageRoutingActor):
                 drop_reason = DropReason.NO_ROUTE # or similar
 
         if drop_reason:
+             message.index = current_index
              return self._attempt_reroute(mobility, time, source, destination, message, drop_reason)
 
         if current_index == -1:
@@ -1499,6 +1502,7 @@ class ResilientSourceRoutingActor(MessageRoutingActor):
         keep_events = []
         for event in events:
             if isinstance(event, MessageDroppedEvent):
+                message.index = current_index
                 r_events = self._attempt_reroute(mobility, time, source, destination, message, event.reason)
                 if any(isinstance(e, MessageDroppedEvent) for e in r_events):
                     keep_events.append(event)
@@ -1508,7 +1512,7 @@ class ResilientSourceRoutingActor(MessageRoutingActor):
                 keep_events.append(event)
                 
         return keep_events
-    
+
     def handle_event(self, mobility: MultiConstellation, event: Event) -> list[Event]:
         events = super().handle_event(mobility, event)
 

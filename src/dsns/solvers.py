@@ -195,6 +195,8 @@ class DijkstraSolver(GraphSolver):
             return result[0]
         return float("inf")
 
+
+
 class NetworkItDijkstraSolver(GraphSolver):
     __graph: Optional[networkit.Graph]
     __sat_to_node_id: Dict[SatID, int]
@@ -246,13 +248,10 @@ class NetworkItDijkstraSolver(GraphSolver):
                         self.__graph.removeEdge(u_node, v_node)
 
     def _get_nk_sssp(self, source: SatID) -> NKDijkstra:
-        """Helper to get and cache a NetworkIt Dijkstra run for a given source"""
-        res = self.cache.get(source)
-        if res is None:
-            # Run Dijkstra (storePaths=True, storeNodesSortedByDistance=True)
-            res = NKDijkstra(self.__graph, self.__sat_to_node_id[source], True, True)
-            res.run()
-            self.cache[source] = res
+        """Helper to get a NetworkIt Dijkstra run for a given source without caching"""
+        # Run Dijkstra (storePaths=True, storeNodesSortedByDistance=True)
+        res = NKDijkstra(self.__graph, self.__sat_to_node_id[source], True, True)
+        res.run()
         return res
 
     def get_path_cost(self, source: SatID, destination: SatID) -> float:
