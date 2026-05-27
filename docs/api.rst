@@ -21,3 +21,4 @@ See :doc:`/examples` for base simulation configurations to start from.
     api/reference_scenarios
     api/logging
     api/visualizer
+    api/web_visualizer

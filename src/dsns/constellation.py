@@ -2,9 +2,6 @@ from abc import ABC, abstractmethod
 from typing import Optional, Self
 
 import numpy as np
-from PyAstronomy.pyasl import KeplerEllipse # type: ignore
-import urllib.request # type: ignore
-import sgp4.api, sgp4.conveniences
 import datetime
 
 from . import helpers
@@ -337,6 +334,8 @@ class WalkerConstellation(Constellation):
 
         self.satellites = Satellites([])
 
+        from PyAstronomy.pyasl import KeplerEllipse # type: ignore
+
         # Kepler ellipse solver for each plane
         self.plane_ellipses = []
         for i in range(num_planes):
@@ -434,6 +433,8 @@ class TLEConstellation(Constellation):
 
         self.name = name
 
+        import sgp4.api, sgp4.conveniences
+        self._sgp4_conveniences = sgp4.conveniences
         self.tles = tles
         self.sats = sgp4.api.SatrecArray([ sgp4.api.Satrec.twoline2rv(tle[0], tle[1]) for tle in self.tles ])
         self.epoch = epoch or datetime.datetime.now()
@@ -466,6 +467,7 @@ class TLEConstellation(Constellation):
             orbital_center: Orbital center of the constellation.
         """
 
+        import urllib.request
         tles = []
         with urllib.request.urlopen(tle_url) as url:
             data = url.read().decode()
@@ -504,7 +506,7 @@ class TLEConstellation(Constellation):
         return cls(name, tles, isl_helper, id_helper, epoch, ignore_errors, orbital_center=orbital_center)
 
     def update_positions(self, time):
-        jdays = [ sgp4.conveniences.jday_datetime(self.epoch + datetime.timedelta(seconds=time)) ]
+        jdays = [ self._sgp4_conveniences.jday_datetime(self.epoch + datetime.timedelta(seconds=time)) ]
         jd = np.array([ jd for jd, fr in jdays ])
         fr = np.array([ fr for jd, fr in jdays ])
 

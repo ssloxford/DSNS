@@ -27,7 +27,10 @@ from dsns.helpers import (
     GROUND_STATIONS_UNIFORM,
     get_semi_major_axis
 )
-from dsns.visualizer import MultiConstellationVisualizer
+try:
+    from dsns.visualizer import MultiConstellationVisualizer
+except ImportError:
+    MultiConstellationVisualizer = None
 
 
 GROUND_STATIONS_DSN = np.array([
@@ -1220,187 +1223,189 @@ class FixedMultiConstellation(MultiConstellation):
         self.add_constellation(self.constellation)
 
 
-class EarthVisualizer(MultiConstellationVisualizer):
-    """
-    Preset visualizer for rendering Earth satellites.
-    """
+if MultiConstellationVisualizer is not None:
 
-    def __init__(
-        self,
-        multi_constellation: MultiConstellation,
-        time_scale: float = 100.0,
-        space_scale: float = 1e-6,
-        earth_materials: Optional[tuple[str, str, str]] = None,
-        viewport_size: tuple[int, int] = (800, 600),
-        bg_color: tuple[float, float, float] = (0.0, 0.0, 0.0),
-        ):
+    class EarthVisualizer(MultiConstellationVisualizer):
         """
-        Initialize the visualizer.
-
-        Parameters:
-            multi_constellation: Multi-constellation to visualize.
-            time_scale: Time scale factor.
-            space_scale: Space scale factor.
-            earth_materials: Materials to use for the Earth.
-            viewport_size: Size of the viewport.
-            bg_color: Background color.
+        Preset visualizer for rendering Earth satellites.
         """
-        super().__init__(
-            multi_constellation,
-            time_scale=time_scale,
-            space_scale=space_scale,
-            viewport_size=viewport_size,
-            bg_color=bg_color,
-        )
 
-        earth_color = (107/255, 147/255, 214/255)
-        self.add_planet(
-            radius=EARTH_RADIUS,
-            rotation_period=EARTH_ROTATION_PERIOD,
-            materials=earth_materials,
-            color=earth_color,
-        )
+        def __init__(
+            self,
+            multi_constellation: MultiConstellation,
+            time_scale: float = 100.0,
+            space_scale: float = 1e-6,
+            earth_materials: Optional[tuple[str, str, str]] = None,
+            viewport_size: tuple[int, int] = (800, 600),
+            bg_color: tuple[float, float, float] = (0.0, 0.0, 0.0),
+            ):
+            """
+            Initialize the visualizer.
 
-    def run_simulation(self):
-        super().run_simulation()
+            Parameters:
+                multi_constellation: Multi-constellation to visualize.
+                time_scale: Time scale factor.
+                space_scale: Space scale factor.
+                earth_materials: Materials to use for the Earth.
+                viewport_size: Size of the viewport.
+                bg_color: Background color.
+            """
+            super().__init__(
+                multi_constellation,
+                time_scale=time_scale,
+                space_scale=space_scale,
+                viewport_size=viewport_size,
+                bg_color=bg_color,
+            )
 
-    def run_viewer(self):
-        super().run_viewer()
+            earth_color = (107/255, 147/255, 214/255)
+            self.add_planet(
+                radius=EARTH_RADIUS,
+                rotation_period=EARTH_ROTATION_PERIOD,
+                materials=earth_materials,
+                color=earth_color,
+            )
+
+        def run_simulation(self):
+            super().run_simulation()
+
+        def run_viewer(self):
+            super().run_viewer()
 
 
-class EarthMarsVisualizer(MultiConstellationVisualizer):
-    """
-    Preset visualizer for rendering Earth-Mars communication.
-    """
-
-    def __init__(
-        self,
-        multi_constellation: EarthMarsMultiConstellation,
-        time_scale: float = 100.0,
-        space_scale: float = 1e-6,
-        interplanetary_scale: float = 1e-10,
-        earth_materials: Optional[tuple[str, str, str]] = None,
-        mars_material: Optional[str] = None,
-        viewport_size: tuple[int, int] = (800, 600),
-        bg_color: tuple[float, float, float] = (0.0, 0.0, 0.0),
-        ):
+    class EarthMarsVisualizer(MultiConstellationVisualizer):
         """
-        Initialize the visualizer.
-
-        Parameters:
-            multi_constellation: Multi-constellation to visualize.
-            time_scale: Time scale factor.
-            space_scale: Space scale factor.
-            interplanetary_scale: Interplanetary scale factor.
-            earth_materials: Materials to use for the Earth.
-            mars_material: Material to use for Mars.
-            viewport_size: Size of the viewport.
-            bg_color: Background color.
+        Preset visualizer for rendering Earth-Mars communication.
         """
-        super().__init__(
-            multi_constellation,
-            time_scale=time_scale,
-            space_scale=space_scale,
-            interplanetary_scale=interplanetary_scale,
-            viewport_size=viewport_size,
-            bg_color=bg_color,
-        )
 
-        earth_color = (107/255, 147/255, 214/255)
-        mars_color = (193/255, 68/255, 14/255)
+        def __init__(
+            self,
+            multi_constellation: EarthMarsMultiConstellation,
+            time_scale: float = 100.0,
+            space_scale: float = 1e-6,
+            interplanetary_scale: float = 1e-10,
+            earth_materials: Optional[tuple[str, str, str]] = None,
+            mars_material: Optional[str] = None,
+            viewport_size: tuple[int, int] = (800, 600),
+            bg_color: tuple[float, float, float] = (0.0, 0.0, 0.0),
+            ):
+            """
+            Initialize the visualizer.
 
-        self.add_planet(
-            radius=EARTH_RADIUS,
-            rotation_period=EARTH_ROTATION_PERIOD,
-            materials=earth_materials,
-            color=earth_color,
-            center=multi_constellation.earth_orbital_center,
-        )
+            Parameters:
+                multi_constellation: Multi-constellation to visualize.
+                time_scale: Time scale factor.
+                space_scale: Space scale factor.
+                interplanetary_scale: Interplanetary scale factor.
+                earth_materials: Materials to use for the Earth.
+                mars_material: Material to use for Mars.
+                viewport_size: Size of the viewport.
+                bg_color: Background color.
+            """
+            super().__init__(
+                multi_constellation,
+                time_scale=time_scale,
+                space_scale=space_scale,
+                interplanetary_scale=interplanetary_scale,
+                viewport_size=viewport_size,
+                bg_color=bg_color,
+            )
 
-        mars_materials = (
-            mars_material,
-            None,
-            None,
-        ) if mars_material is not None else None
-        self.add_planet(
-            radius=MARS_RADIUS,
-            rotation_period=MARS_ROTATION_PERIOD,
-            materials=mars_materials,
-            color=mars_color,
-            center=multi_constellation.mars_orbital_center,
-        )
+            earth_color = (107/255, 147/255, 214/255)
+            mars_color = (193/255, 68/255, 14/255)
 
-    def run_simulation(self):
-        super().run_simulation()
+            self.add_planet(
+                radius=EARTH_RADIUS,
+                rotation_period=EARTH_ROTATION_PERIOD,
+                materials=earth_materials,
+                color=earth_color,
+                center=multi_constellation.earth_orbital_center,
+            )
 
-    def run_viewer(self):
-        super().run_viewer()
+            mars_materials = (
+                mars_material,
+                None,
+                None,
+            ) if mars_material is not None else None
+            self.add_planet(
+                radius=MARS_RADIUS,
+                rotation_period=MARS_ROTATION_PERIOD,
+                materials=mars_materials,
+                color=mars_color,
+                center=multi_constellation.mars_orbital_center,
+            )
+
+        def run_simulation(self):
+            super().run_simulation()
+
+        def run_viewer(self):
+            super().run_viewer()
 
 
-class EarthMoonVisualizer(MultiConstellationVisualizer):
-    """
-    Preset visualizer for rendering Earth-Moon communication.
-    """
-
-    def __init__(
-        self,
-        multi_constellation: EarthMoonMultiConstellation,
-        time_scale: float = 100.0,
-        space_scale: float = 1e-6,
-        interplanetary_scale: float = 1e-10,
-        earth_materials: Optional[tuple[str, str, str]] = None,
-        moon_material: Optional[str] = None,
-        viewport_size: tuple[int, int] = (800, 600),
-        bg_color: tuple[float, float, float] = (0.0, 0.0, 0.0),
-        ):
+    class EarthMoonVisualizer(MultiConstellationVisualizer):
         """
-        Initialize the visualizer.
-
-        Parameters:
-            multi_constellation: Multi-constellation to visualize.
-            time_scale: Time scale factor.
-            space_scale: Space scale factor.
-            interplanetary_scale: Interplanetary scale factor.
-            earth_materials: Materials to use for the Earth.
-            moon_material: Material to use for the Moon.
-            viewport_size: Size of the viewport.
-            bg_color: Background color.
+        Preset visualizer for rendering Earth-Moon communication.
         """
-        super().__init__(
-            multi_constellation,
-            time_scale=time_scale,
-            space_scale=space_scale,
-            interplanetary_scale=interplanetary_scale,
-            viewport_size=viewport_size,
-            bg_color=bg_color,
-        )
 
-        earth_color = (107/255, 147/255, 214/255)
-        moon_color = (184/255, 184/255, 184/255)
+        def __init__(
+            self,
+            multi_constellation: EarthMoonMultiConstellation,
+            time_scale: float = 100.0,
+            space_scale: float = 1e-6,
+            interplanetary_scale: float = 1e-10,
+            earth_materials: Optional[tuple[str, str, str]] = None,
+            moon_material: Optional[str] = None,
+            viewport_size: tuple[int, int] = (800, 600),
+            bg_color: tuple[float, float, float] = (0.0, 0.0, 0.0),
+            ):
+            """
+            Initialize the visualizer.
 
-        self.add_planet(
-            radius=EARTH_RADIUS,
-            rotation_period=EARTH_ROTATION_PERIOD,
-            materials=earth_materials,
-            color=earth_color,
-            center=multi_constellation.earth_orbital_center,
-        )
+            Parameters:
+                multi_constellation: Multi-constellation to visualize.
+                time_scale: Time scale factor.
+                space_scale: Space scale factor.
+                interplanetary_scale: Interplanetary scale factor.
+                earth_materials: Materials to use for the Earth.
+                moon_material: Material to use for the Moon.
+                viewport_size: Size of the viewport.
+                bg_color: Background color.
+            """
+            super().__init__(
+                multi_constellation,
+                time_scale=time_scale,
+                space_scale=space_scale,
+                interplanetary_scale=interplanetary_scale,
+                viewport_size=viewport_size,
+                bg_color=bg_color,
+            )
 
-        moon_materials = (
-            moon_material,
-            None,
-            None,
-        ) if moon_material is not None else None
-        self.add_planet(
-            radius=MOON_RADIUS,
-            rotation_period=MOON_ROTATION_PERIOD,
-            materials=moon_materials,
-            color=moon_color,
-            center=multi_constellation.moon_orbital_center,
-        )
+            earth_color = (107/255, 147/255, 214/255)
+            moon_color = (184/255, 184/255, 184/255)
 
-    def run_simulation(self):
-        super().run_simulation()
+            self.add_planet(
+                radius=EARTH_RADIUS,
+                rotation_period=EARTH_ROTATION_PERIOD,
+                materials=earth_materials,
+                color=earth_color,
+                center=multi_constellation.earth_orbital_center,
+            )
 
-    def run_viewer(self):
-        super().run_viewer()
+            moon_materials = (
+                moon_material,
+                None,
+                None,
+            ) if moon_material is not None else None
+            self.add_planet(
+                radius=MOON_RADIUS,
+                rotation_period=MOON_ROTATION_PERIOD,
+                materials=moon_materials,
+                color=moon_color,
+                center=multi_constellation.moon_orbital_center,
+            )
+
+        def run_simulation(self):
+            super().run_simulation()
+
+        def run_viewer(self):
+            super().run_viewer()

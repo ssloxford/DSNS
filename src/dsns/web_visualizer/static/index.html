@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>DSNS Web Visualizer</title>
+    <link rel="stylesheet" href="css/style.css">
+    <script type="importmap">
+    {
+        "imports": {
+            "three": "https://unpkg.com/three@0.160.0/build/three.module.js",
+            "three/addons/": "https://unpkg.com/three@0.160.0/examples/jsm/"
+        }
+    }
+    </script>
+</head>
+<body>
+    <div id="loading-overlay">
+        <div class="loader-content">
+            <h1>DSNS Web Visualizer</h1>
+            <div class="spinner"></div>
+            <p id="loading-text">Loading Python runtime...</p>
+            <p id="loading-detail" class="detail"></p>
+        </div>
+    </div>
+
+    <div id="info-overlay">
+        <div id="sim-info">
+            <span id="preset-name">Preset: —</span>
+            <span id="sat-count">Sats: —</span>
+            <span id="sim-time">Time: —</span>
+            <span id="fps">FPS: —</span>
+        </div>
+    </div>
+
+    <div id="control-panel">
+        <div class="control-group">
+            <label for="preset-select">Preset</label>
+            <select id="preset-select"></select>
+        </div>
+        <div class="control-group">
+            <label for="time-scale">Time scale</label>
+            <input id="time-scale" type="number" step="10" min="1" max="10000">
+        </div>
+        <div class="control-group">
+            <label for="space-scale">Space scale</label>
+            <input id="space-scale" type="number" step="1e-7" min="1e-9" max="1">
+        </div>
+        <div class="control-group">
+            <label for="interplanetary-scale">Interplanetary</label>
+            <input id="interplanetary-scale" type="number" step="1e-11" min="1e-12" max="1e-8">
+        </div>
+        <div class="control-group">
+            <label for="step-interval">Step interval (ms)</label>
+            <input id="step-interval" type="number" step="33" min="100" max="2000">
+        </div>
+        <div class="control-buttons">
+            <button id="start-btn">Start</button>
+            <button id="pause-btn" disabled>Pause</button>
+        </div>
+        <div id="status-text">Ready</div>
+    </div>
+
+    <canvas id="gl-canvas"></canvas>
+
+    <script type="module" src="js/main.js"></script>
+</body>
+</html>

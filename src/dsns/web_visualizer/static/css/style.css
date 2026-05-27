@@ -1,0 +1,190 @@
+html, body {
+    margin: 0;
+    padding: 0;
+    width: 100%;
+    height: 100%;
+    overflow: hidden;
+    background: #000;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+#gl-canvas {
+    display: block;
+    width: 100%;
+    height: 100%;
+}
+
+#loading-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: #0a0a12;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 1000;
+    color: #e0e0e0;
+    transition: opacity 0.5s ease;
+}
+
+#loading-overlay.hidden {
+    opacity: 0;
+    pointer-events: none;
+}
+
+.loader-content {
+    text-align: center;
+}
+
+.loader-content h1 {
+    margin-bottom: 1.5rem;
+    font-weight: 300;
+    letter-spacing: 2px;
+    color: #fff;
+}
+
+.spinner {
+    width: 48px;
+    height: 48px;
+    border: 4px solid rgba(255,255,255,0.1);
+    border-top-color: #4f9fcf;
+    border-radius: 50%;
+    margin: 0 auto 1.5rem auto;
+    animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+    to { transform: rotate(360deg); }
+}
+
+#loading-text {
+    font-size: 1.1rem;
+    margin: 0.5rem 0;
+}
+
+#loading-detail {
+    font-size: 0.85rem;
+    color: #888;
+    margin: 0.25rem 0;
+}
+
+#info-overlay {
+    position: fixed;
+    top: 12px;
+    left: 12px;
+    z-index: 100;
+    pointer-events: none;
+}
+
+#sim-info {
+    background: rgba(10, 10, 18, 0.75);
+    backdrop-filter: blur(6px);
+    border: 1px solid rgba(255,255,255,0.08);
+    border-radius: 8px;
+    padding: 10px 16px;
+    color: #e0e0e0;
+    font-size: 0.85rem;
+    display: flex;
+    gap: 18px;
+}
+
+#sim-info span {
+    white-space: nowrap;
+}
+
+#control-panel {
+    position: fixed;
+    top: 12px;
+    right: 12px;
+    z-index: 100;
+    background: rgba(10, 10, 18, 0.85);
+    backdrop-filter: blur(8px);
+    border: 1px solid rgba(255,255,255,0.1);
+    border-radius: 10px;
+    padding: 14px 18px;
+    color: #e0e0e0;
+    font-size: 0.85rem;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    min-width: 180px;
+}
+
+.control-group {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+}
+
+.control-group label {
+    font-size: 0.75rem;
+    color: #aaa;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+.control-group select,
+.control-group input {
+    background: rgba(255,255,255,0.06);
+    border: 1px solid rgba(255,255,255,0.1);
+    border-radius: 6px;
+    padding: 6px 8px;
+    color: #e0e0e0;
+    font-size: 0.85rem;
+    outline: none;
+}
+
+.control-group select:focus,
+.control-group input:focus {
+    border-color: #4f9fcf;
+}
+
+.control-buttons {
+    display: flex;
+    gap: 8px;
+    margin-top: 4px;
+}
+
+.control-buttons button {
+    flex: 1;
+    background: rgba(79, 159, 207, 0.2);
+    border: 1px solid rgba(79, 159, 207, 0.4);
+    border-radius: 6px;
+    padding: 7px 10px;
+    color: #b3d9ff;
+    font-size: 0.8rem;
+    cursor: pointer;
+    transition: background 0.2s, border-color 0.2s;
+}
+
+.control-buttons button:hover:not(:disabled) {
+    background: rgba(79, 159, 207, 0.35);
+    border-color: rgba(79, 159, 207, 0.6);
+}
+
+.control-buttons button:disabled {
+    opacity: 0.4;
+    cursor: not-allowed;
+}
+
+#status-text {
+    text-align: center;
+    font-size: 0.8rem;
+    color: #a5a5a5;
+    margin-top: 4px;
+    min-height: 1.2em;
+}
+
+.status-spinner {
+    display: inline-block;
+    width: 10px;
+    height: 10px;
+    border: 2px solid rgba(165, 165, 165, 0.3);
+    border-top-color: #4f9fcf;
+    border-radius: 50%;
+    margin-left: 6px;
+    animation: spin 1s linear infinite;
+    vertical-align: middle;
+}

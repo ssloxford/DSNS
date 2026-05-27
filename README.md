@@ -59,6 +59,11 @@ We recommend looking in the `examples` directory for usage examples, or at the d
 > The logs can be obtained by running `examples/ccsds_reference.py` and `examples/custom_reference.py` with the arguments shown at the bottom of the respective file, or by contacting the authors.
 
 
+### Web Visualizer
+
+DSNS includes a browser-based visualizer that runs the Python simulation client-side using Pyodide and Three.js. See `examples/web-visualizer-launch.py` to build and serve it locally.
+
+
 ## Contributing
 
 We welcome any contributions to DSNS, including but not limited to improved documentation, refactoring, new features, examples, and reference scenarios.
