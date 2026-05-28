@@ -1,4 +1,4 @@
-// Main thread — spawns the Web Worker, handles state interpolation,
+// Main thread: spawns the Web Worker, handles state interpolation,
 // and runs the 60 FPS render loop independently of simulation compute.
 
 import WebRenderer from "./renderer.js";
@@ -13,7 +13,7 @@ const DEFAULT_PRESET = "walker";
 const DEFAULT_TIME_SCALE = 100.0;
 const DEFAULT_SPACE_SCALE = 1e-6;
 const DEFAULT_INTERPLANETARY_SCALE = 1e-10;
-const DEFAULT_STEP_INTERVAL = 333; // ms — ~3 steps/sec default
+const DEFAULT_STEP_INTERVAL = 333; // ms: ~3 steps/sec default
 let currentStepInterval = DEFAULT_STEP_INTERVAL;
 
 let worker = null;

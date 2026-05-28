@@ -1,0 +1,91 @@
+traffic,scenario,walker_scale,real_time,max_memory
+--traffic none,walker,2,0:04.31,238052
+--traffic none,walker,1,0:04.38,235696
+--traffic none,walker,4,0:04.62,241332
+--traffic none,walker,8,0:04.64,248188
+--traffic none,walker,16,0:05.16,267664
+--traffic none,walker_large,1,0:05.83,285916
+--traffic none,walker_large,2,0:07.26,333788
+--traffic none,walker_large,4,0:09.40,430968
+--traffic none,walker_large,8,0:24.11,623916
+--traffic point_to_point_eos --traffic-scale 1,walker,1,0:41.61,237832
+--traffic none,walker_large,16,1:02.70,1016744
+--traffic point_to_point_eos --traffic-scale 1,walker,2,1:05.59,240972
+--traffic point_to_point_eos --traffic-scale 1,walker,4,1:58.70,247240
+--traffic point_to_point_eos --traffic-scale 1,walker,8,3:17.20,260652
+--traffic point_to_point_eos --traffic-scale 1,walker,16,5:07.22,287364
+--traffic point_to_point_eos --traffic-scale 1,walker_large,1,6:21.52,312908
+--traffic point_to_point_eos --traffic-scale 1,walker_large,2,10:05.48,386544
+--traffic point_to_point_eos --traffic-scale 100,walker,1,1:44.08,265116
+--traffic point_to_point_eos --traffic-scale 100,walker,2,2:30.05,278252
+--traffic point_to_point_eos --traffic-scale 100,walker,4,3:18.01,295424
+--traffic point_to_point_eos --traffic-scale 1,walker_large,4,18:00.62,441156
+--traffic point_to_point_eos --traffic-scale 100,walker,8,4:50.75,313104
+--traffic point_to_point_eos --traffic-scale 100,walker,16,7:46.95,350384
+--traffic point_to_point_eos --traffic-scale 1,walker_large,8,31:23.49,657948
+--traffic point_to_point_eos --traffic-scale 100,walker_large,1,22:04.93,358180
+--traffic point_to_point_eos --traffic-scale 100,walker_large,2,18:27.36,451724
+--traffic point_to_point_eos --traffic-scale 100,walker_large,4,23:19.35,581620
+--traffic none,walker,1,0:03.24,237072
+--traffic none,walker,2,0:03.12,239256
+--traffic none,walker,4,0:03.48,242408
+--traffic none,walker,8,0:03.62,249820
+--traffic none,walker,16,0:03.93,266812
+--traffic none,walker_large,1,0:04.00,286620
+--traffic none,walker_large,2,0:04.89,334464
+--traffic none,walker_large,4,0:06.90,431084
+--traffic none,walker_large,8,0:11.59,627472
+--traffic none,walker_large,16,0:25.85,1020640
+--traffic point_to_point_eos --traffic-scale 1,walker,1,0:25.34,238624
+--traffic point_to_point_eos --traffic-scale 1,walker,2,0:46.61,242020
+--traffic point_to_point_eos --traffic-scale 1,walker,4,1:21.83,248608
+--traffic point_to_point_eos --traffic-scale 1,walker_large,16,57:49.92,1043220
+--traffic point_to_point_eos --traffic-scale 1,walker,8,2:29.94,261640
+--traffic point_to_point_eos --traffic-scale 1,walker,16,4:30.07,286756
+--traffic point_to_point_eos --traffic-scale 1,walker_large,1,5:38.97,312612
+--traffic point_to_point_eos --traffic-scale 1,walker_large,2,9:22.40,386752
+--traffic point_to_point_eos --traffic-scale 100,walker_large,8,39:58.67,883796
+--traffic point_to_point_eos --traffic-scale 1,walker_large,4,16:02.58,441980
+--traffic point_to_point_eos --traffic-scale 100,walker,1,1:40.49,265612
+--traffic point_to_point_eos --traffic-scale 100,walker,2,2:26.95,278696
+--traffic point_to_point_eos --traffic-scale 100,walker,4,3:13.96,294128
+--traffic point_to_point_eos --traffic-scale 100,walker,8,4:39.25,313444
+--traffic point_to_point_eos --traffic-scale 100,walker,16,7:25.46,352828
+--traffic point_to_point_eos --traffic-scale 1,walker_large,8,30:40.61,660296
+--traffic point_to_point_eos --traffic-scale 100,walker_large,16,1:14:22,1346488
+--traffic point_to_point_eos --traffic-scale 100,walker_large,2,18:26.67,450632
+--traffic point_to_point_eos --traffic-scale 100,walker_large,1,21:58.15,358068
+--traffic point_to_point_eos --traffic-scale 1,walker_large,16,56:09.51,1042768
+--traffic none,walker,1,0:03.33,236688
+--traffic none,walker,2,0:03.39,239516
+--traffic none,walker,4,0:03.27,241704
+--traffic none,walker,8,0:03.61,249520
+--traffic none,walker,16,0:03.71,267308
+--traffic none,walker_large,1,0:04.31,284732
+--traffic none,walker_large,2,0:04.91,334592
+--traffic none,walker_large,4,0:07.10,431512
+--traffic none,walker_large,8,0:11.45,626480
+--traffic none,walker_large,16,0:27.27,1018872
+--traffic point_to_point_eos --traffic-scale 1,walker,1,0:25.17,238384
+--traffic point_to_point_eos --traffic-scale 1,walker,2,0:47.75,242700
+--traffic point_to_point_eos --traffic-scale 100,walker_large,4,23:47.32,582036
+--traffic point_to_point_eos --traffic-scale 1,walker,4,1:28.85,248204
+--traffic point_to_point_eos --traffic-scale 1,walker,8,2:39.38,263248
+--traffic point_to_point_eos --traffic-scale 1,walker,16,4:32.64,287112
+--traffic point_to_point_eos --traffic-scale 1,walker_large,1,5:38.68,314804
+--traffic point_to_point_eos --traffic-scale 1,walker_large,2,9:15.11,386124
+--traffic point_to_point_eos --traffic-scale 100,walker_large,8,39:53.17,883296
+--traffic point_to_point_eos --traffic-scale 1,walker_large,4,15:52.29,442560
+--traffic point_to_point_eos --traffic-scale 100,walker,1,1:42.49,265728
+--traffic point_to_point_eos --traffic-scale 100,walker,2,2:28.35,277624
+--traffic point_to_point_eos --traffic-scale 100,walker,4,3:17.29,295388
+--traffic point_to_point_eos --traffic-scale 100,walker,8,4:40.03,314620
+--traffic point_to_point_eos --traffic-scale 100,walker,16,7:27.80,350244
+--traffic point_to_point_eos --traffic-scale 1,walker_large,8,30:37.65,659444
+--traffic point_to_point_eos --traffic-scale 100,walker_large,16,1:14:36,1351004
+--traffic point_to_point_eos --traffic-scale 100,walker_large,2,18:43.58,450312
+--traffic point_to_point_eos --traffic-scale 100,walker_large,1,21:39.51,358020
+--traffic point_to_point_eos --traffic-scale 1,walker_large,16,55:59.15,1042388
+--traffic point_to_point_eos --traffic-scale 100,walker_large,4,23:16.58,580076
+--traffic point_to_point_eos --traffic-scale 100,walker_large,8,36:22.50,881508
+--traffic point_to_point_eos --traffic-scale 100,walker_large,16,1:05:48,1347288

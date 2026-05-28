@@ -88,7 +88,7 @@ def build_site(preset: str, time_scale: float, space_scale: float, interplanetar
             html = f.read()
         # Inject default preset into the query string by replacing the param parsing line
         # We leave the existing param parsing in main.js so manual overrides still work.
-        # Just write a small note — the param parsing in main.js already reads URL params.
+        # Just write a small note, the param parsing in main.js already reads URL params.
         pass
 
     return build_dir

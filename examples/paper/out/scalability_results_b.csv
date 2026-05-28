@@ -1,0 +1,13 @@
+traffic,scenario,walker_scale,real_time,max_memory
+--traffic none,walker_large,32,1:11.00,1799720
+--traffic none,walker_large,32,1:11.21,1800908
+--traffic point_to_point_eos --traffic-scale 1,walker_large,32,1:40:11,1842700
+--traffic point_to_point_eos --traffic-scale 1,walker_large,32,1:40:24,1851652
+--traffic point_to_point_eos --traffic-scale 100,walker_large,32,1:46:49,2143100
+--traffic none,walker_large,32,1:11.10,1801240
+--traffic point_to_point_eos --traffic-scale 100,walker_large,32,1:46:26,2147260
+--traffic point_to_point_eos --traffic-scale 1,walker_large,32,1:39:28,1843544
+--traffic point_to_point_eos --traffic-scale 100,walker_large,32,1:46:05,2149180
+--traffic point_to_point_eos --traffic-scale 10000,walker_large,32,12:53:00,2739036
+--traffic point_to_point_eos --traffic-scale 10000,walker_large,32,12:41:13,2737860
+--traffic point_to_point_eos --traffic-scale 10000,walker_large,32,11:06:43,2751192

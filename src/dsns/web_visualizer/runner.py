@@ -1,5 +1,5 @@
 """
-Web visualizer runner — executes inside Pyodide.
+Web visualizer runner, executes inside Pyodide.
 Builds a simulation preset and exposes a step(t) function that returns
 serializable state for the Three.js renderer.
 
