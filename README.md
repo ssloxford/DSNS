@@ -1,7 +1,16 @@
 # DSNS: The Deep Space Network Simulator
 
+<img src="dsns-logo.svg" alt="DSNS Logo" width="140" align="left" hspace="15">
+
+[![Website](https://img.shields.io/badge/Website-dsns.space-white?style=flat-square&labelColor=0b0b14&color=a78bfa)](https://dsns.space)
+[![Documentation](https://img.shields.io/badge/Documentation-Read%20the%20Docs-white?style=flat-square&labelColor=0b0b14&color=fb7185)](https://ssloxford.github.io/DSNS/)
+[![Paper](https://img.shields.io/badge/Paper-arXiv%202508.04317-white?style=flat-square&labelColor=0b0b14&color=4ade80)](https://arxiv.org/pdf/2508.04317)
+
 The Deep Space Network Simulator (DSNS) is an event-based network simulator designed for efficient simulation of satellite networks and interplanetary communication, to facilitate protocol testing and development.
 The paper introducing it can be found on arXiv [here](https://arxiv.org/pdf/2508.04317).
+
+<br clear="both">
+<br>
 
 When using DSNS, please cite the following paper: **"DSNS: The Deep Space Network Simulator"**.
 The BibTeX entry is given below:
