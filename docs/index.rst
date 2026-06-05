@@ -2,7 +2,7 @@ DSNS: The Deep Space Network Simulator
 ======================================
 
 The Deep Space Network Simulator (DSNS) is an event-based network simulator designed for efficient simulation of satellite networks and interplanetary communication, to facilitate protocol testing and development.
-The paper introducing it can be found on arXiv `here <https://arxiv.org/pdf/2508.04317>`__.
+Its website can be found `here <https://dsns.space>`__, and the original paper introducing the simulator can be found on arXiv `here <https://arxiv.org/pdf/2508.04317>`__.
 
 When using DSNS, please cite the following paper: **"DSNS: The Deep Space Network Simulator"**.
 The BibTeX entry is given below:
