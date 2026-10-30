@@ -65,6 +65,7 @@ We recommend looking in the `examples` directory for usage examples, or at the d
 
 > [!NOTE]
 > The examples in `examples/paper` require simulation logs that are not bundled with this repository due to their size, and are provided for reference only.
+> The plotting notebooks there also need `pandas` and `matplotlib`, which are not installed with DSNS.
 > The logs can be obtained by running `examples/ccsds_reference.py` and `examples/custom_reference.py` with the arguments shown at the bottom of the respective file, or by contacting the authors.
 
 

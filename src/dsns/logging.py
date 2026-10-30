@@ -1,3 +1,5 @@
+import importlib
+import warnings
 from dataclasses import dataclass
 from typing import NamedTuple
 
@@ -8,10 +10,6 @@ from .simulation import Actor
 from .events import Event
 from .message import BaseMessage, DirectMessage, BroadcastMessage, DropReason, LTPSegment, LinkMessageID, MessageCreatedEvent, MessageDeliveredEvent, MessageDroppedEvent, MessageBroadcastDeliveredEvent, MessageLostEvent, MessageQueuedEvent, MessageSentEvent, MessageReceivedEvent
 from .helpers import SatID
-try:
-    from .key_management import UnsignedMessageCreatedEvent
-except ModuleNotFoundError:
-    UnsignedMessageCreatedEvent = MessageCreatedEvent
 
 # Named tuple for message data
 # Message, source, destination, start time, end time, hops
@@ -32,20 +30,43 @@ class PreprocessedLoggingActor(Actor):
     Actor that logs events, producing a preprocessed log aggregating message information.
     """
 
-    direct_messages: dict[DirectMessage, MessageData] = {}
-    broadcast_messages: dict[BroadcastMessage, MessageData] = {}
+    direct_messages: dict[DirectMessage, MessageData]
+    broadcast_messages: dict[BroadcastMessage, MessageData]
 
     log_other: bool = False
-    other_events: list[Event] = []
+    other_events: list[Event]
 
-    def __init__(self, log_other: bool = False):
+    def __init__(self, log_other: bool = False, created_event_types: tuple[type[Event], ...] = (MessageCreatedEvent,)):
         """
         Parameters:
             log_other: Whether to log other events (i.e. non-message events).
+            created_event_types: Event types that signal the creation of a message. Each type must provide a `message` attribute. Extensions that define their own creation events (which need not subclass MessageCreatedEvent) should pass them here.
         """
         super().__init__()
 
+        self.direct_messages = {}
+        self.broadcast_messages = {}
+        self.other_events = []
+
         self.log_other = log_other
+        created_event_types = tuple(created_event_types)
+
+        # Backwards compatibility: if KeySpace is still installed inside the package, keep recognising its event.
+        try:
+            key_management = importlib.import_module("dsns.key_management")
+            legacy_type = getattr(key_management, "UnsignedMessageCreatedEvent", None)
+        except ModuleNotFoundError:
+            legacy_type = None
+        if legacy_type is not None and legacy_type not in created_event_types:
+            warnings.warn(
+                "Automatic detection of dsns.key_management.UnsignedMessageCreatedEvent is deprecated; "
+                "pass created_event_types=(MessageCreatedEvent, UnsignedMessageCreatedEvent) to PreprocessedLoggingActor instead.",
+                DeprecationWarning,
+                stacklevel=2,
+            )
+            created_event_types = created_event_types + (legacy_type,)
+
+        self._created_event_types = created_event_types
 
     def initialize(self) -> list[Event]:
         return []
@@ -86,7 +107,7 @@ class PreprocessedLoggingActor(Actor):
             self.broadcast_messages[message] = data
 
     def handle_event(self, mobility, event):
-        if isinstance(event, MessageCreatedEvent) or isinstance(event, UnsignedMessageCreatedEvent):
+        if isinstance(event, self._created_event_types):
             message = event.message
             message_data = self.create_message_data(message)
             if isinstance(message, DirectMessage):

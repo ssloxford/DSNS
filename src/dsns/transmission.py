@@ -1,3 +1,4 @@
+import warnings
 from dataclasses import dataclass
 from enum import Enum
 from typing import Callable
@@ -29,10 +30,10 @@ With LTP: Location changes when:
 =======
 """
 class MessageLocationTracker:
-    _messages_at_link: dict[Link, dict[int, DirectMessage]] = {}
+    _messages_at_link: dict[Link, dict[int, DirectMessage]]
 
     def __init__(self):
-        pass 
+        self._messages_at_link = {}
 
     def remove_message_from_location(self, message: DirectMessage, link: Link):
         if link in self._messages_at_link:
@@ -51,6 +52,30 @@ class MessageLocationTracker:
     
     def is_message_at_location(self, message: DirectMessage, link: Link):
         return message.uid in self._messages_at_link.get(link, {})
+
+
+# Tracker used by LinkTransmissionActor and LTPMessageRetransmissionActor when none is passed explicitly.
+# Both actors share this one instance so that, as before, the two actors see the same message locations
+# when they are created without a tracker. This fallback is deprecated: it carries state between simulations
+# run in the same process. Pass one MessageLocationTracker to both actors instead.
+_DEFAULT_MESSAGE_LOCATION_TRACKER = MessageLocationTracker()
+
+
+def _resolve_message_location_tracker(tracker: "MessageLocationTracker | None", actor_name: str) -> MessageLocationTracker:
+    """
+    Return the given tracker, or the deprecated shared default tracker (with a warning) if none was given.
+    """
+    if tracker is not None:
+        return tracker
+    warnings.warn(
+        f"Creating {actor_name} without a message_location_tracker is deprecated and will be an error in a future "
+        "major version. The shared default tracker keeps state between simulations in the same process. "
+        "Create one MessageLocationTracker per simulation and pass it to both LinkTransmissionActor and "
+        "LTPMessageRetransmissionActor.",
+        DeprecationWarning,
+        stacklevel=3,
+    )
+    return _DEFAULT_MESSAGE_LOCATION_TRACKER
 
 """
 ==================================
@@ -98,13 +123,13 @@ class LinkTransmissionActor(Actor):
                  per_link_bandwidth: dict | None = None, 
                  buffer_if_link_busy: bool = False, 
                  reroute_on_link_down: bool = True, 
-                 message_location_tracker: MessageLocationTracker = MessageLocationTracker()):
+                 message_location_tracker: MessageLocationTracker | None = None):
         
         super().__init__()
         self._default_bandwidth: float = default_bandwidth
         self._per_link_bandwidth: dict | None = per_link_bandwidth or {}
         self._buffer_if_link_busy: bool = buffer_if_link_busy
-        self._message_location_tracker = message_location_tracker
+        self._message_location_tracker = _resolve_message_location_tracker(message_location_tracker, "LinkTransmissionActor")
 
         self._link_next_available_time: dict[Link, float] = {}
         # messages being transmitted into link
@@ -461,11 +486,11 @@ class LTPMessageRetransmissionActor(Actor):
                  report_segment_base_size: int = 9, 
                  report_ack_size: int = 5, 
                  model_bandwidth = False,                  
-                 message_location_tracker: MessageLocationTracker = MessageLocationTracker()):
+                 message_location_tracker: MessageLocationTracker | None = None):
         super().__init__()
         self._config = config
         self._model_bandwidth = model_bandwidth
-        self._message_location_tracker = message_location_tracker
+        self._message_location_tracker = _resolve_message_location_tracker(message_location_tracker, "LTPMessageRetransmissionActor")
 
         """
         NB: According to: https://www.rfc-editor.org/rfc/pdfrfc/rfc5326.txt.pdf Sections 3.2.2.

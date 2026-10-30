@@ -6,12 +6,11 @@ This folder contains the documentation source files for DSNS.
 
 Provided DSNS and its dependencies have been properly installed (see the main [README](README.md)), all requirements should be present.
 
-If this is not the case, ensure the following Python packages have been installed:
+The documentation tools are not part of the default install. Install them with the `docs` extra from the repository root:
+```bash
+pip install ".[docs]"
 ```
-sphinx
-sphinx-argparse
-sphinx-rtd-theme
-```
+This installs `sphinx`, `sphinx-argparse` and `sphinx-rtd-theme`.
 
 Also ensure the DSNS module is installed and on your `PYTHONPATH`.
 

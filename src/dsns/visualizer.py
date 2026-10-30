@@ -326,7 +326,7 @@ class MultiConstellationVisualizer(Visualizer):
         OrbitalCenter, # Center
         float,         # Radius
         float,         # Rotation period
-    ]] = []
+    ]]
 
     def __init__(
         self,
@@ -355,6 +355,8 @@ class MultiConstellationVisualizer(Visualizer):
             isl_color: Color of the ISLs.
             bg_color: Background color.
         """
+
+        self.planets = []
 
         super().__init__(time_scale, space_scale, viewport_size, interplanetary_scale=interplanetary_scale, bg_color=bg_color)
 

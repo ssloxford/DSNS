@@ -1,5 +1,5 @@
 from abc import ABC, abstractmethod
-from typing import Optional
+from typing import Optional, Sequence
 
 import numpy as np
 
@@ -52,6 +52,24 @@ class MultiConstellation:
         self.ills = []
         self.links = []
 
+        # Caches for get_delays_batch()
+        self._sat_index_cache: Optional[dict[SatID, int]] = None  # SatID -> row in satellite_positions
+        self._center_index_cache: Optional[np.ndarray] = None  # per-satellite index into _center_objects
+        self._center_objects: list = []  # distinct orbital centres (None for no centre)
+        self._batch_edges_key: Optional[tuple] = None  # pair list the cached index arrays belong to
+        self._batch_edges_idx: Optional[tuple[np.ndarray, np.ndarray]] = None
+        self._positions_valid: bool = False  # True once update_positions() has run for the current satellite set
+
+    def _invalidate_batch_cache(self):
+        """
+        Drop all cached data used by get_delays_batch().
+        """
+        self._sat_index_cache = None
+        self._center_index_cache = None
+        self._center_objects = []
+        self._batch_edges_key = None
+        self._batch_edges_idx = None
+
     def add_constellation(self, constellation: Constellation):
         """
         Add a constellation to the multi-constellation.
@@ -63,6 +81,9 @@ class MultiConstellation:
         self.satellites.extend(constellation.satellites)
 
         self.satellite_positions = np.empty((len(self.satellites), 3))
+
+        self._invalidate_batch_cache()
+        self._positions_valid = False
 
     def add_ill_helper(self, ill_helper: ILLHelper):
         """
@@ -85,6 +106,7 @@ class MultiConstellation:
             constellation.orbital_center.update(time)
 
         self.satellite_positions = np.concatenate([ constellation.satellite_positions for constellation in self.constellations ])
+        self._positions_valid = True
 
     def update_links(self, time: float):
         """
@@ -153,6 +175,77 @@ class MultiConstellation:
             Time delay between the two satellites, in seconds.
         """
         return self.get_distance(sat1, sat2) / self.speed_of_light
+
+    def get_delays_batch(self, pairs: Sequence[tuple[SatID, SatID]] | np.ndarray) -> np.ndarray:
+        """
+        Get the time delays between many pairs of satellites at once.
+        Equivalent to [ get_delay(a, b) for a, b in pairs ], but computed with numpy.
+        The SatID -> index mapping and the per-pair index arrays are cached; the cache
+        is dropped when constellations are added. Positions (and orbital centres) are
+        read afresh on every call, so the result always reflects the last update_positions().
+
+        Parameters:
+            pairs: Sequence of (sat1, sat2) satellite ID pairs (or an array of shape (n, 2)).
+
+        Returns:
+            Array of delays in seconds, of shape (n,), in the same order as pairs.
+
+        Raises:
+            ValueError: If any satellite ID is not in the multi-constellation, or pairs is malformed.
+            RuntimeError: If positions have not been updated since the satellites were last changed.
+        """
+        if len(pairs) == 0:
+            return np.empty(0)
+
+        if not self._positions_valid or self.satellite_positions.shape != (len(self.satellites), 3):
+            raise RuntimeError("get_delays_batch() called before update_positions()")
+
+        if self._sat_index_cache is None or len(self._sat_index_cache) != len(self.satellites):
+            self._invalidate_batch_cache()
+            self._sat_index_cache = { sat.sat_id: i for i, sat in enumerate(self.satellites) }
+            centers: list = []
+            center_ids: dict[int, int] = {}
+            idx = np.empty(len(self.satellites), dtype=np.intp)
+            for i, sat in enumerate(self.satellites):
+                c = sat.orbital_center
+                if id(c) not in center_ids:
+                    center_ids[id(c)] = len(centers)
+                    centers.append(c)
+                idx[i] = center_ids[id(c)]
+            self._center_objects = centers
+            self._center_index_cache = idx
+
+        try:
+            key = tuple((int(s1), int(s2)) for s1, s2 in pairs)
+        except (TypeError, ValueError):
+            raise ValueError("pairs must be a sequence of (sat1, sat2) pairs") from None
+
+        if key != self._batch_edges_key:
+            index = self._sat_index_cache
+            try:
+                a = np.fromiter((index[s1] for s1, _ in key), dtype=np.intp, count=len(key))
+                b = np.fromiter((index[s2] for _, s2 in key), dtype=np.intp, count=len(key))
+            except KeyError as e:
+                raise ValueError(f"Satellite {e.args[0]} not found in multi-constellation") from None
+            self._batch_edges_key = key
+            self._batch_edges_idx = (a, b)
+        else:
+            assert self._batch_edges_idx is not None
+            a, b = self._batch_edges_idx
+
+        positions = self.satellite_positions
+        # Same operation order as get_distance(), to minimise floating point errors
+        delta = positions[b] - positions[a]
+
+        # Orbital centres move with time, so read them on every call. With a single shared
+        # centre the offset cancels exactly and is skipped.
+        if len(self._center_objects) > 1:
+            assert self._center_index_cache is not None
+            centers_pos = np.array([ c.position if c is not None else np.zeros(3) for c in self._center_objects ])
+            sat_centers = centers_pos[self._center_index_cache]
+            delta += sat_centers[b] - sat_centers[a]
+
+        return np.linalg.norm(delta, axis=1) / self.speed_of_light
 
     def has_link(self, sat1: SatID, sat2: SatID) -> bool:
         """

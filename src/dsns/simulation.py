@@ -301,7 +301,7 @@ class LoggingActor(Actor):
     Actor that logs all events.
     """
 
-    events: list[Event] = []
+    events: list[Event]
     event_filter: Callable[[Event], bool]
 
     def __init__(self, verbose: bool = False, event_filter: Callable[[Event], bool] = lambda _: True):
@@ -314,6 +314,7 @@ class LoggingActor(Actor):
         """
         super().__init__()
 
+        self.events = []
         self.verbose = verbose
         self.event_filter = event_filter
 

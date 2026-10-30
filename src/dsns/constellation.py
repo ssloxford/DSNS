@@ -356,6 +356,25 @@ class WalkerConstellation(Constellation):
                 self.satellites.append(Satellite(sat_name, sat_id, self.name, orbital_center=orbital_center))
 
         self.satellite_positions = np.zeros((self.num_sats, 3))
+
+        # Precomputed for the vectorised circular-orbit fast path in update_positions().
+        # All satellites share a, e, i and w (= 0); only Omega (per plane) and the time
+        # offset (per satellite) differ, and both are static after construction.
+        self._omega_rad = np.deg2rad(np.repeat(
+            [(ascending_node_arc / num_planes) * p + right_ascending_node for p in range(num_planes)],
+            sats_per_plane,
+        ))
+        self._time_offset = np.array([
+            ((self.period / sats_per_plane) * s) + (phase_offset / 360) * p * self.period
+            for p in range(num_planes) for s in range(sats_per_plane)
+        ])
+        self._mean_motion = 2.0 * np.pi / self.period
+        self._cos_i = np.cos(np.deg2rad(inclination))
+        self._sin_i = np.sin(np.deg2rad(inclination))
+        # For a circular orbit the true anomaly equals the mean anomaly, so Kepler's
+        # equation need not be solved. Eccentric orbits use the KeplerEllipse path.
+        self._circular_orbit = eccentricity == 0.0
+
         self.update_positions(0.0)
 
         self.isl_helper = isl_helper
@@ -363,6 +382,41 @@ class WalkerConstellation(Constellation):
         self.orbital_center = orbital_center
 
     def update_positions(self, time):
+        """
+        Update the positions of all satellites at the given time.
+
+        Uses a vectorised closed form for (near-)circular orbits, and the
+        per-satellite Kepler ellipse solver otherwise.
+
+        Parameters:
+            time: Time since the epoch (s).
+        """
+        if self._circular_orbit:
+            self._update_positions_circular(time)
+        else:
+            self._update_positions_kepler(time)
+
+    def _update_positions_circular(self, time):
+        """
+        Vectorised position update for circular orbits (w = 0, true anomaly = mean anomaly).
+        """
+        M = self._mean_motion * (time + self._time_offset)
+        cos_O, sin_O = np.cos(self._omega_rad), np.sin(self._omega_rad)
+        cos_f, sin_f = np.cos(M), np.sin(M)
+        r = self.semi_major_axis
+
+        positions = self.satellite_positions
+        positions[:, 0] = (cos_O * cos_f - sin_O * sin_f * self._cos_i) * r
+        positions[:, 1] = (sin_O * cos_f + cos_O * sin_f * self._cos_i) * r
+        positions[:, 2] = (sin_f * self._sin_i) * r
+        for idx, sat in enumerate(self.satellites):
+            # Copy so each satellite owns its array, as with the Kepler path.
+            sat.position = positions[idx].copy()
+
+    def _update_positions_kepler(self, time):
+        """
+        General position update using a Kepler ellipse solver per satellite.
+        """
         for plane in range(self.num_planes):
             for sat in range(self.sats_per_plane):
                 sat_index = (plane * self.sats_per_plane) + sat
@@ -580,7 +634,7 @@ class WalkerISLHelper(ISLHelper):
     Walker ISL helper class.
     """
 
-    def __init__(self, num_planes: int, sats_per_plane: int, intra_layer_links: bool, inter_layer_links: Optional[int], disable_cross_seam_links: bool = False):
+    def __init__(self, num_planes: int, sats_per_plane: int, intra_layer_links: bool, inter_layer_links: Optional[int], disable_cross_seam_links: bool = False, phase_offset: float = 0.0):
         """
         Initialize the Walker ISL helper class.
 
@@ -593,12 +647,20 @@ class WalkerISLHelper(ISLHelper):
                 Otherwise, specify the offset between layers.
             disable_cross_seam_links: Disable inter-layer links between satellites on opposite sides of the seam.
                 Only relevant for polar constellations.
+            phase_offset: Phase offset between planes (degrees), the same per-plane angle given to WalkerConstellation.
+                The offsets add up over the planes, so the links from the last plane back to the first are shifted by
+                round(num_planes * phase_offset * sats_per_plane / 360) mod sats_per_plane slots, which makes the
+                cross-seam links match the other inter-plane links. For Walker delta phasing F
+                (phase_offset = F * 360 / (num_planes * sats_per_plane)) this is F slots; it is 0 whenever
+                num_planes * phase_offset is a multiple of 360 (e.g. the Starlink and Iridium presets).
+                0 (default) keeps the unshifted links.
         """
         self.num_planes = num_planes
         self.sats_per_plane = sats_per_plane
         self.intra_layer_links = intra_layer_links
         self.inter_layer_links = inter_layer_links
         self.disable_cross_seam_links = disable_cross_seam_links
+        self.seam_shift = int(round(num_planes * phase_offset * sats_per_plane / 360)) % sats_per_plane
 
         self.isls: Optional[list[tuple[SatID, SatID]]] = None
 
@@ -618,7 +680,8 @@ class WalkerISLHelper(ISLHelper):
                 if self.inter_layer_links is not None:
                     if self.disable_cross_seam_links and i == self.num_planes - 1:
                         continue
-                    next_sat_index = (((i + 1) % self.num_planes) * self.sats_per_plane) + (j + self.inter_layer_links) % self.sats_per_plane
+                    seam = self.seam_shift if i == self.num_planes - 1 else 0
+                    next_sat_index = (((i + 1) % self.num_planes) * self.sats_per_plane) + (j + self.inter_layer_links + seam) % self.sats_per_plane
                     next_sat = satellites[next_sat_index]
                     self.isls.append((sat.sat_id, next_sat.sat_id))
 

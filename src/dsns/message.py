@@ -143,7 +143,7 @@ class LinkLossProbabilityUpdateEvent(InstantEvent):
     """
     Event to update the probability of message loss on given links
     """
-    updates: list[LinkLossProbability] = []
+    updates: list[LinkLossProbability]
 
     def __init__(self, time: float, updates: list[LinkLossProbability]):
         super().__init__(time, ["updates"])
@@ -401,12 +401,17 @@ class MessageDroppedEvent(InstantEvent):
 class MessageCreatedEvent(InstantEvent):
     """
     Event for when a message is created.
+
+    The message's creation time is set to the event's time when the event is constructed. Routing actors
+    already treated the event time as the creation time; setting it here, before any actor sees the message,
+    means it is fixed before the message is stored anywhere that relies on its hash (which includes the time).
     """
 
     message: BaseMessage
 
     def __init__(self, time: float, message: BaseMessage):
         super().__init__(time, ["message"])
+        message.time = time
         self.message = message
 
 class LTPSegmentCreatedEvent(InstantEvent):
@@ -574,9 +579,10 @@ class LTPConfig(ReliableTransferConfig):
     - Uses unrealistically high bandwidth though (not the goal of that paper) so need to find other more realistic source for this
     """
     _max_segment_size: int
-    _underlying_message_uid_to_latest_ltp_session: dict[int, int] = defaultdict(int)
+    _underlying_message_uid_to_latest_ltp_session: dict[int, int]
     def __init__(self, max_segment_size: int=1024 * 8):
         self._max_segment_size = max_segment_size
+        self._underlying_message_uid_to_latest_ltp_session = defaultdict(int)
 
     def get_messages(self, time: int, source: SatID, destination: SatID, message: HybridDirectMessage) -> list[DirectMessage]:
         session = self._underlying_message_uid_to_latest_ltp_session[message.uid]

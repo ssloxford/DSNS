@@ -8,16 +8,29 @@ from networkit.dynamics import GraphDifference, GraphEventType
 import networkit.graphtools
 import numpy as np
 
-try:
-    from dsns.key_management import AttackStrategy
-except ModuleNotFoundError:
-    AttackStrategy = None
-from dsns.message import AttackMessageDroppedEvent, BaseMessage, BroadcastMessage, DirectMessage, DropReason, HybridDirectMessage, LTPSegment, LTPSegmentCreatedEvent, LTPSegmentReceivedEvent, LinkLossProbabilityUpdateEvent, LossConfig, MessageBroadcastDeliveredEvent, MessageCreatedEvent, MessageDeliveredEvent, MessageDroppedEvent, MessageLostEvent, MessageQueuedEvent, MessageReceivedEvent, MessageRerouteEvent, MessageSentEvent, ReliableTransferConfig, UnreliableConfig
+from dsns.message import AttackMessageDroppedEvent, AttackStrategy, BaseMessage, BroadcastMessage, DirectMessage, DropReason, HybridDirectMessage, LTPSegment, LTPSegmentCreatedEvent, LTPSegmentReceivedEvent, LinkLossProbabilityUpdateEvent, LossConfig, MessageBroadcastDeliveredEvent, MessageCreatedEvent, MessageDeliveredEvent, MessageDroppedEvent, MessageLostEvent, MessageQueuedEvent, MessageReceivedEvent, MessageRerouteEvent, MessageSentEvent, ReliableTransferConfig, UnreliableConfig
 
 from .multiconstellation import MultiConstellation
 from .events import Event, LinkUpEvent, LinkDownEvent
 from .helpers import SatID
 from .simulation import Actor, RoutingDataProvider
+
+
+def _link_delays(mobility: MultiConstellation, links: list[tuple[SatID, SatID]]) -> list[float]:
+    """
+    Get the delay of each link, in the same order as links.
+
+    Uses MultiConstellation.get_delays_batch when the mobility model computes delays the standard way. If get_delay
+    or get_distance has been overridden (or the model is not a MultiConstellation), falls back to calling get_delay
+    for each link, so custom delay models are still respected.
+    """
+    cls = type(mobility)
+    if (isinstance(mobility, MultiConstellation)
+            and cls.get_delay is MultiConstellation.get_delay
+            and cls.get_distance is MultiConstellation.get_distance
+            and cls.get_delays_batch is MultiConstellation.get_delays_batch):
+        return mobility.get_delays_batch(links).tolist()
+    return [ mobility.get_delay(sat1, sat2) for sat1, sat2 in links ]
 
 
 class MessageRoutingActor(Actor):
@@ -35,9 +48,9 @@ class MessageRoutingActor(Actor):
     _store_and_forward: bool
     _model_bandwidth: bool
     _attack_strategy: AttackStrategy
-    _stored_messages: dict[tuple[SatID, SatID], list[DirectMessage]] = {}
-    _delivered_messages: set[DirectMessage] = set() # Set of messages that have been delivered
-    _delivered_message_uids: set[int] = set() # messages can differ on #hops if duplicated but still be same message
+    _stored_messages: dict[tuple[SatID, SatID], list[DirectMessage]]
+    _delivered_messages: set[DirectMessage] # Set of messages that have been delivered
+    _delivered_message_uids: set[int] # messages can differ on #hops if duplicated but still be same message
 
     _loss_config: LossConfig
     _reliable_transfer_config: ReliableTransferConfig
@@ -52,6 +65,10 @@ class MessageRoutingActor(Actor):
         """
 
         super().__init__()
+
+        self._stored_messages = {}
+        self._delivered_messages = set()
+        self._delivered_message_uids = set()
 
         self._routing = routing
         self._store_and_forward = store_and_forward
@@ -258,8 +275,8 @@ class MessageBroadcastActor(Actor):
     _routing: RoutingDataProvider
     _store_and_forward: bool
     _model_bandwidth: bool
-    _stored_messages: dict[tuple[SatID, SatID], list[BroadcastMessage]] = {}
-    _delivered_messages: dict[BroadcastMessage, set[SatID]] = {} # Set of satellites that have received each message
+    _stored_messages: dict[tuple[SatID, SatID], list[BroadcastMessage]]
+    _delivered_messages: dict[BroadcastMessage, set[SatID]] # Set of satellites that have received each message
 
     _forwarding_strategy: str
     _gossip_neighbors: int
@@ -295,6 +312,9 @@ class MessageBroadcastActor(Actor):
         """
 
         super().__init__()
+
+        self._stored_messages = {}
+        self._delivered_messages = {}
 
         self._routing = routing
         self._store_and_forward = store_and_forward
@@ -557,6 +577,8 @@ class BestEffortRoutingDataProvider(RoutingDataProvider):
     __graph: Graph # Graph of the network
     __sat_to_node_id: dict[SatID, int] # Mapping from satellite IDs to node IDs
     __node_to_sat_id: dict[int, SatID] # Mapping from node IDs to satellite IDs
+    __graph_links: Optional[list[tuple[SatID, SatID]]] # Links the graph's edges were last built from
+    __graph_links_distinct: Optional[bool] # Whether those links give distinct edges (None if not yet checked)
 
     def __init__(self, get_next_hop_override: Optional[Callable[[BaseMessage, SatID, SatID], Optional[SatID]]] = None):
         super().__init__(get_next_hop_override=get_next_hop_override)
@@ -580,6 +602,8 @@ class BestEffortRoutingDataProvider(RoutingDataProvider):
             node_id = self.__graph.addNode()
             self.__sat_to_node_id[sat.sat_id] = node_id
             self.__node_to_sat_id[node_id] = sat.sat_id
+        self.__graph_links = None
+        self.__graph_links_distinct = None
 
         self.update(mobility, 0.0)
 
@@ -593,9 +617,31 @@ class BestEffortRoutingDataProvider(RoutingDataProvider):
             mobility: The mobility model to update the data provider with.
             time: The current simulation time.
         """
+        links = mobility.links
+
+        # If the links are exactly the same list (same pairs, in the same order) as the one the graph was built
+        # from, only the weights can have changed. Rebuilding would add the same edges in the same order, giving the
+        # same adjacency order (and so the same shortest-path tie-breaking), so the weights are updated in place.
+        links_unchanged = self.__graph_links is not None and links == self.__graph_links
+        if links_unchanged:
+            if self.__graph_links_distinct is None:
+                # setWeight only updates one of several parallel edges, so this is only done when every link gives a
+                # distinct edge (no repeated pairs in either direction, no self-loops).
+                edges = { frozenset((sat1, sat2)) for sat1, sat2 in links }
+                self.__graph_links_distinct = len(edges) == len(links) and all(len(edge) == 2 for edge in edges)
+            if self.__graph_links_distinct:
+                delays = _link_delays(mobility, links)
+                for (sat1, sat2), delay in zip(links, delays):
+                    self.__graph.setWeight(self.__sat_to_node_id[sat1], self.__sat_to_node_id[sat2], delay)
+                return
+
         self.__graph.removeAllEdges()
-        for sat1, sat2 in mobility.links:
-            self.__graph.addEdge(self.__sat_to_node_id[sat1], self.__sat_to_node_id[sat2], mobility.get_delay(sat1, sat2))
+        delays = _link_delays(mobility, links)
+        for (sat1, sat2), delay in zip(links, delays):
+            self.__graph.addEdge(self.__sat_to_node_id[sat1], self.__sat_to_node_id[sat2], delay)
+        if not links_unchanged:
+            self.__graph_links = list(links)
+            self.__graph_links_distinct = None
 
     def handle_event(self, mobility: MultiConstellation, event: Event) -> list[Event]:
         return []
@@ -700,7 +746,7 @@ class LookaheadRoutingDataProvider(RoutingDataProvider):
     __timestep: float # Timestep at which connectivity updates are scheduled
 
     time: float # Current time in seconds since the epoch
-    __graphs: deque[Graph] = deque() # Graphs for each timestep
+    __graphs: deque[Graph] # Graphs for each timestep
     __graph_index_offset: int = 0 # Offset for graph indices
     __sat_to_node_id: dict[SatID, int] # Mapping from satellite IDs to node IDs
     __node_to_sat_id: dict[int, SatID] # Mapping from node IDs to satellite IDs
@@ -717,6 +763,7 @@ class LookaheadRoutingDataProvider(RoutingDataProvider):
         self.resolution = resolution
         self.num_steps = num_steps
         self.__timestep = resolution * num_steps
+        self.__graphs = deque()
 
         super().__init__(get_next_hop_override=get_next_hop_override)
 
@@ -734,6 +781,7 @@ class LookaheadRoutingDataProvider(RoutingDataProvider):
         self.time = time
 
         graph_base = Graph(weighted=True, directed=False)
+        self.__graphs = deque()
         self.__sat_to_node_id = {}
         self.__node_to_sat_id = {}
         for sat in mobility.satellites:
@@ -788,8 +836,9 @@ class LookaheadRoutingDataProvider(RoutingDataProvider):
             time = (self.__graph_index_offset + i) * self.resolution
             mobility.update(time)
 
-            for sat1, sat2 in mobility.links:
-                delay = mobility.get_delay(sat1, sat2)
+            links = mobility.links
+            delays = _link_delays(mobility, links)
+            for (sat1, sat2), delay in zip(links, delays):
                 self.__graphs[i].setWeight(self.__sat_to_node_id[sat1], self.__sat_to_node_id[sat2], delay)
 
             # Compare the current graph with the previous graphs, updating the previous graphs as necessary

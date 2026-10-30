@@ -744,9 +744,9 @@ class EarthMoonMultiConstellation(MultiConstellation):
     TODO finish description.
     """
 
-    earth_nodes: list[SatID] = []
-    moon_nodes: list[SatID] = []
-    earth_moon_links: list[tuple[SatID, SatID]] = []
+    earth_nodes: list[SatID]
+    moon_nodes: list[SatID]
+    earth_moon_links: list[tuple[SatID, SatID]]
 
     def __init__(self, num_relays=1, configuration="base"):
         """
@@ -757,6 +757,10 @@ class EarthMoonMultiConstellation(MultiConstellation):
             configuration: Configuration to use (base, surface, single, multiple).
         """
         super().__init__()
+
+        self.earth_nodes = []
+        self.moon_nodes = []
+        self.earth_moon_links = []
 
         print("DEPRECATION WARNING: Use EarthMoonMarsMultiConstellation instead of EarthMoonMultiConstellation.")
 
@@ -875,9 +879,9 @@ class EarthMarsMultiConstellation(MultiConstellation):
     There is a deep space link between Earth and Mars.
     """
 
-    earth_nodes: list[SatID] = []
-    mars_nodes: list[SatID] = []
-    earth_mars_links: list[tuple[SatID, SatID]] = []
+    earth_nodes: list[SatID]
+    mars_nodes: list[SatID]
+    earth_mars_links: list[tuple[SatID, SatID]]
 
     def __init__(self, earth_constellation: str = "iridium", mars_constellation: str = "iridium", num_relays: int = 1):
         """
@@ -889,6 +893,10 @@ class EarthMarsMultiConstellation(MultiConstellation):
             num_relays: Number of relay satellites around Mars.
         """
         super().__init__()
+
+        self.earth_nodes = []
+        self.mars_nodes = []
+        self.earth_mars_links = []
 
         print("DEPRECATION WARNING: Use EarthMoonMarsMultiConstellation instead of EarthMarsMultiConstellation.")
 
@@ -996,15 +1004,15 @@ class EarthMoonMarsMultiConstellation(MultiConstellation):
     Preset multi-constellation for Earth-Moon-Mars communication.
     """
 
-    earth_nodes: list[SatID] = []
-    moon_nodes: list[SatID] = []
-    mars_nodes: list[SatID] = []
+    earth_nodes: list[SatID]
+    moon_nodes: list[SatID]
+    mars_nodes: list[SatID]
     moon: bool
     mars: bool
     moon_mars_link: bool
 
     # needed for rogue actor to target these relays in their attack
-    relay_constellations: Constellation = []
+    relay_constellations: list[Constellation]
 
     def __init__(self, num_relays: int = 1, moon: bool = True, mars: bool = True, moon_mars_link: bool = True):
         """
@@ -1017,6 +1025,11 @@ class EarthMoonMarsMultiConstellation(MultiConstellation):
             moon_mars_link: Include a link between the Moon and Mars.
         """
         super().__init__()
+
+        self.earth_nodes = []
+        self.moon_nodes = []
+        self.mars_nodes = []
+        self.relay_constellations = []
 
         self.moon = moon
         self.mars = mars
