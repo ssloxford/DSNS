@@ -39,7 +39,7 @@ Further documentation can be found here: https://ssloxford.github.io/DSNS/
 
 ## Installation
 
-DSNS is distributed on PyPI, and can be installed using `pip`:
+DSNS requires Python 3.11 or later. It is distributed on PyPI, and can be installed using `pip`:
 
 ```bash
 pip3 install dsns
@@ -57,6 +57,12 @@ pip3 install --editable .
 
 Dependencies are listed in `pyproject.toml`, at the root of the repository.
 We recommend the use of a virtual environment to reduce the likelihood of dependency conflicts.
+
+To build the documentation locally, install the optional documentation dependencies from the repository root:
+
+```bash
+pip3 install --editable ".[docs]"
+```
 
 
 ## Usage

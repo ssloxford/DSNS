@@ -1,7 +1,7 @@
 Installation
 ============
 
-DSNS is distributed on PyPI, and can be installed using `pip`:
+DSNS requires Python 3.11 or later. It is distributed on PyPI, and can be installed using `pip`:
 
 .. code-block:: bash
 
@@ -19,3 +19,9 @@ This can be done as follows:
 
 Dependencies are listed in `pyproject.toml`, at the root of the repository.
 We recommend the use of a virtual environment to reduce the likelihood of dependency conflicts.
+
+To build the documentation locally, install the optional documentation dependencies from the repository root:
+
+.. code-block:: bash
+
+    pip3 install --editable ".[docs]"
